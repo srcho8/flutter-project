@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:page_transition/page_transition.dart';
 
 import 'login_page.dart';
 
@@ -10,9 +12,15 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Login',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        brightness: Brightness.dark,
+
       ),
-      home: LoginPage(),
+      home: AnimatedSplashScreen(
+        duration: 3000,
+        splash: FlutterLogo(size: 400),
+        nextScreen: LoginPage(),
+        pageTransitionType: PageTransitionType.fade,
+      ),
     );
   }
 }
