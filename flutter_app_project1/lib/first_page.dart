@@ -1,61 +1,54 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_project1/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class FirstPage extends StatefulWidget {
+
+
   @override
   _FirstPageState createState() => _FirstPageState();
 }
 
 class _FirstPageState extends State<FirstPage> {
-  int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: Home',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 1: Business',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 2: School',
-      style: optionStyle,
-    ),
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    final FirstPageIndex _firstPageIndex = Provider.of<FirstPageIndex>(context);
+
+    void _onItemTapped(int index) {
+      setState(() {
+        _firstPageIndex.f_index = index;
+      });
+    }
+
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text(
           'First page',
           style: GoogleFonts.indieFlower(),
         ),
       ),
+      body: Center(
+        child: _firstPageIndex.widgetOptions.elementAt(_firstPageIndex.f_index),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+            icon: FaIcon(FontAwesomeIcons.chartBar),
+            label: 'Mine'
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.business),
-            label: 'Business',
+            icon: FaIcon(FontAwesomeIcons.fireAlt),
+            label: 'InsFire',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            label: 'School',
+            icon: Icon(FontAwesomeIcons.history),
+            label: 'History',
           ),
         ],
-        currentIndex: _selectedIndex,
+        currentIndex: _firstPageIndex.f_index,
         selectedItemColor: Colors.amber[800],
         onTap: _onItemTapped,
       ),
