@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:flutter_app_project1/first_page.dart';
 import 'package:page_transition/page_transition.dart';
 
 import 'login_page.dart';
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
       home: AnimatedSplashScreen(
         duration: 3000,
         splash: FlutterLogo(size: 400),
-        nextScreen: LoginPage(),
+        nextScreen: FirstPage(),
         pageTransitionType: PageTransitionType.fade,
       ),
     );

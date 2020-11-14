@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_project1/faderoute.dart';
+import 'package:flutter_app_project1/first_page.dart';
 import 'package:flutter_app_project1/showcase.dart';
 import 'package:flutter_app_project1/sign_in.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
@@ -29,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
                 onPressed: () {
                   signInWithGoogle().then((result) {
                     if (result != null) {
-                      Navigator.push(context, FadeRoute(page: ShowCase()));
+                      Navigator.push(context, FadeRoute(page: FirstPage()));
                     }
                   });
                 },
