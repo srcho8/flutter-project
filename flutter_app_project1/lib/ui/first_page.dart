@@ -5,8 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class FirstPage extends StatefulWidget {
-
-
   @override
   _FirstPageState createState() => _FirstPageState();
 }
@@ -23,13 +21,6 @@ class _FirstPageState extends State<FirstPage> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Text(
-          'First page',
-          style: GoogleFonts.indieFlower(),
-        ),
-      ),
       body: Center(
         child: _firstPageIndex.widgetOptions.elementAt(_firstPageIndex.f_index),
       ),
@@ -37,15 +28,15 @@ class _FirstPageState extends State<FirstPage> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: FaIcon(FontAwesomeIcons.chartBar),
-            label: 'Mine'
+            label: 'Stat',
           ),
           BottomNavigationBarItem(
             icon: FaIcon(FontAwesomeIcons.fireAlt),
             label: 'InsFire',
           ),
           BottomNavigationBarItem(
-            icon: Icon(FontAwesomeIcons.history),
-            label: 'History',
+            icon: Icon(FontAwesomeIcons.user),
+            label: 'Mine',
           ),
         ],
         currentIndex: _firstPageIndex.f_index,

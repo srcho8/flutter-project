@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_project1/faderoute.dart';
-import 'package:flutter_app_project1/first_page.dart';
-import 'package:flutter_app_project1/showcase.dart';
+import 'package:flutter_app_project1/ui/first_page.dart';
 import 'package:flutter_app_project1/sign_in.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 
