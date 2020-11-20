@@ -10,31 +10,39 @@ class DetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Hero(
-            tag: photos.id,
-            child: Image.network(
-              photos.src.original,
-              loadingBuilder: (BuildContext context, Widget child,
-                  ImageChunkEvent loadingProgress) {
-                if (loadingProgress == null) return child;
-                return CircularProgressIndicator(
-                  value: loadingProgress.expectedTotalBytes != null
-                      ? loadingProgress.cumulativeBytesLoaded /
-                          loadingProgress.expectedTotalBytes
-                      : null,
-                );
-              },
+          child: Expanded(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Hero(
+              tag: photos.id,
+              child: Image.network(
+                photos.src.original,
+                loadingBuilder: (BuildContext context, Widget child,
+                    ImageChunkEvent loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return CircularProgressIndicator(
+                    value: loadingProgress.expectedTotalBytes != null
+                        ? loadingProgress.cumulativeBytesLoaded /
+                            loadingProgress.expectedTotalBytes
+                        : null,
+                  );
+                },
+              ),
             ),
-          ),
-          OutlineButton(
-              child: Text('닫기'),
-              onPressed: () {
-                Navigator.pop(context);
-              })
-        ],
+            ButtonBar(
+              alignment: MainAxisAlignment.end,
+              children: [
+                OutlineButton(
+                    child: Text('닫기'),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    }),
+                OutlineButton(child: Text('메모'), onPressed: () {}),
+              ],
+            )
+          ],
+        ),
       )),
     );
   }
