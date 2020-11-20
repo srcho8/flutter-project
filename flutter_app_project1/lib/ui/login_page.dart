@@ -28,7 +28,10 @@ class _LoginPageState extends State<LoginPage> {
                 onPressed: () {
                   signInWithGoogle().then((result) {
                     if (result != null) {
-                      Navigator.push(context, FadeRoute(page: FirstPage()), );
+                      Navigator.push(
+                        context,
+                        FadeRoute(page: FirstPage()),
+                      );
                     }
                   });
                 },

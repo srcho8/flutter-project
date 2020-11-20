@@ -11,13 +11,11 @@ class FirstPageIndex with ChangeNotifier {
   set f_index(int f_index) => _f_index = f_index;
 
   static TextStyle optionStyle =
-  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
   List<Widget> widgetOptions = <Widget>[
     StatPage(),
     InsFirePage(),
     MinePage(),
   ];
-
-
 }

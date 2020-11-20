@@ -13,18 +13,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_)=> FirstPageIndex())
-      ],
+      providers: [ChangeNotifierProvider(create: (_) => FirstPageIndex())],
       child: MaterialApp(
         title: 'Flutter Login',
         theme: ThemeData(
-          brightness: Brightness.light,
+          primaryColor: Colors.blueGrey,
         ),
         home: AnimatedSplashScreen(
+          backgroundColor: Colors.blueGrey,
           duration: 3000,
-          splash: FlutterLogo(size: 400),
-          nextScreen: LoginPage(),
+          splash: Image.asset('images/fire.png'),
+          nextScreen: FirstPage(),
           pageTransitionType: PageTransitionType.fade,
         ),
       ),
