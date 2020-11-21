@@ -46,11 +46,13 @@ class _InsFirePageState extends State<InsFirePage> {
                       this.appBarTitle = new TextField(
                         controller: _textController,
                         onSubmitted: (String str) {
-                            PexelsRepo().searchPhotos(_textController.text).then((value) {
-                              setState(() {
-                                Items = value;
-                              });
+                          PexelsRepo()
+                              .searchPhotos(_textController.text)
+                              .then((value) {
+                            setState(() {
+                              Items = value;
                             });
+                          });
                         },
                         style: new TextStyle(
                           color: Colors.white,
@@ -64,6 +66,7 @@ class _InsFirePageState extends State<InsFirePage> {
                     } else {
                       this.actionIcon = new Icon(Icons.search);
                       this.appBarTitle = new Text("InsFire");
+                      _textController.clear();
                     }
                   });
                 },
@@ -87,9 +90,5 @@ class _InsFirePageState extends State<InsFirePage> {
           mainAxisSpacing: 4.0,
           crossAxisSpacing: 4.0,
         ));
-  }
-
-  void _handleSubmitted(String text) {
-    _textController.clear();
   }
 }

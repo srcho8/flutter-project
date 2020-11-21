@@ -38,7 +38,9 @@ class DetailPage extends StatelessWidget {
                     onPressed: () {
                       Navigator.pop(context);
                     }),
-                OutlineButton(child: Text('메모'), onPressed: () {}),
+                OutlineButton(child: Text('메모'), onPressed: () {
+
+                }),
               ],
             )
           ],
