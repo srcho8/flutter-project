@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_project1/ui/insfire_page.dart';
+import 'package:flutter_app_project1/ui/memo_page.dart';
 import 'package:flutter_app_project1/ui/mine_page.dart';
 import 'package:flutter_app_project1/ui/stat_page.dart';
 
@@ -16,6 +17,7 @@ class FirstPageIndex with ChangeNotifier {
   List<Widget> widgetOptions = <Widget>[
     StatPage(),
     InsFirePage(),
-    MinePage(),
+    MemoPage()
+    //MinePage(),
   ];
 }
