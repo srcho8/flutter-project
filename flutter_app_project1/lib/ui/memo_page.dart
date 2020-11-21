@@ -67,7 +67,13 @@ class _MemoPageState extends State<MemoPage> with TickerProviderStateMixin {
         'Event B10',
         'Event C10',
       ],
-      _selectedDay.add(Duration(days: 4)): ['Event A11', 'Event B11', 'Event B11', 'Event B11', 'Event B11'],
+      _selectedDay.add(Duration(days: 4)): [
+        'Event A11',
+        'Event B11',
+        'Event B11',
+        'Event B11',
+        'Event B11'
+      ],
       _selectedDay.add(Duration(days: 17)): [
         'Event A12',
         'Event B12',
@@ -310,7 +316,7 @@ class _MemoPageState extends State<MemoPage> with TickerProviderStateMixin {
 
     if (_countEvents == 0) {
       return Colors.white;
-    } else if(_countEvents == 1){
+    } else if (_countEvents == 1) {
       return Colors.blueGrey[50];
     } else if (_countEvents > 1 && _countEvents < 5) {
       return Colors.blueGrey[100];
