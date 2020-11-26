@@ -29,6 +29,9 @@ class _CalenderPageState extends State<CalenderPage>
     super.initState();
     final _selectedDay = DateTime.now();
 
+    _memoList = [];
+    _events = {};
+
     setState(() {
       _fetchList().then((value) => _events = value);
     });
@@ -59,19 +62,24 @@ class _CalenderPageState extends State<CalenderPage>
     if (_memoList == null) {
       return {};
     } else {
-
-      _events = Map.fromIterable(_memoList, key: (v) => DateTime(
-          ToDate(v.datetime).stringToDate().year,
-          ToDate(v.datetime).stringToDate().month,
-          ToDate(v.datetime).stringToDate().day), value: (v) => []);
-
-      _memoList.map((e) {
-        _events[DateTime(
-                ToDate(e.datetime).stringToDate().year,
-                ToDate(e.datetime).stringToDate().month,
-                ToDate(e.datetime).stringToDate().day)]
-            .add(e.title);
-      });
+      _events = Map.fromIterable(_memoList,
+          key: (v) => DateTime(
+              ToDate(v.datetime).stringToDate().year,
+              ToDate(v.datetime).stringToDate().month,
+              ToDate(v.datetime).stringToDate().day),
+          value: (v) {
+            var tdate = DateTime(
+                ToDate(v.datetime).stringToDate().year,
+                ToDate(v.datetime).stringToDate().month,
+                ToDate(v.datetime).stringToDate().day);
+            return _memoList.map((e) => e.datetime).where((e) {
+              return DateTime(
+                      ToDate(e).stringToDate().year,
+                      ToDate(e).stringToDate().month,
+                      ToDate(e).stringToDate().day) ==
+                  tdate;
+            }).toList();
+          });
 
       return _events;
     }
@@ -113,105 +121,110 @@ class _CalenderPageState extends State<CalenderPage>
   }
 
   Widget _buildTableCalendarWithBuilders() {
-    return TableCalendar(
-      locale: 'ko-KR',
-      calendarController: _calendarController,
-      events: _events,
-      holidays: _holidays,
-      initialCalendarFormat: CalendarFormat.month,
-      formatAnimation: FormatAnimation.slide,
-      startingDayOfWeek: StartingDayOfWeek.sunday,
-      availableGestures: AvailableGestures.all,
-      availableCalendarFormats: const {
-        CalendarFormat.month: '',
-        CalendarFormat.twoWeeks: '',
-        CalendarFormat.week: '',
-      },
-      calendarStyle: CalendarStyle(
-        outsideDaysVisible: false,
-        weekendStyle: TextStyle().copyWith(color: Colors.redAccent),
-        holidayStyle: TextStyle().copyWith(color: Colors.redAccent),
-      ),
-      daysOfWeekStyle: DaysOfWeekStyle(
-        weekendStyle: TextStyle().copyWith(color: Colors.redAccent),
-      ),
-      headerStyle: HeaderStyle(
-        centerHeaderTitle: true,
-        formatButtonVisible: false,
-      ),
-      builders: CalendarBuilders(
-        dayBuilder: (context, date, events) {
-          return Container(
-            margin: const EdgeInsets.all(4.0),
-            padding: const EdgeInsets.only(top: 5.0, left: 6.0),
-            color: _basicColor(events),
-            width: 100,
-            height: 100,
-            child: Text('${date.day}'),
-          );
-        },
-        selectedDayBuilder: (context, date, _) {
-          return FadeTransition(
-            opacity: Tween(begin: 0.0, end: 1.0).animate(_animationController),
-            child: Container(
-              margin: const EdgeInsets.all(4.0),
-              padding: const EdgeInsets.only(top: 5.0, left: 6.0),
-              color: Colors.blue[300],
-              width: 100,
-              height: 100,
-              child: Text(
-                '${date.day}',
-                style: TextStyle().copyWith(fontSize: 16.0),
-              ),
+    return FutureBuilder(
+        future: _fetchList(),
+        builder: (context, snap) {
+          return TableCalendar(
+            locale: 'ko-KR',
+            calendarController: _calendarController,
+            events: _events,
+            holidays: _holidays,
+            initialCalendarFormat: CalendarFormat.month,
+            formatAnimation: FormatAnimation.slide,
+            startingDayOfWeek: StartingDayOfWeek.sunday,
+            availableGestures: AvailableGestures.all,
+            availableCalendarFormats: const {
+              CalendarFormat.month: '',
+              CalendarFormat.twoWeeks: '',
+              CalendarFormat.week: '',
+            },
+            calendarStyle: CalendarStyle(
+              outsideDaysVisible: false,
+              weekendStyle: TextStyle().copyWith(color: Colors.redAccent),
+              holidayStyle: TextStyle().copyWith(color: Colors.redAccent),
             ),
-          );
-        },
-        todayDayBuilder: (context, date, _) {
-          return Container(
-            margin: const EdgeInsets.all(4.0),
-            padding: const EdgeInsets.only(top: 5.0, left: 6.0),
-            color: Colors.amber[400],
-            width: 100,
-            height: 100,
-            child: Text(
-              '${date.day}',
-              style: TextStyle().copyWith(fontSize: 16.0),
+            daysOfWeekStyle: DaysOfWeekStyle(
+              weekendStyle: TextStyle().copyWith(color: Colors.redAccent),
             ),
+            headerStyle: HeaderStyle(
+              centerHeaderTitle: true,
+              formatButtonVisible: false,
+            ),
+            builders: CalendarBuilders(
+              dayBuilder: (context, date, events) {
+                return Container(
+                  margin: const EdgeInsets.all(4.0),
+                  padding: const EdgeInsets.only(top: 5.0, left: 6.0),
+                  color: _basicColor(events),
+                  width: 100,
+                  height: 100,
+                  child: Text('${date.day}'),
+                );
+              },
+              selectedDayBuilder: (context, date, _) {
+                return FadeTransition(
+                  opacity:
+                      Tween(begin: 0.0, end: 1.0).animate(_animationController),
+                  child: Container(
+                    margin: const EdgeInsets.all(4.0),
+                    padding: const EdgeInsets.only(top: 5.0, left: 6.0),
+                    color: Colors.blue[300],
+                    width: 100,
+                    height: 100,
+                    child: Text(
+                      '${date.day}',
+                      style: TextStyle().copyWith(fontSize: 16.0),
+                    ),
+                  ),
+                );
+              },
+              todayDayBuilder: (context, date, _) {
+                return Container(
+                  margin: const EdgeInsets.all(4.0),
+                  padding: const EdgeInsets.only(top: 5.0, left: 6.0),
+                  color: Colors.amber[400],
+                  width: 100,
+                  height: 100,
+                  child: Text(
+                    '${date.day}',
+                    style: TextStyle().copyWith(fontSize: 16.0),
+                  ),
+                );
+              },
+              markersBuilder: (context, date, events, holidays) {
+                final children = <Widget>[];
+
+                if (events.isNotEmpty) {
+                  children.add(
+                    Positioned(
+                      right: 1,
+                      bottom: 1,
+                      child: _buildEventsMarker(date, events),
+                    ),
+                  );
+                }
+
+                if (holidays.isNotEmpty) {
+                  children.add(
+                    Positioned(
+                      right: -2,
+                      top: -2,
+                      child: _buildHolidaysMarker(),
+                    ),
+                  );
+                }
+
+                return children;
+              },
+            ),
+            onDaySelected: (date, events, holidays) {
+              _onDaySelected(date, events, holidays);
+              _animationController.forward(from: 0.0);
+            },
+            onVisibleDaysChanged: _onVisibleDaysChanged,
+            onCalendarCreated: _onCalendarCreated,
           );
-        },
-        markersBuilder: (context, date, events, holidays) {
-          final children = <Widget>[];
-
-          if (events.isNotEmpty) {
-            children.add(
-              Positioned(
-                right: 1,
-                bottom: 1,
-                child: _buildEventsMarker(date, events),
-              ),
-            );
-          }
-
-          if (holidays.isNotEmpty) {
-            children.add(
-              Positioned(
-                right: -2,
-                top: -2,
-                child: _buildHolidaysMarker(),
-              ),
-            );
-          }
-
-          return children;
-        },
-      ),
-      onDaySelected: (date, events, holidays) {
-        _onDaySelected(date, events, holidays);
-        _animationController.forward(from: 0.0);
-      },
-      onVisibleDaysChanged: _onVisibleDaysChanged,
-      onCalendarCreated: _onCalendarCreated,
-    );
+        });
   }
 
   Widget _buildEventsMarker(DateTime date, List events) {
