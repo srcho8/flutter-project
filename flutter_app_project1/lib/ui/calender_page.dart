@@ -29,26 +29,9 @@ class _CalenderPageState extends State<CalenderPage>
     super.initState();
     final _selectedDay = DateTime.now();
 
-    //_fetchList().then((value) => _events = value);
-
-    _events = {
-      DateTime(2020, 11, 24):['asd']
-    };
-
-    // _events = {
-    //   _selectedDay.subtract(Duration(days: 1)): [
-    //     'Event A0',
-    //     'Event B0',
-    //     'Event C0'
-    //   ],
-    //   _selectedDay.subtract(Duration(days: 1)): ['Event A1'],
-    //   _selectedDay.subtract(Duration(days: 3)): [
-    //     'Event A2',
-    //     'Event B2',
-    //     'Event C2',
-    //     'Event D2'
-    //   ],};
-
+    setState(() {
+      _fetchList().then((value) => _events = value);
+    });
 
     _selectedEvents = _events[_selectedDay] ?? [];
     _calendarController = CalendarController();
@@ -71,19 +54,26 @@ class _CalenderPageState extends State<CalenderPage>
   Future<Map<DateTime, List>> _fetchList() async {
     _memoList = await DBHelper().getAllMemos();
 
+    _memoList.map((e) => print(e));
+
     if (_memoList == null) {
-      _events = {};
+      return {};
     } else {
-      var a = _memoList.map((e) => e.datetime).toSet().toList();
-      var b = _memoList.map((e) {
-        final DateFormat formatter = DateFormat('yyyy.MM.dd');
-        final String formatted = formatter.format(ToDate(e.datetime).stringToDate());
-        print(formatted);
+
+      _events = Map.fromIterable(_memoList, key: (v) => DateTime(
+          ToDate(v.datetime).stringToDate().year,
+          ToDate(v.datetime).stringToDate().month,
+          ToDate(v.datetime).stringToDate().day), value: (v) => []);
+
+      _memoList.map((e) {
+        _events[DateTime(
+                ToDate(e.datetime).stringToDate().year,
+                ToDate(e.datetime).stringToDate().month,
+                ToDate(e.datetime).stringToDate().day)]
+            .add(e.title);
       });
 
-      return Map.fromIterable(
-          _memoList, key: (v) => ToDate(v.datetime).stringToDate(),
-          value: (v) => _memoList.map((e) => e.title).toList());
+      return _events;
     }
   }
 
@@ -94,13 +84,13 @@ class _CalenderPageState extends State<CalenderPage>
     });
   }
 
-  void _onVisibleDaysChanged(DateTime first, DateTime last,
-      CalendarFormat format) {
+  void _onVisibleDaysChanged(
+      DateTime first, DateTime last, CalendarFormat format) {
     print('CALLBACK: _onVisibleDaysChanged');
   }
 
-  void _onCalendarCreated(DateTime first, DateTime last,
-      CalendarFormat format) {
+  void _onCalendarCreated(
+      DateTime first, DateTime last, CalendarFormat format) {
     print('CALLBACK: _onCalendarCreated');
   }
 
@@ -114,10 +104,7 @@ class _CalenderPageState extends State<CalenderPage>
       body: Column(
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
-          // Switch out 2 lines below to play with TableCalendar's settings
-          //-----------------------
           _buildTableCalendarWithBuilders(),
-          // _buildTableCalendarWithBuilders(),
           const SizedBox(height: 8.0),
           Expanded(child: _buildEventList()),
         ],
@@ -125,7 +112,6 @@ class _CalenderPageState extends State<CalenderPage>
     );
   }
 
-  // More advanced TableCalendar configuration (using Builders & Styles)
   Widget _buildTableCalendarWithBuilders() {
     return TableCalendar(
       locale: 'ko-KR',
@@ -236,8 +222,8 @@ class _CalenderPageState extends State<CalenderPage>
         color: _calendarController.isSelected(date)
             ? Colors.brown[500]
             : _calendarController.isToday(date)
-            ? Colors.brown[300]
-            : Colors.blue[400],
+                ? Colors.brown[300]
+                : Colors.blue[400],
       ),
       width: 16.0,
       height: 16.0,
@@ -284,19 +270,18 @@ class _CalenderPageState extends State<CalenderPage>
   Widget _buildEventList() {
     return ListView(
       children: _selectedEvents
-          .map((event) =>
-          Container(
-            decoration: BoxDecoration(
-              border: Border.all(width: 0.8),
-              borderRadius: BorderRadius.circular(12.0),
-            ),
-            margin:
-            const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-            child: ListTile(
-              title: Text(event.toString()),
-              onTap: () => print('$event tapped!'),
-            ),
-          ))
+          .map((event) => Container(
+                decoration: BoxDecoration(
+                  border: Border.all(width: 0.8),
+                  borderRadius: BorderRadius.circular(12.0),
+                ),
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                child: ListTile(
+                  title: Text(event.toString()),
+                  onTap: () => print('$event tapped!'),
+                ),
+              ))
           .toList(),
     );
   }
