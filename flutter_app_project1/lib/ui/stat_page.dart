@@ -11,6 +11,7 @@ class _StatPageState extends State<StatPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Stat'),
+        centerTitle: true,
         automaticallyImplyLeading: false,
       ),
     );

@@ -10,6 +10,7 @@ class _MinePageState extends State<MinePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text('Mine'),
         automaticallyImplyLeading: false,
       ),

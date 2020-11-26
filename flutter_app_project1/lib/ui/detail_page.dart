@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_app_project1/faderoute.dart';
 import 'package:flutter_app_project1/model/photo.dart';
+import 'package:flutter_app_project1/ui/memo_page.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class DetailPage extends StatelessWidget {
   final Photos photos;
@@ -9,10 +13,15 @@ class DetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-          child: Expanded(
+      appBar: AppBar(
+        title: Text(
+          '${photos.photographer}',
+          style: GoogleFonts.indieFlower(fontSize: 26),
+        ),
+        automaticallyImplyLeading: false,
+      ),
+      body: SingleChildScrollView(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Hero(
               tag: photos.id,
@@ -21,31 +30,57 @@ class DetailPage extends StatelessWidget {
                 loadingBuilder: (BuildContext context, Widget child,
                     ImageChunkEvent loadingProgress) {
                   if (loadingProgress == null) return child;
-                  return CircularProgressIndicator(
-                    value: loadingProgress.expectedTotalBytes != null
-                        ? loadingProgress.cumulativeBytesLoaded /
-                            loadingProgress.expectedTotalBytes
-                        : null,
+                  return Center(
+                    child: LinearProgressIndicator(
+                      value: loadingProgress.expectedTotalBytes != null
+                          ? loadingProgress.cumulativeBytesLoaded /
+                              loadingProgress.expectedTotalBytes
+                          : null,
+                    ),
                   );
                 },
               ),
             ),
             ButtonBar(
-              alignment: MainAxisAlignment.end,
+              alignment: MainAxisAlignment.spaceBetween,
               children: [
+                TextButton(
+                  child: Text('Photos provided by Pexels'),
+                  onPressed: () {
+                    String url = 'https://www.pexels.com';
+                    _launchInWebViewOrVC(url);
+                  },
+                ),
+                SizedBox(
+                  width: 6,
+                ),
                 OutlineButton(
                     child: Text('닫기'),
                     onPressed: () {
                       Navigator.pop(context);
                     }),
-                OutlineButton(child: Text('메모'), onPressed: () {
-
-                }),
+                OutlineButton(
+                    child: Text('메모'),
+                    onPressed: () {
+                      Navigator.push(context, FadeRoute(page: MemoPage(photos)));
+                    }),
               ],
             )
           ],
         ),
-      )),
+      ),
     );
+  }
+
+  Future<void> _launchInWebViewOrVC(String url) async {
+    if (await canLaunch(url)) {
+      await launch(
+        url,
+        forceSafariVC: true,
+        forceWebView: true,
+      );
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }

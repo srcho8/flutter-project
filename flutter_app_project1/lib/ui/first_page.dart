@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_project1/provider.dart';
+import 'package:flutter_app_project1/db/database_helper.dart';
+import 'package:flutter_app_project1/provider/provider_homepage.dart';
 import 'package:provider/provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:sqflite/sqflite.dart';
 
 class FirstPage extends StatefulWidget {
   @override
@@ -9,6 +11,13 @@ class FirstPage extends StatefulWidget {
 }
 
 class _FirstPageState extends State<FirstPage> {
+
+  @override
+  void initState() {
+    super.initState();
+    DBHelper().initDB();
+  }
+
   @override
   Widget build(BuildContext context) {
     final FirstPageIndex _firstPageIndex = Provider.of<FirstPageIndex>(context);

@@ -79,10 +79,12 @@ class _InsFirePageState extends State<InsFirePage> {
             return InkWell(
               child: Hero(
                   tag: Items[index].id,
-                  child: Image.network(Items[index].src.medium)),
+                  child: Image.network(
+                    Items[index].src.medium,
+                    fit: BoxFit.cover,
+                  )),
               onTap: () {
-                Navigator.push(
-                    context, FadeRoute(page: DetailPage(Items[index])));
+                Navigator.push(context, FadeRoute(page: DetailPage(Items[index])));
               },
             );
           },
