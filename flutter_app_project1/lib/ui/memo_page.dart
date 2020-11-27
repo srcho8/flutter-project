@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
+import 'package:flushbar/flushbar.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_app_project1/db/database_helper.dart';
@@ -126,7 +127,11 @@ class _MemoPageState extends State<MemoPage> {
                                 imageurl: _base64,
                                 datetime: DateFormat('yyyy-MM-dd HH:mm:ss')
                                     .format(DateTime.now()))));
-
+                            Flushbar(
+                              title:  "Hey Ninja",
+                              message:  "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+                              duration:  Duration(seconds: 3),
+                            )..show(context);
                             Navigator.pop(this.context);
                           }),
                     ],
