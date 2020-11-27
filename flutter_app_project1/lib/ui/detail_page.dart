@@ -56,12 +56,12 @@ class DetailPage extends StatelessWidget {
                 SizedBox(
                   width: 6,
                 ),
-                OutlineButton(
+                OutlinedButton(
                     child: Text('닫기'),
                     onPressed: () {
                       Navigator.pop(context);
                     }),
-                OutlineButton(
+                OutlinedButton(
                     child: Text('메모'),
                     onPressed: () {
                       Navigator.push(context, FadeRoute(page: MemoPage(photos))).then((value) {

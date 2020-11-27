@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_app_project1/db/database_helper.dart';
 import 'package:flutter_app_project1/extentions/extentions.dart';
@@ -5,6 +7,8 @@ import 'package:flutter_app_project1/model/memo.dart';
 import 'package:intl/intl.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:sticky_grouped_list/sticky_grouped_list.dart';
+import 'package:grouped_list/grouped_list.dart';
 
 // Example holidays
 final Map<DateTime, List> _holidays = {};
@@ -33,7 +37,7 @@ class _CalendarPageState extends State<CalendarPage>
           Expanded(child: _buildEventList()),
         ];
       case 1:
-        return <Widget>[_stickyList()];
+        return <Widget>[Expanded(child: _stickyList())];
     }
   }
 
@@ -330,8 +334,87 @@ class _CalendarPageState extends State<CalendarPage>
   }
 
   Widget _stickyList() {
-    return Column(
-      mainAxisSize: MainAxisSize.max,
+    setState(() {
+      _fetchList();
+    });
+
+    List<Element> _elements = _memoList
+        .map((e) => Element(
+            DateTime(
+                ToDate(e.datetime).stringToDate().year,
+                ToDate(e.datetime).stringToDate().month,
+                ToDate(e.datetime).stringToDate().day,
+                ToDate(e.datetime).stringToDate().hour,
+                ToDate(e.datetime).stringToDate().minute),
+            e.title,
+            e.contents, e.imageurl))
+        .toList();
+
+    return StickyGroupedListView<Element, DateTime>(
+      elements: _elements,
+      order: StickyGroupedListOrder.DESC,
+      groupBy: (Element element) =>
+          DateTime(element.date.year, element.date.month, element.date.day),
+      groupComparator: (DateTime value1, DateTime value2) =>
+          value1.compareTo(value2),
+      itemComparator: (Element element1, Element element2) =>
+          element1.date.compareTo(element2.date),
+      floatingHeader: false,
+      groupSeparatorBuilder: (Element element) => Container(
+        height: 40,
+        child: Align(
+          alignment: Alignment.center,
+          child: Container(
+            width: 120,
+            decoration: BoxDecoration(
+              color: Colors.blueGrey[200],
+              border: Border.all(
+                color: Colors.white,
+              ),
+              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                '${element.date.day}. ${element.date.month}, ${element.date.year}',
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
+        ),
+      ),
+      itemBuilder: (_, Element element) {
+        return Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(6.0),
+          ),
+          elevation: 4.0,
+          margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+          child: Container(
+            child: ListTile(
+              contentPadding:
+                  EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+              leading: Image.memory(Base64Codec().decode(element.url)),
+              title: Text(element.title),
+              subtitle: Text(
+                element.contents,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              trailing: Text('${element.date.hour}:${element.date.minute}'),
+            ),
+          ),
+        );
+      },
     );
   }
+}
+
+class Element {
+  DateTime date;
+  String title;
+  String contents;
+  String url;
+
+  Element(this.date, this.title, this.contents, this.url);
 }

@@ -112,12 +112,12 @@ class _MemoPageState extends State<MemoPage> {
                   ButtonBar(
                     alignment: MainAxisAlignment.end,
                     children: [
-                      OutlineButton(
+                      OutlinedButton(
                           child: Text('닫기'),
                           onPressed: () {
                             Navigator.pop(context);
                           }),
-                      OutlineButton(
+                      OutlinedButton(
                           child: Text('저장'),
                           onPressed: () {
                             DBHelper().createData((Memo(
