@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_project1/model/photo.dart';
-import 'package:flutter_app_project1/ui/calender_page.dart';
+import 'package:flutter_app_project1/ui/calendar_page.dart';
 import 'package:flutter_app_project1/ui/insfire_page.dart';
 import 'package:flutter_app_project1/ui/memo_page.dart';
 import 'package:flutter_app_project1/ui/mine_page.dart';
@@ -21,7 +21,7 @@ class FirstPageIndex with ChangeNotifier {
   List<Widget> widgetOptions = <Widget>[
     Test2(),
     InsFirePage(),
-    CalenderPage()
+    CalendarPage()
     //MinePage(),
   ];
 

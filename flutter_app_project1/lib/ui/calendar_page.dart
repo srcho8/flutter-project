@@ -9,20 +9,33 @@ import 'package:table_calendar/table_calendar.dart';
 // Example holidays
 final Map<DateTime, List> _holidays = {};
 
-class CalenderPage extends StatefulWidget {
-  CalenderPage() : super();
+class CalendarPage extends StatefulWidget {
+  CalendarPage() : super();
 
   @override
-  _CalenderPageState createState() => _CalenderPageState();
+  _CalendarPageState createState() => _CalendarPageState();
 }
 
-class _CalenderPageState extends State<CalenderPage>
+class _CalendarPageState extends State<CalendarPage>
     with TickerProviderStateMixin {
   List<Memo> _memoList;
   Map<DateTime, List> _events;
   List _selectedEvents;
   AnimationController _animationController;
   CalendarController _calendarController;
+
+  List<Widget> _getAppbarItemWidget(int pos) {
+    switch (pos) {
+      case 0:
+        return <Widget>[
+          _buildTableCalendarWithBuilders(),
+          const SizedBox(height: 8.0),
+          Expanded(child: _buildEventList()),
+        ];
+      case 1:
+        return <Widget>[_stickyList()];
+    }
+  }
 
   @override
   void initState() {
@@ -72,13 +85,15 @@ class _CalenderPageState extends State<CalenderPage>
                 ToDate(v.datetime).stringToDate().year,
                 ToDate(v.datetime).stringToDate().month,
                 ToDate(v.datetime).stringToDate().day);
-            return _memoList.map((e) => e.datetime).where((e) {
-              return DateTime(
-                      ToDate(e).stringToDate().year,
-                      ToDate(e).stringToDate().month,
-                      ToDate(e).stringToDate().day) ==
-                  tdate;
-            }).toList();
+            return _memoList
+                .where((e) =>
+                    DateTime(
+                        ToDate(e.datetime).stringToDate().year,
+                        ToDate(e.datetime).stringToDate().month,
+                        ToDate(e.datetime).stringToDate().day) ==
+                    tdate)
+                .map((e) => e.title) // 여기서 변환
+                .toList();
           });
 
       return _events;
@@ -102,20 +117,35 @@ class _CalenderPageState extends State<CalenderPage>
     print('CALLBACK: _onCalendarCreated');
   }
 
+  Icon actionIcon = new Icon(Icons.inbox);
+  Widget appBarTitle = new Text("InsFire Box");
+  int _selectedDrawerIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('InsFire Box'),
-        centerTitle: true,
-      ),
+          title: Text('InsFire Box'),
+          centerTitle: true,
+          actions: <Widget>[
+            new IconButton(
+              icon: actionIcon,
+              onPressed: () {
+                setState(() {
+                  if (this.actionIcon.icon == Icons.inbox) {
+                    this.actionIcon = new Icon(Icons.calendar_today_rounded);
+                    _selectedDrawerIndex = 1;
+                  } else {
+                    this.actionIcon = new Icon(Icons.inbox);
+                    _selectedDrawerIndex = 0;
+                  }
+                });
+              },
+            ),
+          ]),
       body: Column(
         mainAxisSize: MainAxisSize.max,
-        children: <Widget>[
-          _buildTableCalendarWithBuilders(),
-          const SizedBox(height: 8.0),
-          Expanded(child: _buildEventList()),
-        ],
+        children: _getAppbarItemWidget(_selectedDrawerIndex),
       ),
     );
   }
@@ -296,6 +326,12 @@ class _CalenderPageState extends State<CalenderPage>
                 ),
               ))
           .toList(),
+    );
+  }
+
+  Widget _stickyList() {
+    return Column(
+      mainAxisSize: MainAxisSize.max,
     );
   }
 }
