@@ -3,12 +3,13 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_project1/db/database_helper.dart';
 import 'package:flutter_app_project1/extentions/extentions.dart';
+import 'package:flutter_app_project1/faderoute.dart';
 import 'package:flutter_app_project1/model/memo.dart';
+import 'package:flutter_app_project1/ui/saved_memo_page.dart';
 import 'package:intl/intl.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:sticky_grouped_list/sticky_grouped_list.dart';
-import 'package:grouped_list/grouped_list.dart';
 
 // Example holidays
 final Map<DateTime, List> _holidays = {};
@@ -33,6 +34,10 @@ class _CalendarPageState extends State<CalendarPage>
       case 0:
         return <Widget>[
           _buildTableCalendarWithBuilders(),
+          Container(
+            height: 1,
+            color: Colors.blueGrey,
+          ),
           const SizedBox(height: 8.0),
           Expanded(child: _buildEventList()),
         ];
@@ -318,16 +323,17 @@ class _CalendarPageState extends State<CalendarPage>
     return ListView(
       children: _selectedEvents
           .map((event) => Container(
+                height: 30,
                 decoration: BoxDecoration(
                   border: Border.all(width: 0.8),
                   borderRadius: BorderRadius.circular(12.0),
                 ),
                 margin:
-                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-                child: ListTile(
-                  title: Text(event.toString()),
-                  onTap: () => print('$event tapped!'),
-                ),
+                    const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+                child: Container(
+                    margin: EdgeInsets.only(left: 4, right: 4),
+                    alignment: Alignment.centerLeft,
+                    child: Text(event.toString())),
               ))
           .toList(),
     );
@@ -338,83 +344,103 @@ class _CalendarPageState extends State<CalendarPage>
       _fetchList();
     });
 
-    List<Element> _elements = _memoList
-        .map((e) => Element(
-            DateTime(
-                ToDate(e.datetime).stringToDate().year,
-                ToDate(e.datetime).stringToDate().month,
-                ToDate(e.datetime).stringToDate().day,
-                ToDate(e.datetime).stringToDate().hour,
-                ToDate(e.datetime).stringToDate().minute),
-            e.title,
-            e.contents, e.imageurl))
-        .toList();
+    // List<Element> _elements = _memoList
+    //     .map((e) => Element(
+    //         DateTime(
+    //             ToDate(e.datetime).stringToDate().year,
+    //             ToDate(e.datetime).stringToDate().month,
+    //             ToDate(e.datetime).stringToDate().day,
+    //             ToDate(e.datetime).stringToDate().hour,
+    //             ToDate(e.datetime).stringToDate().minute),
+    //         e.title,
+    //         e.contents,
+    //         e.imageurl,
+    //         e.id))
+    //     .toList();
 
-    return StickyGroupedListView<Element, DateTime>(
-      elements: _elements,
+    return StickyGroupedListView<Memo, DateTime>(
+      elements: _memoList,
       order: StickyGroupedListOrder.DESC,
-      groupBy: (Element element) =>
-          DateTime(element.date.year, element.date.month, element.date.day),
+      groupBy: (Memo memo) {
+        var date = memo.datetime.stringToDate();
+        return DateTime(date.year, date.month, date.day);
+      },
       groupComparator: (DateTime value1, DateTime value2) =>
           value1.compareTo(value2),
-      itemComparator: (Element element1, Element element2) =>
-          element1.date.compareTo(element2.date),
+      itemComparator: (Memo element1, Memo element2) {
+        var date1 = element1.datetime.stringToDate();
+        var date2 = element2.datetime.stringToDate();
+        return date1.compareTo(date2);
+      },
       floatingHeader: false,
-      groupSeparatorBuilder: (Element element) => Container(
+      groupSeparatorBuilder: (Memo element) => Container(
         height: 40,
-        child: Align(
-          alignment: Alignment.center,
-          child: Container(
-            width: 120,
-            decoration: BoxDecoration(
-              color: Colors.blueGrey[200],
-              border: Border.all(
-                color: Colors.white,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: 120,
+              decoration: BoxDecoration(
+                color: Colors.blueGrey,
+                border: Border.all(
+                  color: Colors.white,
+                ),
+                borderRadius: BorderRadius.all(Radius.circular(10.0)),
               ),
-              borderRadius: BorderRadius.all(Radius.circular(10.0)),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                '${element.date.day}. ${element.date.month}, ${element.date.year}',
-                textAlign: TextAlign.center,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  '${element.datetime.stringToDate().day}. ${element.datetime.stringToDate().month}, ${element.datetime.stringToDate().year}',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
             ),
-          ),
+          ],
         ),
       ),
-      itemBuilder: (_, Element element) {
-        return Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(6.0),
-          ),
-          elevation: 4.0,
-          margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-          child: Container(
-            child: ListTile(
-              contentPadding:
-                  EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-              leading: Image.memory(Base64Codec().decode(element.url)),
-              title: Text(element.title),
-              subtitle: Text(
-                element.contents,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
+      itemBuilder: (_, Memo element) {
+        return InkWell(
+          onLongPress: () {
+            setState(() {
+              DBHelper().deleteMemo(element.id);
+            });
+          },
+          onTap: () {
+            Navigator.push(
+              context,
+              FadeRoute(page: SavedMemoPage(element)),
+            );
+          },
+          child: Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(6.0),
+            ),
+            elevation: 4.0,
+            margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+            child: Container(
+              child: ListTile(
+                contentPadding:
+                    EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                leading: ClipRRect(
+                    borderRadius: BorderRadius.circular(6),
+                    child: Hero(
+                        tag: element.id,
+                        child: Image.memory(
+                            Base64Codec().decode(element.imageurl)))),
+                title: Text(element.title),
+                subtitle: Text(
+                  element.contents,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                trailing: Text(
+                    '${element.datetime.stringToDate().hour}:${element.datetime.stringToDate().minute}'),
               ),
-              trailing: Text('${element.date.hour}:${element.date.minute}'),
             ),
           ),
         );
       },
     );
   }
-}
-
-class Element {
-  DateTime date;
-  String title;
-  String contents;
-  String url;
-
-  Element(this.date, this.title, this.contents, this.url);
 }

@@ -6,7 +6,6 @@ import 'package:flutter_app_project1/ui/memo_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flushbar/flushbar.dart';
 
-
 class DetailPage extends StatelessWidget {
   final Photos photos;
 
@@ -16,9 +15,11 @@ class DetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text(
           '${photos.photographer}',
-          style: GoogleFonts.indieFlower(fontSize: 26, fontWeight: FontWeight.bold),
+          style: GoogleFonts.indieFlower(
+              fontSize: 26, fontWeight: FontWeight.bold),
         ),
         automaticallyImplyLeading: false,
       ),
@@ -43,8 +44,8 @@ class DetailPage extends StatelessWidget {
                 },
               ),
             ),
-            ButtonBar(
-              alignment: MainAxisAlignment.spaceBetween,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 TextButton(
                   child: Text('Photos provided by Pexels'),
@@ -53,27 +54,31 @@ class DetailPage extends StatelessWidget {
                     _launchInWebViewOrVC(url);
                   },
                 ),
-                SizedBox(
-                  width: 6,
+                ButtonBar(
+                  alignment: MainAxisAlignment.end,
+                  children: [
+                    OutlinedButton(
+                        child: Text('닫기'),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        }),
+                    OutlinedButton(
+                        child: Text('메모'),
+                        onPressed: () {
+                          Navigator.push(
+                                  context, FadeRoute(page: MemoPage(photos)))
+                              .then((value) {
+                            if (value == 'saved') {
+                              Flushbar(
+                                title: "InsFire",
+                                message: "저장 되었습니다.",
+                                duration: Duration(seconds: 2),
+                              )..show(context);
+                            }
+                          });
+                        }),
+                  ],
                 ),
-                OutlinedButton(
-                    child: Text('닫기'),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    }),
-                OutlinedButton(
-                    child: Text('메모'),
-                    onPressed: () {
-                      Navigator.push(context, FadeRoute(page: MemoPage(photos))).then((value) {
-                        if(value == 'saved') {
-                          Flushbar(
-                            title: "InsFire",
-                            message: "저장 되었습니다.",
-                            duration: Duration(seconds: 2),
-                          )..show(context);
-                        }
-                      });
-                    }),
               ],
             )
           ],

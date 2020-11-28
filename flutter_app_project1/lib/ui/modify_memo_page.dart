@@ -1,44 +1,43 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_project1/db/database_helper.dart';
 import 'package:flutter_app_project1/model/memo.dart';
-import 'package:http/http.dart' as http;
-import 'package:flutter_app_project1/model/photo.dart';
-import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class MemoPage extends StatefulWidget {
-  final Photos photos;
+class ModifyMemoPage extends StatefulWidget {
+  final Memo memo;
 
-  MemoPage(this.photos);
+  ModifyMemoPage(this.memo);
 
   @override
-  _MemoPageState createState() => _MemoPageState();
+  _ModifyMemoPageState createState() => _ModifyMemoPageState();
 }
 
-class _MemoPageState extends State<MemoPage> {
-  final _titleController = TextEditingController();
-  final _contentController = TextEditingController();
+class _ModifyMemoPageState extends State<ModifyMemoPage> {
+  var _titleController = TextEditingController();
+  var _contentController = TextEditingController();
   String _base64;
   Uint8List _url;
+
+  Future<List<Memo>> _getMember() async {
+    final List<Memo> maps = await DBHelper().getAllMemos();
+    return List.generate(maps.length, (i) {
+      return Memo(
+        id: maps[i].id,
+        title: maps[i].title,
+        contents: maps[i].contents,
+      );
+    });
+  }
 
   @override
   void initState() {
     super.initState();
-    (() async {
-      http.Response response = await http.get(
-        widget.photos.src.tiny,
-      );
-      if (mounted) {
-        setState(() {
-          _base64 = Base64Codec().encode(response.bodyBytes);
-          _url = Base64Codec().decode(_base64);
-        });
-      }
-    })();
+
+    _titleController = TextEditingController(text: widget.memo.title);
+    _contentController = TextEditingController(text: widget.memo.contents);
   }
 
   @override
@@ -72,11 +71,9 @@ class _MemoPageState extends State<MemoPage> {
           Container(
             child: Center(
               child: Hero(
-                  tag: widget.photos.id,
-                  child: Image.network(
-                    widget.photos.src.tiny,
-                    fit: BoxFit.cover,
-                  )),
+                  tag: 'tt',
+                  child:
+                  Image.memory(Base64Codec().decode(widget.memo.imageurl))),
             ),
           ),
           Padding(
@@ -86,7 +83,6 @@ class _MemoPageState extends State<MemoPage> {
                 children: [
                   TextField(
                     controller: _titleController,
-                    maxLines: 1,
                     decoration: InputDecoration(
                       alignLabelWithHint: true,
                       labelStyle: TextStyle(
@@ -96,7 +92,7 @@ class _MemoPageState extends State<MemoPage> {
                     ),
                   ),
                   Container(
-                    height: 300,
+                    height: 200,
                     child: TextField(
                       controller: _contentController,
                       maxLines: null,
@@ -115,29 +111,21 @@ class _MemoPageState extends State<MemoPage> {
                     alignment: MainAxisAlignment.end,
                     children: [
                       OutlinedButton(
-                          child: Text('close'),
+                          child: Text('닫기'),
                           onPressed: () {
                             Navigator.pop(context);
                           }),
                       OutlinedButton(
-                          child: Text('save'),
+                          child: Text('저장'),
                           onPressed: () {
-                            if(_titleController.text.isEmpty){
-                              Flushbar(
-                                title: "InsFire",
-                                message: "제목이 비어있어요.",
-                                duration: Duration(seconds: 2),
-                              )..show(context);
-                            }else {
-                              DBHelper().createData((Memo(
-                                  title: _titleController.text,
-                                  contents: _contentController.text,
-                                  imageurl: _base64,
-                                  datetime: DateFormat('yyyy-MM-dd HH:mm:ss')
-                                      .format(DateTime.now()))));
+                            DBHelper().updateMemo((Memo(
+                              title: _titleController.text,
+                              contents: _contentController.text,
+                              id: widget.memo.id,
+                            )));
 
-                              Navigator.pop(this.context, 'saved');
-                            }}),
+                            Navigator.pop(this.context);
+                          }),
                     ],
                   ),
                 ],
