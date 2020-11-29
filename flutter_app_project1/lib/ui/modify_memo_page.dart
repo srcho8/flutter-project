@@ -18,19 +18,6 @@ class ModifyMemoPage extends StatefulWidget {
 class _ModifyMemoPageState extends State<ModifyMemoPage> {
   var _titleController = TextEditingController();
   var _contentController = TextEditingController();
-  String _base64;
-  Uint8List _url;
-
-  Future<List<Memo>> _getMember() async {
-    final List<Memo> maps = await DBHelper().getAllMemos();
-    return List.generate(maps.length, (i) {
-      return Memo(
-        id: maps[i].id,
-        title: maps[i].title,
-        contents: maps[i].contents,
-      );
-    });
-  }
 
   @override
   void initState() {
@@ -53,27 +40,15 @@ class _ModifyMemoPageState extends State<ModifyMemoPage> {
       appBar: AppBar(
         title: Text('Memo'),
         automaticallyImplyLeading: false,
-        actions: [
-          IconButton(
-              icon: Image.asset('images/pexels.png'),
-              iconSize: 80,
-              onPressed: () {
-                String url = 'https://www.pexels.com';
-                _launchInWebViewOrVC(url);
-              })
-        ],
       ),
       body: Column(
         children: [
           SizedBox(
-            height: 20,
+            height: 16,
           ),
           Container(
             child: Center(
-              child: Hero(
-                  tag: 'tt',
-                  child:
-                  Image.memory(Base64Codec().decode(widget.memo.imageurl))),
+              child: Image.memory(Base64Codec().decode(widget.memo.imageurl)),
             ),
           ),
           Padding(
@@ -86,13 +61,13 @@ class _ModifyMemoPageState extends State<ModifyMemoPage> {
                     decoration: InputDecoration(
                       alignLabelWithHint: true,
                       labelStyle: TextStyle(
-                        fontSize: 14,
+                        fontSize: 20,
                       ),
                       labelText: 'Title',
                     ),
                   ),
                   Container(
-                    height: 200,
+                    height: 250,
                     child: TextField(
                       controller: _contentController,
                       maxLines: null,
@@ -101,7 +76,7 @@ class _ModifyMemoPageState extends State<ModifyMemoPage> {
                       decoration: InputDecoration(
                         alignLabelWithHint: true,
                         labelStyle: TextStyle(
-                          fontSize: 14,
+                          fontSize: 16,
                         ),
                         labelText: 'Enter your InsFire',
                       ),
@@ -118,13 +93,16 @@ class _ModifyMemoPageState extends State<ModifyMemoPage> {
                       OutlinedButton(
                           child: Text('저장'),
                           onPressed: () {
+
                             DBHelper().updateMemo((Memo(
                               title: _titleController.text,
                               contents: _contentController.text,
                               id: widget.memo.id,
                             )));
 
-                            Navigator.pop(this.context);
+                            DBHelper().getMemo(widget.memo.id).then((value) {
+                              Navigator.pop(this.context, PopValue('modifyed', value));
+                            });
                           }),
                     ],
                   ),
@@ -136,16 +114,11 @@ class _ModifyMemoPageState extends State<ModifyMemoPage> {
       ),
     );
   }
+}
 
-  Future<void> _launchInWebViewOrVC(String url) async {
-    if (await canLaunch(url)) {
-      await launch(
-        url,
-        forceSafariVC: true,
-        forceWebView: true,
-      );
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
+class PopValue{
+  String type;
+  Memo updatedMemo;
+
+  PopValue(this.type, this.updatedMemo);
 }

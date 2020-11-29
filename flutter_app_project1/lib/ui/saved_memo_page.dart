@@ -1,13 +1,16 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_project1/db/database_helper.dart';
+import 'package:flutter_app_project1/faderoute.dart';
 import 'package:flutter_app_project1/model/memo.dart';
+import 'package:flutter_app_project1/ui/modify_memo_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SavedMemoPage extends StatefulWidget {
-  final Memo memo;
+  Memo memo;
 
   SavedMemoPage(this.memo);
 
@@ -18,19 +21,6 @@ class SavedMemoPage extends StatefulWidget {
 class _SavedMemoPageState extends State<SavedMemoPage> {
   var _titleController = TextEditingController();
   var _contentController = TextEditingController();
-  String _base64;
-  Uint8List _url;
-
-  Future<List<Memo>> _getMember() async {
-    final List<Memo> maps = await DBHelper().getAllMemos();
-    return List.generate(maps.length, (i) {
-      return Memo(
-        id: maps[i].id,
-        title: maps[i].title,
-        contents: maps[i].contents,
-      );
-    });
-  }
 
   @override
   void initState() {
@@ -147,13 +137,21 @@ class _SavedMemoPageState extends State<SavedMemoPage> {
                           OutlinedButton(
                               child: Text('수정'),
                               onPressed: () {
-                                DBHelper().updateMemo((Memo(
-                                  title: _titleController.text,
-                                  contents: _contentController.text,
-                                  id: widget.memo.id,
-                                )));
-
-                                Navigator.pop(this.context);
+                                Navigator.push(
+                                  context,
+                                  FadeRoute(page: ModifyMemoPage(widget.memo)),
+                                ).then((value) {
+                                  if (value.type == 'modifyed') {
+                                    setState(() {
+                                      widget.memo = value.updatedMemo;
+                                    });
+                                    Flushbar(
+                                      title: "InsFire",
+                                      message: "수정했어요.",
+                                      duration: Duration(seconds: 2),
+                                    )..show(context);
+                                  }
+                                });
                               }),
                         ],
                       ),
