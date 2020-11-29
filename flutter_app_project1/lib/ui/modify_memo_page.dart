@@ -48,7 +48,8 @@ class _ModifyMemoPageState extends State<ModifyMemoPage> {
           ),
           Container(
             child: Center(
-              child: Image.memory(Base64Codec().decode(widget.memo.imageurl)),
+              child: ClipRRect(borderRadius: BorderRadius.all(Radius.circular(10)),
+                  child: Image.memory(Base64Codec().decode(widget.memo.imageurl))),
             ),
           ),
           Padding(
@@ -86,12 +87,12 @@ class _ModifyMemoPageState extends State<ModifyMemoPage> {
                     alignment: MainAxisAlignment.end,
                     children: [
                       OutlinedButton(
-                          child: Text('닫기'),
+                          child: Text('닫기', style: TextStyle(color: Colors.black)),
                           onPressed: () {
                             Navigator.pop(context);
                           }),
                       OutlinedButton(
-                          child: Text('저장'),
+                          child: Text('저장', style: TextStyle(color: Colors.black)),
                           onPressed: () {
 
                             DBHelper().updateMemo((Memo(

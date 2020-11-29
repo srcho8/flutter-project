@@ -30,6 +30,7 @@ class _CalendarPageState extends State<CalendarPage>
   List<Memo> _selects;
   AnimationController _animationController;
   CalendarController _calendarController;
+  int _selectedDrawerIndex;
 
   List<Widget> _getAppbarItemWidget(int pos) {
     switch (pos) {
@@ -58,7 +59,9 @@ class _CalendarPageState extends State<CalendarPage>
     _selects = [];
     setState(() {
       _fetchList().then((value) => _events = value);
+      DBHelper().getAllMemos().then((value) => _memoList = value);
     });
+    _selectedDrawerIndex = 1;
 
     _selectedEvents = _events[_selectedDay] ?? [];
     _calendarController = CalendarController();
@@ -142,9 +145,8 @@ class _CalendarPageState extends State<CalendarPage>
     print('CALLBACK: _onCalendarCreated');
   }
 
-  Icon actionIcon = new Icon(Icons.inbox);
+  Icon actionIcon = new Icon(Icons.calendar_today_rounded);
   Widget appBarTitle = new Text("InsFire Box");
-  int _selectedDrawerIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -157,12 +159,12 @@ class _CalendarPageState extends State<CalendarPage>
               icon: actionIcon,
               onPressed: () {
                 setState(() {
-                  if (this.actionIcon.icon == Icons.inbox) {
-                    this.actionIcon = new Icon(Icons.calendar_today_rounded);
-                    _selectedDrawerIndex = 1;
-                  } else {
+                  if (this.actionIcon.icon == Icons.calendar_today_rounded) {
                     this.actionIcon = new Icon(Icons.inbox);
                     _selectedDrawerIndex = 0;
+                  } else {
+                    this.actionIcon = new Icon(Icons.calendar_today_rounded);
+                    _selectedDrawerIndex = 1;
                   }
                 });
               },
@@ -352,7 +354,7 @@ class _CalendarPageState extends State<CalendarPage>
                         context, FadeRoute(page: SavedMemoPage(value))));
                   },
                   child: Container(
-                      margin: EdgeInsets.only(left: 4, right: 4),
+                      margin: EdgeInsets.only(left: 8, right: 4),
                       alignment: Alignment.centerLeft,
                       child: Text(event.title)),
                 ),
@@ -366,89 +368,94 @@ class _CalendarPageState extends State<CalendarPage>
       _fetchList();
     });
 
-    return StickyGroupedListView<Memo, DateTime>(
-      elements: _memoList,
-      order: StickyGroupedListOrder.DESC,
-      groupBy: (Memo memo) {
-        var date = memo.datetime.stringToDate();
-        return DateTime(date.year, date.month, date.day);
-      },
-      groupComparator: (DateTime value1, DateTime value2) =>
-          value1.compareTo(value2),
-      itemComparator: (Memo element1, Memo element2) {
-        var date1 = element1.datetime.stringToDate();
-        var date2 = element2.datetime.stringToDate();
-        return date1.compareTo(date2);
-      },
-      floatingHeader: false,
-      groupSeparatorBuilder: (Memo element) => Container(
-        height: 40,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              width: 120,
-              decoration: BoxDecoration(
-                color: Colors.blueGrey,
-                border: Border.all(
-                  color: Colors.white,
-                ),
-                borderRadius: BorderRadius.all(Radius.circular(10.0)),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  '${element.datetime.stringToDate().day}. ${element.datetime.stringToDate().month}, ${element.datetime.stringToDate().year}',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-      itemBuilder: (_, Memo element) {
-        return InkWell(
-          onLongPress: () {
-            setState(() {
-              DBHelper().deleteMemo(element.id);
-            });
-          },
-          onTap: () {
-            Navigator.push(
-              context,
-              FadeRoute(page: SavedMemoPage(element)),
-            );
-          },
-          child: Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(6.0),
-            ),
-            elevation: 4.0,
-            margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
-            child: Container(
-              child: ListTile(
-                contentPadding:
-                    EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-                leading: ClipRRect(
-                    borderRadius: BorderRadius.circular(6),
-                    child: Hero(
-                        tag: element.id,
-                        child: Image.memory(
-                            Base64Codec().decode(element.imageurl)))),
-                title: Text(element.title),
-                subtitle: Text(
-                  element.contents,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                trailing: Text(
-                    '${element.datetime.stringToDate().hour}:${element.datetime.stringToDate().minute}'),
+    return FutureBuilder(
+        future: _fetchList(),
+        builder: (context, snap) {
+          return StickyGroupedListView<Memo, DateTime>(
+            elements: _memoList,
+            order: StickyGroupedListOrder.DESC,
+            groupBy: (Memo memo) {
+              var date = memo.datetime.stringToDate();
+              return DateTime(date.year, date.month, date.day);
+            },
+            groupComparator: (DateTime value1, DateTime value2) =>
+                value1.compareTo(value2),
+            itemComparator: (Memo element1, Memo element2) {
+              var date1 = element1.datetime.stringToDate();
+              var date2 = element2.datetime.stringToDate();
+              return date1.compareTo(date2);
+            },
+            floatingHeader: false,
+            groupSeparatorBuilder: (Memo element) => Container(
+              height: 40,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 120,
+                    decoration: BoxDecoration(
+                      color: Colors.blueGrey,
+                      border: Border.all(
+                        color: Colors.white,
+                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        '${element.datetime.stringToDate().day}. ${element.datetime.stringToDate().month}, ${element.datetime.stringToDate().year}',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-          ),
-        );
-      },
-    );
+            itemBuilder: (_, Memo element) {
+              return InkWell(
+                onLongPress: () {
+                  setState(() {
+                    DBHelper().deleteMemo(element.id);
+                  });
+                },
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    FadeRoute(page: SavedMemoPage(element)),
+                  );
+                },
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(6.0),
+                  ),
+                  elevation: 4.0,
+                  margin:
+                      new EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+                  child: Container(
+                    child: ListTile(
+                      contentPadding:
+                          EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                      leading: ClipRRect(
+                          borderRadius: BorderRadius.circular(6),
+                          child: Hero(
+                              tag: element.id,
+                              child: Image.memory(
+                                  Base64Codec().decode(element.imageurl)))),
+                      title: Text(element.title),
+                      subtitle: Text(
+                        element.contents,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      trailing: Text(
+                          '${element.datetime.stringToDate().hour}:${element.datetime.stringToDate().minute}'),
+                    ),
+                  ),
+                ),
+              );
+            },
+          );
+        });
   }
 }

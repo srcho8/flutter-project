@@ -75,7 +75,7 @@ class _SavedMemoPageState extends State<SavedMemoPage> {
                   Column(
                     children: [
                       Container(
-                        height: 300,
+                        height: 304,
                         decoration: BoxDecoration(
                             border: Border.all(color: Colors.blueGrey),
                             borderRadius:
@@ -130,12 +130,12 @@ class _SavedMemoPageState extends State<SavedMemoPage> {
                         alignment: MainAxisAlignment.end,
                         children: [
                           OutlinedButton(
-                              child: Text('닫기'),
+                              child: Text('닫기', style: TextStyle(color: Colors.black)),
                               onPressed: () {
                                 Navigator.pop(context);
                               }),
                           OutlinedButton(
-                              child: Text('수정'),
+                              child: Text('수정', style: TextStyle(color: Colors.black),),
                               onPressed: () {
                                 Navigator.push(
                                   context,

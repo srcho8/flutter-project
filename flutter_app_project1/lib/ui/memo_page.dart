@@ -115,12 +115,12 @@ class _MemoPageState extends State<MemoPage> {
                     alignment: MainAxisAlignment.end,
                     children: [
                       OutlinedButton(
-                          child: Text('close'),
+                          child: Text('닫기', style: TextStyle(color: Colors.black)),
                           onPressed: () {
                             Navigator.pop(context);
                           }),
                       OutlinedButton(
-                          child: Text('save'),
+                          child: Text('저장', style: TextStyle(color: Colors.black)),
                           onPressed: () {
                             if(_titleController.text.isEmpty){
                               Flushbar(

@@ -45,6 +45,7 @@ class DetailPage extends StatelessWidget {
               ),
             ),
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 TextButton(
@@ -58,12 +59,12 @@ class DetailPage extends StatelessWidget {
                   alignment: MainAxisAlignment.end,
                   children: [
                     OutlinedButton(
-                        child: Text('닫기'),
+                        child: Text('닫기', style: TextStyle(color: Colors.black),),
                         onPressed: () {
                           Navigator.pop(context);
                         }),
                     OutlinedButton(
-                        child: Text('메모'),
+                        child: Text('메모', style: TextStyle(color: Colors.black),),
                         onPressed: () {
                           Navigator.push(
                                   context, FadeRoute(page: MemoPage(photos)))
