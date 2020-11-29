@@ -48,9 +48,17 @@ class DBHelper {
   }
 
   //Read
-  getMemo(int id) async {
+  Future<Memo> getMemo(int id) async {
     final db = await database;
     var res = await db.rawQuery('SELECT * FROM $TableName WHERE id = ?', [id]);
+    return res.isNotEmpty
+        ? Memo(id: res.first['id'], title: res.first['title'], contents: res.first['contents'], imageurl: res.first['imageurl'], datetime: res.first['datetime'])
+        : Null;
+  }
+
+  getMemoWithtitle(String title) async {
+    final db = await database;
+    var res = await db.rawQuery("SELECT * FROM $TableName WHERE title = ?", [title]);
     return res.isNotEmpty
         ? Memo(id: res.first['id'], title: res.first['title'])
         : Null;

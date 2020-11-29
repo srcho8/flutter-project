@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:sticky_grouped_list/sticky_grouped_list.dart';
+import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 
 // Example holidays
 final Map<DateTime, List> _holidays = {};
@@ -26,6 +27,7 @@ class _CalendarPageState extends State<CalendarPage>
   List<Memo> _memoList;
   Map<DateTime, List> _events;
   List _selectedEvents;
+  List<Memo> _selects;
   AnimationController _animationController;
   CalendarController _calendarController;
 
@@ -53,7 +55,7 @@ class _CalendarPageState extends State<CalendarPage>
 
     _memoList = [];
     _events = {};
-
+    _selects = [];
     setState(() {
       _fetchList().then((value) => _events = value);
     });
@@ -109,10 +111,24 @@ class _CalendarPageState extends State<CalendarPage>
     }
   }
 
-  void _onDaySelected(DateTime day, List events, List holidays) {
+  void _onDaySelected(
+      DateTime day, List events, List holidays, List<Memo> _memoList) {
     print('CALLBACK: _onDaySelected');
     setState(() {
       _selectedEvents = events;
+      _selects = _memoList
+          .where((v) {
+            var tdate = DateTime(day.year, day.month, day.day).toString();
+            var sdate = DateTime(
+                    ToDate(v.datetime).stringToDate().year,
+                    ToDate(v.datetime).stringToDate().month,
+                    ToDate(v.datetime).stringToDate().day)
+                .toString();
+
+            return tdate == sdate;
+          })
+          .map((e) => e)
+          .toList();
     });
   }
 
@@ -257,7 +273,7 @@ class _CalendarPageState extends State<CalendarPage>
               },
             ),
             onDaySelected: (date, events, holidays) {
-              _onDaySelected(date, events, holidays);
+              _onDaySelected(date, events, holidays, _memoList);
               _animationController.forward(from: 0.0);
             },
             onVisibleDaysChanged: _onVisibleDaysChanged,
@@ -321,7 +337,7 @@ class _CalendarPageState extends State<CalendarPage>
 
   Widget _buildEventList() {
     return ListView(
-      children: _selectedEvents
+      children: _selects
           .map((event) => Container(
                 height: 30,
                 decoration: BoxDecoration(
@@ -330,10 +346,16 @@ class _CalendarPageState extends State<CalendarPage>
                 ),
                 margin:
                     const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
-                child: Container(
-                    margin: EdgeInsets.only(left: 4, right: 4),
-                    alignment: Alignment.centerLeft,
-                    child: Text(event.toString())),
+                child: InkWell(
+                  onTap: () {
+                    DBHelper().getMemo(event.id).then((value) => Navigator.push(
+                        context, FadeRoute(page: SavedMemoPage(value))));
+                  },
+                  child: Container(
+                      margin: EdgeInsets.only(left: 4, right: 4),
+                      alignment: Alignment.centerLeft,
+                      child: Text(event.title)),
+                ),
               ))
           .toList(),
     );
@@ -343,20 +365,6 @@ class _CalendarPageState extends State<CalendarPage>
     setState(() {
       _fetchList();
     });
-
-    // List<Element> _elements = _memoList
-    //     .map((e) => Element(
-    //         DateTime(
-    //             ToDate(e.datetime).stringToDate().year,
-    //             ToDate(e.datetime).stringToDate().month,
-    //             ToDate(e.datetime).stringToDate().day,
-    //             ToDate(e.datetime).stringToDate().hour,
-    //             ToDate(e.datetime).stringToDate().minute),
-    //         e.title,
-    //         e.contents,
-    //         e.imageurl,
-    //         e.id))
-    //     .toList();
 
     return StickyGroupedListView<Memo, DateTime>(
       elements: _memoList,
