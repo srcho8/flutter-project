@@ -35,15 +35,15 @@ class _FirstPageState extends State<FirstPage> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.chartBar),
-            label: 'Stat',
+            icon: FaIcon(FontAwesomeIcons.user),
+            label: 'Me',
           ),
           BottomNavigationBarItem(
             icon: FaIcon(FontAwesomeIcons.fireAlt),
             label: 'InsFire',
           ),
           BottomNavigationBarItem(
-            icon: Icon(FontAwesomeIcons.user),
+            icon: Icon(FontAwesomeIcons.inbox),
             label: 'Mine',
           ),
         ],

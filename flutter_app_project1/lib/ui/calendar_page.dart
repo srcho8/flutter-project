@@ -12,7 +12,7 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:sticky_grouped_list/sticky_grouped_list.dart';
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 
-// Example holidays
+// holidays
 final Map<DateTime, List> _holidays = {};
 
 class CalendarPage extends StatefulWidget {
@@ -68,7 +68,7 @@ class _CalendarPageState extends State<CalendarPage>
 
     _animationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 400),
+      duration: const Duration(milliseconds: 100),
     );
 
     _animationController.forward();
@@ -81,10 +81,24 @@ class _CalendarPageState extends State<CalendarPage>
     super.dispose();
   }
 
-  Future<Map<DateTime, List>> _fetchList() async {
+  Future<Map<DateTime, List>> _fetchList({DateTime day}) async {
     _memoList = await DBHelper().getAllMemos();
 
-    _memoList.map((e) => print(e));
+    if(day != null) {
+      _selects = _memoList
+          .where((v) {
+            var tdate = DateTime(day.year, day.month, day.day).toString();
+            var sdate = DateTime(
+                    ToDate(v.datetime).stringToDate().year,
+                    ToDate(v.datetime).stringToDate().month,
+                    ToDate(v.datetime).stringToDate().day)
+                .toString();
+
+            return tdate == sdate;
+          })
+          .map((e) => e)
+          .toList();
+    }
 
     if (_memoList == null) {
       return {};
@@ -115,24 +129,24 @@ class _CalendarPageState extends State<CalendarPage>
   }
 
   void _onDaySelected(
-      DateTime day, List events, List holidays, List<Memo> _memoList) {
+      DateTime day, List holidays, List<Memo> _memoList) {
     print('CALLBACK: _onDaySelected');
     setState(() {
-      _selectedEvents = events;
       _selects = _memoList
           .where((v) {
-            var tdate = DateTime(day.year, day.month, day.day).toString();
-            var sdate = DateTime(
-                    ToDate(v.datetime).stringToDate().year,
-                    ToDate(v.datetime).stringToDate().month,
-                    ToDate(v.datetime).stringToDate().day)
-                .toString();
+        var tdate = DateTime(day.year, day.month, day.day).toString();
+        var sdate = DateTime(
+            ToDate(v.datetime).stringToDate().year,
+            ToDate(v.datetime).stringToDate().month,
+            ToDate(v.datetime).stringToDate().day)
+            .toString();
 
-            return tdate == sdate;
-          })
+        return tdate == sdate;
+      })
           .map((e) => e)
           .toList();
     });
+
   }
 
   void _onVisibleDaysChanged(
@@ -275,8 +289,11 @@ class _CalendarPageState extends State<CalendarPage>
               },
             ),
             onDaySelected: (date, events, holidays) {
-              _onDaySelected(date, events, holidays, _memoList);
-              _animationController.forward(from: 0.0);
+
+
+                _onDaySelected(date, holidays, _memoList);
+                _animationController.forward(from: 0.0);
+
             },
             onVisibleDaysChanged: _onVisibleDaysChanged,
             onCalendarCreated: _onCalendarCreated,
@@ -286,7 +303,7 @@ class _CalendarPageState extends State<CalendarPage>
 
   Widget _buildEventsMarker(DateTime date, List events) {
     return AnimatedContainer(
-      duration: const Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 100),
       decoration: BoxDecoration(
         shape: BoxShape.rectangle,
         color: _calendarController.isSelected(date)
@@ -338,28 +355,33 @@ class _CalendarPageState extends State<CalendarPage>
   }
 
   Widget _buildEventList() {
-    return ListView(
-      children: _selects
-          .map((event) => Container(
-                height: 30,
-                decoration: BoxDecoration(
-                  border: Border.all(width: 0.8),
-                  borderRadius: BorderRadius.circular(12.0),
-                ),
-                margin:
-                    const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
-                child: InkWell(
-                  onTap: () {
-                    DBHelper().getMemo(event.id).then((value) => Navigator.push(
-                        context, FadeRoute(page: SavedMemoPage(value))));
-                  },
-                  child: Container(
-                      margin: EdgeInsets.only(left: 8, right: 4),
-                      alignment: Alignment.centerLeft,
-                      child: Text(event.title)),
-                ),
-              ))
-          .toList(),
+    return FutureBuilder(
+        future: _fetchList(),
+        builder: (context, snap) {
+          return ListView(
+          children: _selects
+              .map((event) => Container(
+                    height: 30,
+                    decoration: BoxDecoration(
+                      border: Border.all(width: 0.8),
+                      borderRadius: BorderRadius.circular(12.0),
+                    ),
+                    margin:
+                        const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+                    child: InkWell(
+                      onTap: () {
+                        DBHelper().getMemo(event.id).then((value) => Navigator.push(
+                            context, FadeRoute(page: SavedMemoPage(value))));
+                      },
+                      child: Container(
+                          margin: EdgeInsets.only(left: 8, right: 4),
+                          alignment: Alignment.centerLeft,
+                          child: Text(event.title)),
+                    ),
+                  ))
+              .toList(),
+        );
+      }
     );
   }
 

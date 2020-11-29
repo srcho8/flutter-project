@@ -12,7 +12,7 @@ class _StatPageState extends State<StatPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Stat'),
+        title: Text('InsFire'),
         centerTitle: true,
         automaticallyImplyLeading: false,
       ),

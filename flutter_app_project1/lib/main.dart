@@ -53,6 +53,7 @@ class Splash extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Image.asset('images/fire.png'),
           Text(
