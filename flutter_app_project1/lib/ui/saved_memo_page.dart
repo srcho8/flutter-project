@@ -51,12 +51,10 @@ class _SavedMemoPageState extends State<SavedMemoPage> {
           ),
           Container(
             child: Center(
-              child: Hero(
-                  tag: widget.memo.id,
-                  child: ClipRRect(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      child: Image.memory(
-                          Base64Codec().decode(widget.memo.imageurl)))),
+              child: ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  child: Image.memory(
+                      Base64Codec().decode(widget.memo.imageurl))),
             ),
           ),
           Padding(

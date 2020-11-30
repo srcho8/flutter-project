@@ -44,7 +44,7 @@ class _FirstPageState extends State<FirstPage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(FontAwesomeIcons.inbox),
-            label: 'Mine',
+            label: 'Box',
           ),
         ],
         currentIndex: _firstPageIndex.f_index,

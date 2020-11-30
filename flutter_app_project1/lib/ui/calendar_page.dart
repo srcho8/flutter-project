@@ -437,9 +437,30 @@ class _CalendarPageState extends State<CalendarPage>
             itemBuilder: (_, Memo element) {
               return InkWell(
                 onLongPress: () {
-                  setState(() {
-                    DBHelper().deleteMemo(element.id);
-                  });
+                  return showAnimatedDialog(
+                    context: context,
+                    barrierDismissible: true,
+                    builder: (BuildContext context) {
+                      return ClassicGeneralDialogWidget(
+                        titleText: '삭제',
+                        contentText: '삭제 하실래요?',
+                        onPositiveClick: () {
+                          setState(() {
+                            DBHelper().deleteMemo(element.id);
+                          });
+                          Navigator.of(context).pop();
+                        },
+                        onNegativeClick: () {
+                          Navigator.of(context).pop();
+                        },
+                      );
+                    },
+                    animationType: DialogTransitionType.size,
+                    curve: Curves.fastOutSlowIn,
+                    duration: Duration(seconds: 1),
+                  );
+
+
                 },
                 onTap: () {
                   Navigator.push(
