@@ -7,14 +7,19 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 import 'package:splash_screen_view/SplashScreenView.dart';
+import 'package:flutter/services.dart';
+
 
 import 'ui/login_page.dart';
 
 void main() {
+  SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
+
   initializeDateFormatting().then((_) => runApp(MyApp()));
 }
 
 class MyApp extends StatelessWidget {
+
   List<Memo> _memoList = [];
 
   @override

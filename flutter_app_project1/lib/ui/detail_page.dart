@@ -26,23 +26,20 @@ class DetailPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Hero(
-              tag: photos.id,
-              child: Image.network(
-                photos.src.original,
-                loadingBuilder: (BuildContext context, Widget child,
-                    ImageChunkEvent loadingProgress) {
-                  if (loadingProgress == null) return child;
-                  return Center(
-                    child: LinearProgressIndicator(
-                      value: loadingProgress.expectedTotalBytes != null
-                          ? loadingProgress.cumulativeBytesLoaded /
-                              loadingProgress.expectedTotalBytes
-                          : null,
-                    ),
-                  );
-                },
-              ),
+            Image.network(
+              photos.src.original,
+              loadingBuilder: (BuildContext context, Widget child,
+                  ImageChunkEvent loadingProgress) {
+                if (loadingProgress == null) return child;
+                return Center(
+                  child: LinearProgressIndicator(
+                    value: loadingProgress.expectedTotalBytes != null
+                        ? loadingProgress.cumulativeBytesLoaded /
+                            loadingProgress.expectedTotalBytes
+                        : null,
+                  ),
+                );
+              },
             ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -59,12 +56,18 @@ class DetailPage extends StatelessWidget {
                   alignment: MainAxisAlignment.end,
                   children: [
                     OutlinedButton(
-                        child: Text('닫기', style: TextStyle(color: Colors.black),),
+                        child: Text(
+                          '닫기',
+                          style: TextStyle(color: Colors.black),
+                        ),
                         onPressed: () {
                           Navigator.pop(context);
                         }),
                     OutlinedButton(
-                        child: Text('메모', style: TextStyle(color: Colors.black),),
+                        child: Text(
+                          '메모',
+                          style: TextStyle(color: Colors.black),
+                        ),
                         onPressed: () {
                           Navigator.push(
                                   context, FadeRoute(page: MemoPage(photos)))

@@ -53,110 +53,111 @@ class _SavedMemoPageState extends State<SavedMemoPage> {
             child: Center(
               child: ClipRRect(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
-                  child: Image.memory(
-                      Base64Codec().decode(widget.memo.imageurl))),
+                  child:
+                      Image.memory(Base64Codec().decode(widget.memo.imageurl))),
             ),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Expanded(
-              child: Column(
-                children: [
-                  Container(
-                    height: 1,
-                    width: 200,
-                    color: Colors.blueGrey,
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  Column(
-                    children: [
-                      Container(
-                        height: 304,
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.blueGrey),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10))),
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Center(
-                                child: Text(
-                                  widget.memo.title,
-                                  style: TextStyle(
-                                    fontSize: 20,
+            child: Column(
+              children: [
+                Container(
+                  height: 1,
+                  width: 200,
+                  color: Colors.blueGrey,
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Column(
+                  children: [
+                    Container(
+                      height: 304,
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.blueGrey),
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Center(
+                              child: Text(
+                                widget.memo.title,
+                                style: TextStyle(
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ),
+                            Center(
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                    height: 8,
+                                  ),
+                                  Container(
+                                    height: 1,
+                                    width: 100,
+                                    color: Colors.blueGrey,
+                                  ),
+                                  SizedBox(
+                                    height: 8,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Expanded(
+                              child: SingleChildScrollView(
+                                child: Container(
+                                  width: double.infinity,
+                                  child: Text(
+                                    widget.memo.contents,
+                                    style: TextStyle(fontSize: 16),
                                   ),
                                 ),
                               ),
-                              Center(
-                                child: Column(
-                                  children: [
-                                    SizedBox(
-                                      height: 8,
-                                    ),
-                                    Container(
-                                      height: 1,
-                                      width: 100,
-                                      color: Colors.blueGrey,
-                                    ),
-                                    SizedBox(
-                                      height: 8,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Expanded(
-                                child: SingleChildScrollView(
-                                  child: Container(
-                                    width: double.infinity,
-                                    child: Text(
-                                      widget.memo.contents,
-                                      style: TextStyle(fontSize: 16),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
-                      ButtonBar(
-                        alignment: MainAxisAlignment.end,
-                        children: [
-                          OutlinedButton(
-                              child: Text('닫기', style: TextStyle(color: Colors.black)),
-                              onPressed: () {
-                                Navigator.pop(context);
-                              }),
-                          OutlinedButton(
-                              child: Text('수정', style: TextStyle(color: Colors.black),),
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  FadeRoute(page: ModifyMemoPage(widget.memo)),
-                                ).then((value) {
-                                  if (value.type == 'modifyed') {
-                                    setState(() {
-                                      widget.memo = value.updatedMemo;
-                                    });
-                                    Flushbar(
-                                      title: "InsFire",
-                                      message: "수정했어요.",
-                                      duration: Duration(seconds: 2),
-                                    )..show(context);
-                                  }
-                                });
-                              }),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+                    ),
+                    ButtonBar(
+                      alignment: MainAxisAlignment.end,
+                      children: [
+                        OutlinedButton(
+                            child: Text('닫기',
+                                style: TextStyle(color: Colors.black)),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            }),
+                        OutlinedButton(
+                            child: Text(
+                              '수정',
+                              style: TextStyle(color: Colors.black),
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                FadeRoute(page: ModifyMemoPage(widget.memo)),
+                              ).then((value) {
+                                if (value.type == 'modifyed') {
+                                  setState(() {
+                                    widget.memo = value.updatedMemo;
+                                  });
+                                  Flushbar(
+                                    title: "InsFire",
+                                    message: "수정했어요.",
+                                    duration: Duration(seconds: 2),
+                                  )..show(context);
+                                }
+                              });
+                            }),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         ],

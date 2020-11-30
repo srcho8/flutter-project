@@ -48,67 +48,69 @@ class _ModifyMemoPageState extends State<ModifyMemoPage> {
           ),
           Container(
             child: Center(
-              child: ClipRRect(borderRadius: BorderRadius.all(Radius.circular(10)),
-                  child: Image.memory(Base64Codec().decode(widget.memo.imageurl))),
+              child: ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  child:
+                      Image.memory(Base64Codec().decode(widget.memo.imageurl))),
             ),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Expanded(
-              child: Column(
-                children: [
-                  TextField(
-                    controller: _titleController,
+            child: Column(
+              children: [
+                TextField(
+                  controller: _titleController,
+                  decoration: InputDecoration(
+                    alignLabelWithHint: true,
+                    labelStyle: TextStyle(
+                      fontSize: 20,
+                    ),
+                    labelText: 'Title',
+                  ),
+                ),
+                Container(
+                  height: 250,
+                  child: TextField(
+                    controller: _contentController,
+                    maxLines: null,
+                    expands: true,
+                    keyboardType: TextInputType.multiline,
                     decoration: InputDecoration(
                       alignLabelWithHint: true,
                       labelStyle: TextStyle(
-                        fontSize: 20,
+                        fontSize: 16,
                       ),
-                      labelText: 'Title',
+                      labelText: 'Enter your InsFire',
                     ),
                   ),
-                  Container(
-                    height: 250,
-                    child: TextField(
-                      controller: _contentController,
-                      maxLines: null,
-                      expands: true,
-                      keyboardType: TextInputType.multiline,
-                      decoration: InputDecoration(
-                        alignLabelWithHint: true,
-                        labelStyle: TextStyle(
-                          fontSize: 16,
-                        ),
-                        labelText: 'Enter your InsFire',
-                      ),
-                    ),
-                  ),
-                  ButtonBar(
-                    alignment: MainAxisAlignment.end,
-                    children: [
-                      OutlinedButton(
-                          child: Text('닫기', style: TextStyle(color: Colors.black)),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          }),
-                      OutlinedButton(
-                          child: Text('저장', style: TextStyle(color: Colors.black)),
-                          onPressed: () {
+                ),
+                ButtonBar(
+                  alignment: MainAxisAlignment.end,
+                  children: [
+                    OutlinedButton(
+                        child:
+                            Text('닫기', style: TextStyle(color: Colors.black)),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        }),
+                    OutlinedButton(
+                        child:
+                            Text('저장', style: TextStyle(color: Colors.black)),
+                        onPressed: () {
+                          DBHelper().updateMemo((Memo(
+                            title: _titleController.text,
+                            contents: _contentController.text,
+                            id: widget.memo.id,
+                          )));
 
-                            DBHelper().updateMemo((Memo(
-                              title: _titleController.text,
-                              contents: _contentController.text,
-                              id: widget.memo.id,
-                            )));
-
-                            DBHelper().getMemo(widget.memo.id).then((value) {
-                              Navigator.pop(this.context, PopValue('modifyed', value));
-                            });
-                          }),
-                    ],
-                  ),
-                ],
-              ),
+                          DBHelper().getMemo(widget.memo.id).then((value) {
+                            Navigator.pop(
+                                this.context, PopValue('modifyed', value));
+                          });
+                        }),
+                  ],
+                ),
+              ],
             ),
           ),
         ],
@@ -117,7 +119,7 @@ class _ModifyMemoPageState extends State<ModifyMemoPage> {
   }
 }
 
-class PopValue{
+class PopValue {
   String type;
   Memo updatedMemo;
 

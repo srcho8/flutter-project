@@ -84,7 +84,7 @@ class _CalendarPageState extends State<CalendarPage>
   Future<Map<DateTime, List>> _fetchList({DateTime day}) async {
     _memoList = await DBHelper().getAllMemos();
 
-    if(day != null) {
+    if (day != null) {
       _selects = _memoList
           .where((v) {
             var tdate = DateTime(day.year, day.month, day.day).toString();
@@ -128,25 +128,23 @@ class _CalendarPageState extends State<CalendarPage>
     }
   }
 
-  void _onDaySelected(
-      DateTime day, List holidays, List<Memo> _memoList) {
+  void _onDaySelected(DateTime day, List holidays, List<Memo> _memoList) {
     print('CALLBACK: _onDaySelected');
     setState(() {
       _selects = _memoList
           .where((v) {
-        var tdate = DateTime(day.year, day.month, day.day).toString();
-        var sdate = DateTime(
-            ToDate(v.datetime).stringToDate().year,
-            ToDate(v.datetime).stringToDate().month,
-            ToDate(v.datetime).stringToDate().day)
-            .toString();
+            var tdate = DateTime(day.year, day.month, day.day).toString();
+            var sdate = DateTime(
+                    ToDate(v.datetime).stringToDate().year,
+                    ToDate(v.datetime).stringToDate().month,
+                    ToDate(v.datetime).stringToDate().day)
+                .toString();
 
-        return tdate == sdate;
-      })
+            return tdate == sdate;
+          })
           .map((e) => e)
           .toList();
     });
-
   }
 
   void _onVisibleDaysChanged(
@@ -289,11 +287,8 @@ class _CalendarPageState extends State<CalendarPage>
               },
             ),
             onDaySelected: (date, events, holidays) {
-
-
-                _onDaySelected(date, holidays, _memoList);
-                _animationController.forward(from: 0.0);
-
+              _onDaySelected(date, holidays, _memoList);
+              _animationController.forward(from: 0.0);
             },
             onVisibleDaysChanged: _onVisibleDaysChanged,
             onCalendarCreated: _onCalendarCreated,
@@ -359,30 +354,30 @@ class _CalendarPageState extends State<CalendarPage>
         future: _fetchList(),
         builder: (context, snap) {
           return ListView(
-          children: _selects
-              .map((event) => Container(
-                    height: 30,
-                    decoration: BoxDecoration(
-                      border: Border.all(width: 0.8),
-                      borderRadius: BorderRadius.circular(12.0),
-                    ),
-                    margin:
-                        const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
-                    child: InkWell(
-                      onTap: () {
-                        DBHelper().getMemo(event.id).then((value) => Navigator.push(
-                            context, FadeRoute(page: SavedMemoPage(value))));
-                      },
-                      child: Container(
-                          margin: EdgeInsets.only(left: 8, right: 4),
-                          alignment: Alignment.centerLeft,
-                          child: Text(event.title)),
-                    ),
-                  ))
-              .toList(),
-        );
-      }
-    );
+            children: _selects
+                .map((event) => Container(
+                      height: 30,
+                      decoration: BoxDecoration(
+                        border: Border.all(width: 0.8),
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 10.0, vertical: 4.0),
+                      child: InkWell(
+                        onTap: () {
+                          DBHelper().getMemo(event.id).then((value) =>
+                              Navigator.push(context,
+                                  FadeRoute(page: SavedMemoPage(value))));
+                        },
+                        child: Container(
+                            margin: EdgeInsets.only(left: 8, right: 4),
+                            alignment: Alignment.centerLeft,
+                            child: Text(event.title)),
+                      ),
+                    ))
+                .toList(),
+          );
+        });
   }
 
   Widget _stickyList() {
@@ -459,8 +454,6 @@ class _CalendarPageState extends State<CalendarPage>
                     curve: Curves.fastOutSlowIn,
                     duration: Duration(seconds: 1),
                   );
-
-
                 },
                 onTap: () {
                   Navigator.push(

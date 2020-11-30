@@ -82,67 +82,68 @@ class _MemoPageState extends State<MemoPage> {
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Expanded(
-                child: Column(
-                  children: [
-                    TextField(
-                      controller: _titleController,
-                      maxLines: 1,
+              child: Column(
+                children: [
+                  TextField(
+                    controller: _titleController,
+                    maxLines: 1,
+                    decoration: InputDecoration(
+                      alignLabelWithHint: true,
+                      labelStyle: TextStyle(
+                        fontSize: 14,
+                      ),
+                      labelText: 'Title',
+                    ),
+                  ),
+                  Container(
+                    height: 300,
+                    child: TextField(
+                      controller: _contentController,
+                      maxLines: null,
+                      expands: true,
+                      keyboardType: TextInputType.multiline,
                       decoration: InputDecoration(
                         alignLabelWithHint: true,
                         labelStyle: TextStyle(
                           fontSize: 14,
                         ),
-                        labelText: 'Title',
+                        labelText: 'Enter your InsFire',
                       ),
                     ),
-                    Container(
-                      height: 300,
-                      child: TextField(
-                        controller: _contentController,
-                        maxLines: null,
-                        expands: true,
-                        keyboardType: TextInputType.multiline,
-                        decoration: InputDecoration(
-                          alignLabelWithHint: true,
-                          labelStyle: TextStyle(
-                            fontSize: 14,
-                          ),
-                          labelText: 'Enter your InsFire',
-                        ),
-                      ),
-                    ),
-                    ButtonBar(
-                      alignment: MainAxisAlignment.end,
-                      children: [
-                        OutlinedButton(
-                            child: Text('닫기', style: TextStyle(color: Colors.black)),
-                            onPressed: () {
-                              Navigator.pop(context);
-                            }),
-                        OutlinedButton(
-                            child: Text('저장', style: TextStyle(color: Colors.black)),
-                            onPressed: () {
-                              if(_titleController.text.isEmpty){
-                                Flushbar(
-                                  title: "InsFire",
-                                  message: "제목이 비어있어요.",
-                                  duration: Duration(seconds: 2),
-                                )..show(context);
-                              }else {
-                                DBHelper().createData((Memo(
-                                    title: _titleController.text,
-                                    contents: _contentController.text,
-                                    imageurl: _base64,
-                                    datetime: DateFormat('yyyy-MM-dd HH:mm:ss')
-                                        .format(DateTime.now()))));
+                  ),
+                  ButtonBar(
+                    alignment: MainAxisAlignment.end,
+                    children: [
+                      OutlinedButton(
+                          child:
+                              Text('닫기', style: TextStyle(color: Colors.black)),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          }),
+                      OutlinedButton(
+                          child:
+                              Text('저장', style: TextStyle(color: Colors.black)),
+                          onPressed: () {
+                            if (_titleController.text.isEmpty) {
+                              Flushbar(
+                                title: "InsFire",
+                                message: "제목이 비어있어요.",
+                                duration: Duration(seconds: 2),
+                              )..show(context);
+                            } else {
+                              DBHelper().createData((Memo(
+                                  title: _titleController.text,
+                                  contents: _contentController.text,
+                                  imageurl: _base64,
+                                  datetime: DateFormat('yyyy-MM-dd HH:mm:ss')
+                                      .format(DateTime.now()))));
 
-                                Navigator.pop(this.context, 'saved');
-                              }}),
-                      ],
-                    ),
-                  ],
-                ),
+                              Navigator.pop(this.context, 'saved');
+                            }
+                          }),
+                    ],
+                  ),
+                ],
               ),
             ),
           ],

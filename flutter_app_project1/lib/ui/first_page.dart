@@ -4,6 +4,7 @@ import 'package:flutter_app_project1/provider/provider_homepage.dart';
 import 'package:provider/provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:flutter/services.dart';
 
 class FirstPage extends StatefulWidget {
   @override
@@ -15,6 +16,8 @@ class _FirstPageState extends State<FirstPage> {
   @override
   void initState() {
     super.initState();
+    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
+
     DBHelper().initDB();
   }
 
