@@ -3,6 +3,7 @@ import 'package:flutter_app_project1/faderoute.dart';
 import 'package:flutter_app_project1/ui/first_page.dart';
 import 'package:flutter_app_project1/sign_in.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -14,14 +15,15 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Colors.white,
+        color: Colors.blueGrey,
         child: Center(
           child: Column(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              FlutterLogo(size: 150),
-              SizedBox(height: 50),
+              Image.asset("images/fire.png", height: 150,),
+              Text('InsFire', style: GoogleFonts.indieFlower(color: Colors.white, fontSize: 30),),
+              SizedBox(height: 20,),
               SignInButton(
                 Buttons.GoogleDark,
                 text: "Sign up with Google",

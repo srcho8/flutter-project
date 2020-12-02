@@ -1,41 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_project1/model/memo.dart';
-import 'package:flutter_app_project1/provider/provider_memolist.dart';
+import 'package:flutter_app_project1/provider/provider_pexels.dart';
 import 'package:flutter_app_project1/ui/first_page.dart';
 import 'package:flutter_app_project1/provider/provider_homepage.dart';
+import 'package:flutter_app_project1/ui/insfire_page.dart';
+import 'package:flutter_app_project1/ui/stat_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:provider/provider.dart';
 import 'package:splash_screen_view/SplashScreenView.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 
+import 'menu_dashboard_layout/menu_dashboard_layout.dart';
 import 'ui/login_page.dart';
 
 void main() {
   SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
 
-  initializeDateFormatting().then((_) => runApp(MyApp()));
+  initializeDateFormatting().then((_) => runApp(ProviderScope(child: MyApp())));
 }
 
 class MyApp extends StatelessWidget {
 
-  List<Memo> _memoList = [];
-
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => FirstPageIndex()),
-        ChangeNotifierProvider(create: (_) => MemoProvider(_memoList))
-      ],
-      child: MaterialApp(
+    return MaterialApp(
           title: 'InsFire Main',
+          debugShowCheckedModeBanner: false,
           theme: ThemeData(
             primaryColor: Colors.blueGrey,
           ),
           home: SplashScreenView(
-            home: FirstPage(),
+            home: InsFirePage(),
             duration: 3000,
             imageSize: 150,
             imageSrc: "images/fire.png",
@@ -47,26 +43,6 @@ class MyApp extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
             backgroundColor: Colors.blueGrey,
-          )),
-    );
-  }
-}
-
-
-class Splash extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Image.asset('images/fire.png'),
-          Text(
-            'InsFire',
-            style: GoogleFonts.indieFlower(),
-          ),
-        ],
-      ),
-    );
+          ));
   }
 }
