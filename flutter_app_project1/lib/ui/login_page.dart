@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_project1/faderoute.dart';
-import 'package:flutter_app_project1/ui/first_page.dart';
+import 'package:flutter_app_project1/menu_dashboard_layout/menu_dashboard_layout.dart';
 import 'package:flutter_app_project1/sign_in.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -32,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
                     if (result != null) {
                       Navigator.push(
                         context,
-                        FadeRoute(page: FirstPage()),
+                        FadeRoute(page: MenuDashboardLayout()),
                       );
                     }
                   });

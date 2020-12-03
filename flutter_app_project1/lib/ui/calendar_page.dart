@@ -5,7 +5,6 @@ import 'package:flutter_app_project1/db/database_helper.dart';
 import 'package:flutter_app_project1/extentions/extentions.dart';
 import 'package:flutter_app_project1/faderoute.dart';
 import 'package:flutter_app_project1/model/memo.dart';
-import 'package:flutter_app_project1/provider/provider_homepage.dart';
 import 'package:flutter_app_project1/ui/saved_memo_page.dart';
 import 'package:intl/intl.dart';
 import 'package:sqflite/sqflite.dart';
@@ -16,7 +15,7 @@ import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 // holidays
 final Map<DateTime, List> _holidays = {};
 
-class CalendarPage extends StatefulWidget with NavigationStates {
+class CalendarPage extends StatefulWidget {
   final Function onMenuTap;
 
   const CalendarPage({Key key, this.onMenuTap}) : super(key: key);

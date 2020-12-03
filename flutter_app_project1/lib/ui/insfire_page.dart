@@ -1,21 +1,23 @@
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_project1/faderoute.dart';
 import 'package:flutter_app_project1/model/photo.dart';
-import 'package:flutter_app_project1/provider/provider_pexels.dart';
 import 'package:flutter_app_project1/provider/state_manager.dart';
-import 'package:flutter_app_project1/ui/detail_page.dart';
+import 'package:flutter_app_project1/ui/detail_memo_page.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../faderoute.dart';
 
 class InsFirePage extends ConsumerWidget {
+
   Icon actionIcon = new Icon(Icons.search);
   Widget appBarTitle = new Text("InsFire");
   final TextEditingController _textController = new TextEditingController();
   final iconProvider = ChangeNotifierProvider<IconStateChangeNotifier>((ref) {
     return IconStateChangeNotifier();
   });
+
+
 
   @override
   Widget build(BuildContext context, watch) {
@@ -42,13 +44,13 @@ class InsFirePage extends ConsumerWidget {
                               this.appBarTitle = new TextField(
                                 controller: _textController,
                                 onSubmitted: (String str) {
-                                  if(str.isEmpty) {
+                                  if (str.isEmpty) {
                                     Flushbar(
                                       title: "InsFire",
                                       message: "보고 싶은 사진 키워드를 입력하세요.",
                                       duration: Duration(seconds: 2),
                                     )..show(context);
-                                  }else{
+                                  } else {
                                     searchKey.state = str;
                                   }
                                 },

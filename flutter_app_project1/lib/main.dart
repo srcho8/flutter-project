@@ -1,18 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_project1/provider/provider_pexels.dart';
-import 'package:flutter_app_project1/ui/first_page.dart';
-import 'package:flutter_app_project1/provider/provider_homepage.dart';
-import 'package:flutter_app_project1/ui/insfire_page.dart';
-import 'package:flutter_app_project1/ui/stat_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:splash_screen_view/SplashScreenView.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-
 import 'menu_dashboard_layout/menu_dashboard_layout.dart';
-import 'ui/login_page.dart';
 
 void main() {
   SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
@@ -31,15 +24,15 @@ class MyApp extends StatelessWidget {
             primaryColor: Colors.blueGrey,
           ),
           home: SplashScreenView(
-            home: InsFirePage(),
-            duration: 3000,
+            home: MenuDashboardLayout(),
+            duration: 2500,
             imageSize: 150,
             imageSrc: "images/fire.png",
             text: "InsFire",
             textType: TextType.TyperAnimatedText,
             textStyle: GoogleFonts.indieFlower(
               fontSize: 30.0,
-              color: Colors.white,
+              color: Colors.white70,
               fontWeight: FontWeight.bold,
             ),
             backgroundColor: Colors.blueGrey,
