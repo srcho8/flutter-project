@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_project1/menu_dashboard_layout/dashboard.dart';
 import 'package:flutter_app_project1/provider/state_manager.dart';
+import 'package:flutter_app_project1/ui/calendar_page.dart';
+import 'package:flutter_app_project1/ui/insfire_page.dart';
+import 'package:flutter_app_project1/ui/stat_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'menu.dart';
@@ -14,9 +17,9 @@ class MenuDashboardLayout extends StatefulWidget {
 
 class _MenuDashboardLayoutState extends State<MenuDashboardLayout>
     with SingleTickerProviderStateMixin {
-  bool isCollapsed = true;
   double screenWidth, screenHeight;
   final Duration duration = const Duration(milliseconds: 300);
+  bool isCollapsed = true;
   AnimationController _controller;
   Animation<double> _scaleAnimation;
   Animation<double> _menuScaleAnimation;
@@ -39,37 +42,10 @@ class _MenuDashboardLayoutState extends State<MenuDashboardLayout>
     super.dispose();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    screenHeight = size.height;
-    screenWidth = size.width;
+  void onMenuItemClicked() {
+    _controller.reverse();
 
-    return Scaffold(
-      backgroundColor: backgroundColor,
-      body: Consumer(
-        builder: (context, watch, child) {
-          Widget pages = watch(pageState).state;
-          int _selectedPage = watch(pageProvider).state;
-          return Stack(
-            children: <Widget>[
-              Menu(
-                  slideAnimation: _slideAnimation,
-                  menuAnimation: _menuScaleAnimation,
-                  selectedIndex: _selectedPage,
-                  onMenuItemClicked: onMenuItemClicked),
-              Dashboard(
-                  duration: duration,
-                  onMenuTap: onMenuTap,
-                  scaleAnimation: _scaleAnimation,
-                  isCollapsed: isCollapsed,
-                  screenWidth: screenWidth,
-                  child: pages),
-            ],
-          );
-        },
-      ),
-    );
+    isCollapsed = !isCollapsed;
   }
 
   void onMenuTap() {
@@ -83,9 +59,58 @@ class _MenuDashboardLayoutState extends State<MenuDashboardLayout>
     });
   }
 
-  void onMenuItemClicked() {
-    _controller.reverse();
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    screenHeight = size.height;
+    screenWidth = size.width;
 
-    isCollapsed = !isCollapsed;
+    final pageState = StateProvider<Widget>((ref) {
+      Widget _selectedWidget;
+      int _pages = ref.watch(pageProvider).state;
+
+      switch (_pages) {
+        case 0:
+          return StatPage(onMenuTap: this.onMenuTap);
+          break;
+        case 1:
+          return InsFirePage(onMenuTap: this.onMenuTap);
+          break;
+        case 2:
+          return CalendarPage(onMenuTap: this.onMenuTap);
+          break;
+      }
+
+      return _selectedWidget;
+    });
+
+    return Scaffold(
+      backgroundColor: backgroundColor,
+      body: Consumer(
+        builder: (context, watch, child) {
+          Widget pages = watch(pageState).state;
+          int _selectedPage = watch(pageProvider).state;
+          //bool isCollapsed = watch(isCollapsedState).state;
+
+          return Stack(
+            children: <Widget>[
+              Menu(
+                slideAnimation: _slideAnimation,
+                menuAnimation: _menuScaleAnimation,
+                selectedIndex: _selectedPage,
+                onMenuItemClicked: onMenuItemClicked,
+              ),
+              Dashboard(
+                  duration: duration,
+                  onMenuTap: onMenuTap,
+                  scaleAnimation: _scaleAnimation,
+                  isCollapsed: isCollapsed,
+                  screenWidth: screenWidth,
+                  child: pages),
+            ],
+          );
+        },
+      ),
+    );
   }
 }

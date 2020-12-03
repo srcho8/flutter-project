@@ -36,31 +36,4 @@ class IconStateChangeNotifier extends ChangeNotifier {
   }
 }
 
-final pageState = StateProvider<Widget>((ref) {
-  Widget _selectedWidget;
-  int _pages = ref.watch(pageProvider).state;
 
-  switch (_pages) {
-    case 0:
-      return StatPage();
-      break;
-    case 1:
-      return InsFirePage();
-      break;
-    case 2:
-      return CalendarPage();
-      break;
-  }
-
-  return _selectedWidget;
-});
-
-// class onMenuTapState extends ChangeNotifier {
-//   final Function onTap;
-//
-//
-// }
-//
-// class onMenuItemClickedState extends ChangeNotifier {
-//
-// }

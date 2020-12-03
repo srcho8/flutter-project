@@ -14,28 +14,27 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-          title: 'InsFire Main',
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            primaryColor: Colors.blueGrey,
+        title: 'InsFire Main',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primaryColor: Colors.blueGrey,
+        ),
+        home: SplashScreenView(
+          home: MenuDashboardLayout(),
+          duration: 2500,
+          imageSize: 150,
+          imageSrc: "images/fire.png",
+          text: "InsFire",
+          textType: TextType.TyperAnimatedText,
+          textStyle: GoogleFonts.indieFlower(
+            fontSize: 30.0,
+            color: Colors.white70,
+            fontWeight: FontWeight.bold,
           ),
-          home: SplashScreenView(
-            home: MenuDashboardLayout(),
-            duration: 2500,
-            imageSize: 150,
-            imageSrc: "images/fire.png",
-            text: "InsFire",
-            textType: TextType.TyperAnimatedText,
-            textStyle: GoogleFonts.indieFlower(
-              fontSize: 30.0,
-              color: Colors.white70,
-              fontWeight: FontWeight.bold,
-            ),
-            backgroundColor: Colors.blueGrey,
-          ));
+          backgroundColor: Colors.blueGrey,
+        ));
   }
 }

@@ -7,8 +7,10 @@ import 'package:flutter_app_project1/ui/detail_memo_page.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-
 class InsFirePage extends ConsumerWidget {
+  final Function onMenuTap;
+
+  InsFirePage({Key key, this.onMenuTap}) : super(key: key);
 
   Icon actionIcon = new Icon(Icons.search);
   Widget appBarTitle = new Text("InsFire");
@@ -16,8 +18,6 @@ class InsFirePage extends ConsumerWidget {
   final iconProvider = ChangeNotifierProvider<IconStateChangeNotifier>((ref) {
     return IconStateChangeNotifier();
   });
-
-
 
   @override
   Widget build(BuildContext context, watch) {

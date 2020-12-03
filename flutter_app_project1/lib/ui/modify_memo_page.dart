@@ -1,10 +1,8 @@
 import 'dart:convert';
-import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_app_project1/db/database_helper.dart';
 import 'package:flutter_app_project1/model/memo.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class ModifyMemoPage extends StatefulWidget {
   final Memo memo;

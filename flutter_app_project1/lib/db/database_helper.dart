@@ -52,13 +52,19 @@ class DBHelper {
     final db = await database;
     var res = await db.rawQuery('SELECT * FROM $TableName WHERE id = ?', [id]);
     return res.isNotEmpty
-        ? Memo(id: res.first['id'], title: res.first['title'], contents: res.first['contents'], imageurl: res.first['imageurl'], datetime: res.first['datetime'])
+        ? Memo(
+            id: res.first['id'],
+            title: res.first['title'],
+            contents: res.first['contents'],
+            imageurl: res.first['imageurl'],
+            datetime: res.first['datetime'])
         : Null;
   }
 
   getMemoWithtitle(String title) async {
     final db = await database;
-    var res = await db.rawQuery("SELECT * FROM $TableName WHERE title = ?", [title]);
+    var res =
+        await db.rawQuery("SELECT * FROM $TableName WHERE title = ?", [title]);
     return res.isNotEmpty
         ? Memo(id: res.first['id'], title: res.first['title'])
         : Null;
@@ -69,7 +75,14 @@ class DBHelper {
     final db = await database;
     var res = await db.rawQuery('SELECT * FROM $TableName');
     List<Memo> list = res.isNotEmpty
-        ? res.map((c) => Memo(id: c['id'], title: c['title'], contents: c['contents'],imageurl: c['imageurl'],datetime: c['datetime'])).toList()
+        ? res
+            .map((c) => Memo(
+                id: c['id'],
+                title: c['title'],
+                contents: c['contents'],
+                imageurl: c['imageurl'],
+                datetime: c['datetime']))
+            .toList()
         : [];
 
     return list;
@@ -91,7 +104,9 @@ class DBHelper {
   //Update
   updateMemo(Memo memo) async {
     final db = await database;
-    var res = db.rawUpdate('UPDATE $TableName SET title = ?, contents = ? WHERE id = ?', [memo.title, memo.contents, memo.id]);
+    var res = db.rawUpdate(
+        'UPDATE $TableName SET title = ?, contents = ? WHERE id = ?',
+        [memo.title, memo.contents, memo.id]);
     return res;
   }
 }

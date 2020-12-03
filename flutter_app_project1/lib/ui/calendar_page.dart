@@ -6,8 +6,6 @@ import 'package:flutter_app_project1/extentions/extentions.dart';
 import 'package:flutter_app_project1/faderoute.dart';
 import 'package:flutter_app_project1/model/memo.dart';
 import 'package:flutter_app_project1/ui/saved_memo_page.dart';
-import 'package:intl/intl.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:sticky_grouped_list/sticky_grouped_list.dart';
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';

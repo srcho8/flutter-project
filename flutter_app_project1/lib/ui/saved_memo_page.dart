@@ -1,13 +1,10 @@
 import 'dart:convert';
-import 'dart:typed_data';
 
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_project1/db/database_helper.dart';
 import 'package:flutter_app_project1/faderoute.dart';
 import 'package:flutter_app_project1/model/memo.dart';
 import 'package:flutter_app_project1/ui/modify_memo_page.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class SavedMemoPage extends StatefulWidget {
   Memo memo;

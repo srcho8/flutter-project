@@ -5,7 +5,13 @@ class Memo {
   String imageurl;
   String datetime;
 
-  Memo({this.id, this.title, this.contents, this.imageurl, this.datetime,});
+  Memo({
+    this.id,
+    this.title,
+    this.contents,
+    this.imageurl,
+    this.datetime,
+  });
 
   Memo.fromJson(Map<String, dynamic> json) {
     id = json["id"];
@@ -37,7 +43,7 @@ class Memo {
     map["imageurl"] = imageurl;
     map["datetime"] = datetime;
 
-    if(id != null) {
+    if (id != null) {
       map["id"] = id;
     }
     return map;

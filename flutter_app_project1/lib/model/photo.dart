@@ -4,11 +4,7 @@ class Photo {
   List<Photos> photos;
   String nextPage;
 
-  Photo({
-      this.page, 
-      this.perPage, 
-      this.photos, 
-      this.nextPage});
+  Photo({this.page, this.perPage, this.photos, this.nextPage});
 
   Photo.fromJson(dynamic json) {
     page = json["page"];
@@ -32,7 +28,6 @@ class Photo {
     map["next_page"] = nextPage;
     return map;
   }
-
 }
 
 class Photos {
@@ -46,15 +41,15 @@ class Photos {
   Src src;
   bool liked;
 
-  Photos({
-      this.id, 
-      this.width, 
-      this.height, 
-      this.url, 
-      this.photographer, 
-      this.photographerUrl, 
-      this.photographerId, 
-      this.src, 
+  Photos(
+      {this.id,
+      this.width,
+      this.height,
+      this.url,
+      this.photographer,
+      this.photographerUrl,
+      this.photographerId,
+      this.src,
       this.liked});
 
   Photos.fromJson(dynamic json) {
@@ -84,7 +79,6 @@ class Photos {
     map["liked"] = liked;
     return map;
   }
-
 }
 
 class Src {
@@ -97,14 +91,14 @@ class Src {
   String landscape;
   String tiny;
 
-  Src({
-      this.original, 
-      this.large2x, 
-      this.large, 
-      this.medium, 
-      this.small, 
-      this.portrait, 
-      this.landscape, 
+  Src(
+      {this.original,
+      this.large2x,
+      this.large,
+      this.medium,
+      this.small,
+      this.portrait,
+      this.landscape,
       this.tiny});
 
   Src.fromJson(dynamic json) {
@@ -130,5 +124,4 @@ class Src {
     map["tiny"] = tiny;
     return map;
   }
-
 }

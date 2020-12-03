@@ -8,7 +8,13 @@ class Menu extends StatelessWidget {
   final int selectedIndex;
   final Function onMenuItemClicked;
 
-  const Menu({Key key, this.slideAnimation, this.menuAnimation, this.selectedIndex, @required this.onMenuItemClicked}) : super(key: key);
+  const Menu(
+      {Key key,
+      this.slideAnimation,
+      this.menuAnimation,
+      this.selectedIndex,
+      @required this.onMenuItemClicked})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +27,8 @@ class Menu extends StatelessWidget {
           child: Align(
             alignment: Alignment.centerLeft,
             child: Consumer(
-              builder: (context, watch, child){
-                int _selectPage = watch(pageProvider).state;
+              builder: (context, watch, child) {
+                var a = watch(pageProvider);
 
                 return Column(
                   mainAxisSize: MainAxisSize.min,
@@ -31,7 +37,7 @@ class Menu extends StatelessWidget {
                   children: <Widget>[
                     GestureDetector(
                       onTap: () {
-                        _selectPage = 0;
+                        a.state = 0;
                         onMenuItemClicked();
                       },
                       child: Text(
@@ -39,14 +45,16 @@ class Menu extends StatelessWidget {
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 22,
-                          fontWeight: selectedIndex == 0 ? FontWeight.w900 : FontWeight.normal,
+                          fontWeight: selectedIndex == 0
+                              ? FontWeight.w900
+                              : FontWeight.normal,
                         ),
                       ),
                     ),
                     SizedBox(height: 30),
                     GestureDetector(
                       onTap: () {
-                        _selectPage = 1;
+                        a.state = 1;
                         onMenuItemClicked();
                       },
                       child: Text(
@@ -54,14 +62,16 @@ class Menu extends StatelessWidget {
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 22,
-                          fontWeight: selectedIndex == 1 ? FontWeight.w900 : FontWeight.normal,
+                          fontWeight: selectedIndex == 1
+                              ? FontWeight.w900
+                              : FontWeight.normal,
                         ),
                       ),
                     ),
                     SizedBox(height: 30),
                     GestureDetector(
                       onTap: () {
-                        _selectPage = 2;
+                        a.state = 2;
                         onMenuItemClicked();
                       },
                       child: Text(
@@ -69,14 +79,18 @@ class Menu extends StatelessWidget {
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 22,
-                          fontWeight: selectedIndex == 2 ? FontWeight.w900 : FontWeight.normal,
+                          fontWeight: selectedIndex == 2
+                              ? FontWeight.w900
+                              : FontWeight.normal,
                         ),
                       ),
                     ),
                     SizedBox(height: 30),
-                    Text("Funds Transfer", style: TextStyle(color: Colors.white, fontSize: 22)),
+                    Text("Funds Transfer",
+                        style: TextStyle(color: Colors.white, fontSize: 22)),
                     SizedBox(height: 30),
-                    Text("Branches", style: TextStyle(color: Colors.white, fontSize: 22)),
+                    Text("Branches",
+                        style: TextStyle(color: Colors.white, fontSize: 22)),
                   ],
                 );
               },
