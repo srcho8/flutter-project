@@ -30,6 +30,10 @@ class InsFirePage extends ConsumerWidget {
             data: (data) {
               return CustomScrollView(slivers: [
                 SliverAppBar(
+                    leading: InkWell(
+                      child: Icon(Icons.menu, color: Colors.white),
+                      onTap: onMenuTap,
+                    ),
                     centerTitle: true,
                     title: appBarTitle,
                     floating: true,

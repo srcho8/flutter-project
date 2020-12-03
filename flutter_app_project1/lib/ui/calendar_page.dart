@@ -164,6 +164,10 @@ class _CalendarPageState extends State<CalendarPage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+          leading: InkWell(
+            child: Icon(Icons.menu, color: Colors.white),
+            onTap: widget.onMenuTap,
+          ),
           title: Text('InsFire Box'),
           centerTitle: true,
           actions: <Widget>[
@@ -359,7 +363,7 @@ class _CalendarPageState extends State<CalendarPage>
                       height: 30,
                       decoration: BoxDecoration(
                         border: Border.all(width: 0.8),
-                        borderRadius: BorderRadius.circular(12.0),
+                        borderRadius: BorderRadius.circular(4.0),
                       ),
                       margin: const EdgeInsets.symmetric(
                           horizontal: 10.0, vertical: 4.0),

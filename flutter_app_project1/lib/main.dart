@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
         title: 'InsFire Main',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
+          scaffoldBackgroundColor: Colors.white,
           primaryColor: Colors.blueGrey,
         ),
         home: SplashScreenView(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_app_project1/menu_dashboard_layout/dashboard.dart';
 import 'package:flutter_app_project1/provider/state_manager.dart';
 import 'package:flutter_app_project1/ui/calendar_page.dart';
@@ -18,7 +19,7 @@ class MenuDashboardLayout extends StatefulWidget {
 class _MenuDashboardLayoutState extends State<MenuDashboardLayout>
     with SingleTickerProviderStateMixin {
   double screenWidth, screenHeight;
-  final Duration duration = const Duration(milliseconds: 300);
+  final Duration duration = const Duration(milliseconds: 1000);
   bool isCollapsed = true;
   AnimationController _controller;
   Animation<double> _scaleAnimation;
@@ -28,6 +29,7 @@ class _MenuDashboardLayoutState extends State<MenuDashboardLayout>
   @override
   void initState() {
     super.initState();
+    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
     _controller = AnimationController(vsync: this, duration: duration);
     _scaleAnimation = Tween<double>(begin: 1, end: 0.8).animate(_controller);
     _menuScaleAnimation =
@@ -90,7 +92,6 @@ class _MenuDashboardLayoutState extends State<MenuDashboardLayout>
         builder: (context, watch, child) {
           Widget pages = watch(pageState).state;
           int _selectedPage = watch(pageProvider).state;
-          //bool isCollapsed = watch(isCollapsedState).state;
 
           return Stack(
             children: <Widget>[
