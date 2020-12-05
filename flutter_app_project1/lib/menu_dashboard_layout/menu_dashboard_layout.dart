@@ -5,6 +5,7 @@ import 'package:flutter_app_project1/provider/state_manager.dart';
 import 'package:flutter_app_project1/ui/calendar_page.dart';
 import 'package:flutter_app_project1/ui/insfire_page.dart';
 import 'package:flutter_app_project1/ui/stat_page.dart';
+import 'package:flutter_app_project1/ui/sticky_list_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'menu.dart';
@@ -19,7 +20,7 @@ class MenuDashboardLayout extends StatefulWidget {
 class _MenuDashboardLayoutState extends State<MenuDashboardLayout>
     with SingleTickerProviderStateMixin {
   double screenWidth, screenHeight;
-  final Duration duration = const Duration(milliseconds: 1000);
+  final Duration duration = const Duration(milliseconds: 500);
   bool isCollapsed = true;
   AnimationController _controller;
   Animation<double> _scaleAnimation;
@@ -80,6 +81,9 @@ class _MenuDashboardLayoutState extends State<MenuDashboardLayout>
           break;
         case 2:
           return CalendarPage(onMenuTap: this.onMenuTap);
+          break;
+        case 3:
+          return StickyListPage(onMenuTap: this.onMenuTap);
           break;
       }
 

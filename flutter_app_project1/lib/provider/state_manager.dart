@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_project1/menu_dashboard_layout/menu_dashboard_layout.dart';
+import 'package:flutter_app_project1/db/database_helper.dart';
+import 'package:flutter_app_project1/model/memo.dart';
 import 'package:flutter_app_project1/model/photo.dart';
 import 'package:flutter_app_project1/network/fetch_api.dart';
-import 'package:flutter_app_project1/ui/calendar_page.dart';
-import 'package:flutter_app_project1/ui/insfire_page.dart';
-import 'package:flutter_app_project1/ui/stat_page.dart';
 import 'package:flutter_riverpod/all.dart';
 
 final photoStateFuture = FutureProvider<List<Photos>>((ref) {
@@ -36,4 +34,21 @@ class IconStateChangeNotifier extends ChangeNotifier {
   }
 }
 
+final memoFetchListState = FutureProvider<List<Memo>>((ref) {
+  Future<List<Memo>> _memoList;
+  _memoList = DBHelper().getAllMemos();
+  return _memoList;
+});
 
+final streamMemo = StreamProvider<List<Memo>>((ref){
+  Stream<List<Memo>> memos = DBHelper().getAllMemosStream();
+  return memos;
+});
+
+class MemoListStateNotifier extends StateNotifier<List<Memo>>{
+  MemoListStateNotifier(List<Memo> memoList) : super(memoList);
+  
+  void reset(List<Memo> memoList){
+    state = memoList;
+  }
+}

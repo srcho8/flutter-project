@@ -51,7 +51,7 @@ class _SavedMemoPageState extends State<SavedMemoPage> {
               child: ClipRRect(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   child:
-                      Image.memory(Base64Codec().decode(widget.memo.imageurl))),
+                      Image.network(widget.memo.imageurl)),
             ),
           ),
           Padding(

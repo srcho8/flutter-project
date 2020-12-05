@@ -95,6 +95,23 @@ class DBHelper {
     return res;
   }
 
+  Future<List<Memo>> deleteMemoFuture(int id) async {
+    final db = await database;
+    db.rawDelete('DELETE FROM $TableName WHERE id = ?', [id]);
+    var res = await db.rawQuery('SELECT * FROM $TableName');
+    List<Memo> list = res.isNotEmpty
+        ? res
+        .map((c) => Memo(
+        id: c['id'],
+        title: c['title'],
+        contents: c['contents'],
+        imageurl: c['imageurl'],
+        datetime: c['datetime']))
+        .toList()
+        : [];
+    return list;
+  }
+
   //Delete All
   deleteAllMemos() async {
     final db = await database;
@@ -108,5 +125,22 @@ class DBHelper {
         'UPDATE $TableName SET title = ?, contents = ? WHERE id = ?',
         [memo.title, memo.contents, memo.id]);
     return res;
+  }
+
+  Stream<List<Memo>> getAllMemosStream() async* {
+    final db = await database;
+    var res = await db.rawQuery('SELECT * FROM $TableName');
+    List<Memo> list = res.isNotEmpty
+        ? res
+        .map((c) => Memo(
+        id: c['id'],
+        title: c['title'],
+        contents: c['contents'],
+        imageurl: c['imageurl'],
+        datetime: c['datetime']))
+        .toList()
+        : [];
+
+    yield list;
   }
 }

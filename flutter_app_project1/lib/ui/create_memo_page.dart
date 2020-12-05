@@ -34,7 +34,8 @@ class _MemoPageState extends State<MemoPage> {
       );
       if (mounted) {
         setState(() {
-          _base64 = Base64Codec().encode(response.bodyBytes);
+          _base64 = widget.photos.src.tiny;
+              //Base64Codec().encode(response.bodyBytes);
           _url = Base64Codec().decode(_base64);
         });
       }

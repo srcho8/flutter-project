@@ -41,7 +41,7 @@ class Menu extends StatelessWidget {
                         onMenuItemClicked();
                       },
                       child: Text(
-                        "Stats",
+                        "MyRoom",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 22,
@@ -75,7 +75,7 @@ class Menu extends StatelessWidget {
                         onMenuItemClicked();
                       },
                       child: Text(
-                        "Calendar",
+                        "InsFire Calendar",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 22,
@@ -86,8 +86,22 @@ class Menu extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 30),
-                    Text("Daily Inbox",
-                        style: TextStyle(color: Colors.white, fontSize: 22)),
+                    GestureDetector(
+                      onTap: () {
+                        a.state = 3;
+                        onMenuItemClicked();
+                      },
+                      child: Text(
+                        "Daily Inbox",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 22,
+                          fontWeight: selectedIndex == 3
+                              ? FontWeight.w900
+                              : FontWeight.normal,
+                        ),
+                      ),
+                    ),
                     // SizedBox(height: 30),
                     // Text("Branches",
                     //     style: TextStyle(color: Colors.white, fontSize: 22)),
