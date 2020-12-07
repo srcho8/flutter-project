@@ -25,7 +25,7 @@ class DBHelper {
 
   initDB() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentsDirectory.path, 'MemoL.db');
+    String path = join(documentsDirectory.path, 'Memo2.db');
 
     return await openDatabase(path, version: 1, onCreate: (db, version) async {
       await db.execute('''
@@ -34,7 +34,8 @@ class DBHelper {
             title TEXT,
             contents TEXT,
             imageurl TEXT,
-            datetime TEXT
+            datetime TEXT,
+            selected INTEGER
           )
         ''');
     }, onUpgrade: (db, oldVersion, newVersion) {});
@@ -57,7 +58,8 @@ class DBHelper {
             title: res.first['title'],
             contents: res.first['contents'],
             imageurl: res.first['imageurl'],
-            datetime: res.first['datetime'])
+            datetime: res.first['datetime'],
+            selected: res.first['selected'])
         : Null;
   }
 
@@ -81,7 +83,8 @@ class DBHelper {
                 title: c['title'],
                 contents: c['contents'],
                 imageurl: c['imageurl'],
-                datetime: c['datetime']))
+                datetime: c['datetime'],
+                selected: c['selected']))
             .toList()
         : [];
 
@@ -106,7 +109,8 @@ class DBHelper {
         title: c['title'],
         contents: c['contents'],
         imageurl: c['imageurl'],
-        datetime: c['datetime']))
+        datetime: c['datetime'],
+        selected: c['selected']))
         .toList()
         : [];
     return list;
@@ -118,12 +122,35 @@ class DBHelper {
     db.rawDelete('DELETE FROM $TableName');
   }
 
+  //Delete
+  deleteSelectedMemos() async {
+    final db = await database;
+    db.rawDelete('DELETE FROM $TableName WHERE selected = 1');
+  }
+
   //Update
   updateMemo(Memo memo) async {
     final db = await database;
     var res = db.rawUpdate(
         'UPDATE $TableName SET title = ?, contents = ? WHERE id = ?',
         [memo.title, memo.contents, memo.id]);
+    return res;
+  }
+
+  //Update
+  updateSelectedMemo(int state, int id) async {
+    final db = await database;
+    var res = db.rawUpdate(
+        'UPDATE $TableName SET selected = ? WHERE id = ?',
+        [state, id]);
+    return res;
+  }
+
+  //Update
+  updateSelectedAllMemo() async {
+    final db = await database;
+    var res = db.rawUpdate(
+        'UPDATE $TableName SET selected = 1');
     return res;
   }
 
@@ -137,7 +164,8 @@ class DBHelper {
         title: c['title'],
         contents: c['contents'],
         imageurl: c['imageurl'],
-        datetime: c['datetime']))
+        datetime: c['datetime'],
+        selected: c['selected']))
         .toList()
         : [];
 

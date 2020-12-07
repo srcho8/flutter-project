@@ -19,11 +19,54 @@ final keyProvider = StateProvider<String>((ref) {
   return '';
 });
 
+final inboxKeyProvider = StateProvider<String>((ref) {
+  return '';
+});
+
 final pageProvider = StateProvider<int>((ref) {
   return 0;
 });
 
+final selectedListProvider = StateProvider<int>((ref) {
+  return 0;
+});
+
+final isSelectedProvider = StateProvider<int>((ref) {
+  return 0;
+});
+
+class IsSelectedState extends StateNotifier<int>{
+  IsSelectedState() : super(0);
+
+  void change(int i){
+    state = i;
+  }
+
+}
+
 class IconStateChangeNotifier extends ChangeNotifier {
+  int _iconState = 0;
+
+  int get iconState => _iconState;
+
+  void change(int nu) {
+    _iconState = nu;
+    notifyListeners();
+  }
+}
+
+class StickySearchIconStateChangeNotifier extends ChangeNotifier {
+  int _iconState = 0;
+
+  int get iconState => _iconState;
+
+  void change(int nu) {
+    _iconState = nu;
+    notifyListeners();
+  }
+}
+
+class StickySelectIconStateChangeNotifier extends ChangeNotifier {
   int _iconState = 0;
 
   int get iconState => _iconState;
@@ -40,15 +83,30 @@ final memoFetchListState = FutureProvider<List<Memo>>((ref) {
   return _memoList;
 });
 
-final streamMemo = StreamProvider<List<Memo>>((ref){
+class SearchInboxState extends StateNotifier<List<Memo>>{
+  SearchInboxState([List<Memo> state, String key, int id]) : super(state);
+
+  void make(String key){
+    state = state.where((element) => element.title.contains(key));
+  }
+
+  void selected(int id){
+    state.where((element) => element.id == id);
+  }
+}
+
+final streamMemo = StreamProvider<List<Memo>>((ref) {
   Stream<List<Memo>> memos = DBHelper().getAllMemosStream();
   return memos;
 });
 
-class MemoListStateNotifier extends StateNotifier<List<Memo>>{
+class MemoListStateNotifier extends StateNotifier<List<Memo>> {
   MemoListStateNotifier(List<Memo> memoList) : super(memoList);
-  
-  void reset(List<Memo> memoList){
+
+  void reset(List<Memo> memoList) {
     state = memoList;
   }
 }
+
+
+

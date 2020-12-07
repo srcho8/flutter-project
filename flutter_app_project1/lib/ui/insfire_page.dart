@@ -69,7 +69,6 @@ class InsFirePage extends ConsumerWidget {
                                         new TextStyle(color: Colors.white)),
                               );
                               iconState.change(1);
-                              print(iconState.iconState.toString());
                             },
                           );
                         } else {

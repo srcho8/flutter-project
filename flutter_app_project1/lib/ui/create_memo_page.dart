@@ -23,7 +23,6 @@ class _MemoPageState extends State<MemoPage> {
   final _titleController = TextEditingController();
   final _contentController = TextEditingController();
   String _base64;
-  Uint8List _url;
 
   @override
   void initState() {
@@ -35,8 +34,7 @@ class _MemoPageState extends State<MemoPage> {
       if (mounted) {
         setState(() {
           _base64 = widget.photos.src.tiny;
-              //Base64Codec().encode(response.bodyBytes);
-          _url = Base64Codec().decode(_base64);
+          //Base64Codec().encode(response.bodyBytes);
         });
       }
     })();
@@ -137,7 +135,8 @@ class _MemoPageState extends State<MemoPage> {
                                   contents: _contentController.text,
                                   imageurl: _base64,
                                   datetime: DateFormat('yyyy-MM-dd HH:mm:ss')
-                                      .format(DateTime.now()))));
+                                      .format(DateTime.now()),
+                                  selected: 0)));
 
                               Navigator.pop(this.context, 'saved');
                             }
