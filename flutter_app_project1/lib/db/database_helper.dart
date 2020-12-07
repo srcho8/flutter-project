@@ -153,6 +153,12 @@ class DBHelper {
         'UPDATE $TableName SET selected = 1');
     return res;
   }
+  updateSelectedAllMemo_2() async {
+    final db = await database;
+    var res = db.rawUpdate(
+        'UPDATE $TableName SET selected = 0');
+    return res;
+  }
 
   Stream<List<Memo>> getAllMemosStream() async* {
     final db = await database;

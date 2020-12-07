@@ -4,7 +4,7 @@ import 'package:flutter_app_project1/menu_dashboard_layout/dashboard.dart';
 import 'package:flutter_app_project1/provider/state_manager.dart';
 import 'package:flutter_app_project1/ui/calendar_page.dart';
 import 'package:flutter_app_project1/ui/insfire_page.dart';
-import 'package:flutter_app_project1/ui/stat_page.dart';
+import 'package:flutter_app_project1/ui/myroom_page.dart';
 import 'package:flutter_app_project1/ui/sticky_list_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

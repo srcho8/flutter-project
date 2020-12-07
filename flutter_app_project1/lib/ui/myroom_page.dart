@@ -16,7 +16,6 @@ class StatPage extends StatefulWidget {
   _StatPageState createState() => _StatPageState();
 }
 
-
 class _StatPageState extends State<StatPage> {
   @override
   void initState() {

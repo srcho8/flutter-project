@@ -76,6 +76,16 @@ class StickySelectIconStateChangeNotifier extends ChangeNotifier {
     notifyListeners();
   }
 }
+class StickySelectAllIconStateChangeNotifier extends ChangeNotifier {
+  int _iconState = 0;
+
+  int get iconState => _iconState;
+
+  void change(int nu) {
+    _iconState = nu;
+    notifyListeners();
+  }
+}
 
 final memoFetchListState = FutureProvider<List<Memo>>((ref) {
   Future<List<Memo>> _memoList;

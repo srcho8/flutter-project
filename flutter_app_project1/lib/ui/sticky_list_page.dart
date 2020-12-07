@@ -32,6 +32,10 @@ class _StickyListPageState extends State<StickyListPage> {
       ChangeNotifierProvider<StickySelectIconStateChangeNotifier>((ref) {
     return StickySelectIconStateChangeNotifier();
   });
+  final selectAllIconProvider =
+      ChangeNotifierProvider<StickySelectAllIconStateChangeNotifier>((ref) {
+    return StickySelectAllIconStateChangeNotifier();
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +53,7 @@ class _StickyListPageState extends State<StickyListPage> {
               builder: (context, watch, child) {
                 var searchIcon = watch(searchIconProvider);
                 var selectIcon = watch(selectIconProvider);
+                var selectAllIcon = watch(selectAllIconProvider);
 
                 List<Memo> myList = snapshot.data;
                 myList = myList
@@ -157,8 +162,16 @@ class _StickyListPageState extends State<StickyListPage> {
                                       TextButton(
                                           onPressed: () {
                                             setState(() {
-                                              DBHelper()
-                                                  .updateSelectedAllMemo();
+                                              if (selectAllIcon.iconState ==
+                                                  0) {
+                                                DBHelper()
+                                                    .updateSelectedAllMemo();
+                                                selectAllIcon.change(1);
+                                              } else {
+                                                DBHelper()
+                                                    .updateSelectedAllMemo_2();
+                                                selectAllIcon.change(0);
+                                              }
                                             });
                                           },
                                           child: Text(
@@ -251,8 +264,6 @@ class _StickyListPageState extends State<StickyListPage> {
                                       DBHelper().updateSelectedMemo(
                                           element.selected, element.id);
                                     });
-
-                                    print('색칠');
                                   }
                                 },
                                 onLongPress: () {
