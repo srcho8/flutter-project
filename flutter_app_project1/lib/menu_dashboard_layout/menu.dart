@@ -35,12 +35,12 @@ class Menu extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    GestureDetector(
+                    ListTile(
                       onTap: () {
                         a.state = 0;
                         onMenuItemClicked();
                       },
-                      child: Text(
+                      title: Text(
                         "MyRoom",
                         style: TextStyle(
                           color: Colors.white,
@@ -51,13 +51,12 @@ class Menu extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 30),
-                    GestureDetector(
+                    ListTile(
                       onTap: () {
                         a.state = 1;
                         onMenuItemClicked();
                       },
-                      child: Text(
+                      title: Text(
                         "InsFire",
                         style: TextStyle(
                           color: Colors.white,
@@ -68,13 +67,12 @@ class Menu extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 30),
-                    GestureDetector(
+                    ListTile(
                       onTap: () {
                         a.state = 2;
                         onMenuItemClicked();
                       },
-                      child: Text(
+                      title: Text(
                         "InsFire Calendar",
                         style: TextStyle(
                           color: Colors.white,
@@ -85,13 +83,12 @@ class Menu extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 30),
-                    GestureDetector(
+                    ListTile(
                       onTap: () {
                         a.state = 3;
                         onMenuItemClicked();
                       },
-                      child: Text(
+                      title: Text(
                         "Daily Inbox",
                         style: TextStyle(
                           color: Colors.white,
