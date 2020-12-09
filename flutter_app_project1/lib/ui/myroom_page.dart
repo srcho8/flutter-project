@@ -6,7 +6,7 @@ import 'package:flutter_app_project1/ui/slidable_bottom_sheet.dart';
 import 'package:flutter_app_project1/ui/sliding_cards_page.dart';
 import 'package:flutter_riverpod/all.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
-
+import 'package:google_fonts/google_fonts.dart';
 
 class StatPage extends StatefulWidget {
   final Function onMenuTap;
@@ -50,7 +50,7 @@ class _StatPageState extends State<StatPage> with TickerProviderStateMixin {
             ),
             SafeArea(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(
                     height: 20,
@@ -71,24 +71,31 @@ class _StatPageState extends State<StatPage> with TickerProviderStateMixin {
                     ],
                   ),
                   Container(
-                    height: 120,
-                    width: MediaQuery.of(context).size.width,
+                    height: 110,
+                    width: MediaQuery.of(context).size.width * 0.8,
                     child: Center(
-                      child: WavyAnimatedTextKit(
-                        repeatForever: true,
-                        textStyle: TextStyle(
-                            fontSize: 20.0,
-                          color: Colors.white
-                        ),
-                        text: [
-                          "Drizzle님 안녕하세요.",
-                          "오늘도 영감을 얻으세요.",
-                        ],
-                        isRepeatingAnimation: true,
-                      ),
-                    ),
+                        child: Text(
+                      'Drizzle님 안녕하세요.',
+                      textAlign: TextAlign.justify,
+                      style: GoogleFonts.yeonSung(
+                          fontSize: 24, color: Colors.white),
+                    )),
                   ),
                   SlidingCardsPage(),
+                  Container(
+                    padding: EdgeInsets.only(top: 4),
+                    decoration: BoxDecoration(
+                      border: Border(top:BorderSide(color: Colors.blueGrey))
+                    ),
+                    width: MediaQuery.of(context).size.width * 0.4,
+                    child: Center(
+                        child: Text(
+                          'My Posts',
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.yeonSung(
+                              fontSize: 16, color: Colors.blueGrey),
+                        )),
+                  ),
                 ],
               ),
             ),

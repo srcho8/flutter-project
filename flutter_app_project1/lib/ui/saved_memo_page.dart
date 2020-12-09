@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_project1/faderoute.dart';
 import 'package:flutter_app_project1/model/memo.dart';
 import 'package:flutter_app_project1/ui/modify_memo_page.dart';
+import 'package:flutter_app_project1/ui/posting_page.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SavedMemoPage extends StatefulWidget {
   Memo memo;
@@ -39,6 +41,19 @@ class _SavedMemoPageState extends State<SavedMemoPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Memo'),
+        actions: [
+          IconButton(
+              icon: Icon(
+                Icons.file_upload,
+                color: Colors.amber[200],
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  FadeRoute(page: PostingPage(widget.memo)),
+                );
+              })
+        ],
         automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
@@ -51,7 +66,11 @@ class _SavedMemoPageState extends State<SavedMemoPage> {
               child: Center(
                 child: ClipRRect(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
-                    child: Image.network(widget.memo.imageurl)),
+                    child: Hero(
+                        tag: widget.memo.id,
+                        child: Image.network(
+                          widget.memo.imageurl,
+                        ))),
               ),
             ),
             Padding(
@@ -81,10 +100,16 @@ class _SavedMemoPageState extends State<SavedMemoPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Center(
-                                child: Text(
-                                  widget.memo.title,
-                                  style: TextStyle(
-                                    fontSize: 20,
+                                child: Hero(
+                                  tag: '${widget.memo.title}_${widget.memo.id}',
+                                  child: Material(
+                                    color: Colors.transparent,
+                                    child: Text(
+                                      widget.memo.title,
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
@@ -109,9 +134,16 @@ class _SavedMemoPageState extends State<SavedMemoPage> {
                                 child: SingleChildScrollView(
                                   child: Container(
                                     width: double.infinity,
-                                    child: Text(
-                                      widget.memo.contents,
-                                      style: TextStyle(fontSize: 16),
+                                    child: Hero(
+                                      tag:
+                                          '${widget.memo.contents}_${widget.memo.id}',
+                                      child: Material(
+                                        color: Colors.transparent,
+                                        child: Text(
+                                          widget.memo.contents,
+                                          style: TextStyle(fontSize: 16),
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),

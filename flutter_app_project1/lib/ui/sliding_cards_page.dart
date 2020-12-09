@@ -147,7 +147,10 @@ class CardContent extends StatelessWidget {
                   color: Color(0xFF162A49),
                   child: Transform.translate(
                     offset: Offset(24 * offset, 0),
-                    child: Text('Reserve'),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [Icon(Icons.thumb_up_rounded, size: 16,), SizedBox(width: 8,),Text('253')],
+                    ),
                   ),
                   textColor: Colors.white,
                   shape: RoundedRectangleBorder(

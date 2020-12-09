@@ -179,19 +179,30 @@ class _StickyListPageState extends State<StickyListPage> {
                                             style: TextStyle(
                                                 color: Colors.black54),
                                           )),
-                                      TextButton(
-                                          onPressed: () {
-                                            setState(() {
-                                              DBHelper().deleteSelectedMemos();
-                                              selectIcon.change(0);
-                                            });
-                                          },
-                                          child: Text(
+                                      TextButton(onPressed: () {
+                                        setState(() {
+                                          DBHelper().deleteSelectedMemos();
+                                          selectIcon.change(0);
+                                        });
+                                      }, child: Builder(builder: (context) {
+                                        if (myWL
+                                                .where((element) =>
+                                                    element.selected == 1)
+                                                .length ==
+                                            0) {
+                                          return Text(
+                                            '편집취소',
+                                            style: TextStyle(
+                                                color: Colors.black54),
+                                          );
+                                        } else {
+                                          return Text(
                                             '선택삭제',
                                             style: TextStyle(
                                                 color: Colors.black54),
-                                          )
-                                      ),
+                                          );
+                                        }
+                                      })),
                                     ],
                                   )
                                 ],
@@ -224,10 +235,10 @@ class _StickyListPageState extends State<StickyListPage> {
                                 decoration: BoxDecoration(
                                   color: Colors.blueGrey,
                                   border: Border.all(
-                                    color: Colors.white,
+                                    color: Colors.transparent,
                                   ),
                                   borderRadius:
-                                      BorderRadius.all(Radius.circular(10.0)),
+                                      BorderRadius.all(Radius.circular(4)),
                                 ),
                                 child: Padding(
                                   padding: const EdgeInsets.all(4.0),
@@ -240,6 +251,7 @@ class _StickyListPageState extends State<StickyListPage> {
                               ),
                             ],
                           ),
+                          stickyHeaderBackgroundColor: Colors.transparent,
                           itemBuilder: (_, Memo element) {
                             return Card(
                               color: element.selected == 0
@@ -300,11 +312,21 @@ class _StickyListPageState extends State<StickyListPage> {
                                         tag: element.id,
                                         child:
                                             Image.network(element.imageurl))),
-                                title: Text(element.title),
-                                subtitle: Text(
-                                  element.contents,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
+                                title: Hero(
+                                    tag: '${element.title}_${element.id}',
+                                    child: Material(
+                                        color: Colors.transparent,
+                                        child: Text(element.title))),
+                                subtitle: Hero(
+                                  tag: '${element.contents}_${element.id}',
+                                  child: Material(
+                                    color: Colors.transparent,
+                                    child: Text(
+                                      element.contents,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
                                 ),
                                 trailing: Text(
                                     '${element.datetime.stringToDate().hour}:${element.datetime.stringToDate().minute}'),
