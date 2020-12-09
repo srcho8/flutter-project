@@ -107,9 +107,9 @@ class CardContent extends StatelessWidget {
 
   const CardContent(
       {Key key,
-        @required this.name,
-        @required this.date,
-        @required this.offset})
+      @required this.name,
+      @required this.date,
+      @required this.offset})
       : super(key: key);
 
   @override
@@ -121,7 +121,14 @@ class CardContent extends StatelessWidget {
         children: <Widget>[
           Transform.translate(
             offset: Offset(8 * offset, 0),
-            child: Text(name, style: TextStyle(fontSize: 20)),
+            child: Text(
+              name,
+              style: TextStyle(
+                fontSize: 16,
+              ),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+            ),
           ),
           SizedBox(height: 8),
           Transform.translate(
@@ -149,18 +156,18 @@ class CardContent extends StatelessWidget {
                   onPressed: () {},
                 ),
               ),
-              Spacer(),
-              Transform.translate(
-                offset: Offset(32 * offset, 0),
-                child: Text(
-                  '0.00 \$',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                  ),
-                ),
-              ),
-              SizedBox(width: 16),
+              // Spacer(),
+              // Transform.translate(
+              //   offset: Offset(32 * offset, 0),
+              //   child: Text(
+              //     '0.00 \$',
+              //     style: TextStyle(
+              //       fontWeight: FontWeight.bold,
+              //       fontSize: 20,
+              //     ),
+              //   ),
+              // ),
+              // SizedBox(width: 16),
             ],
           )
         ],

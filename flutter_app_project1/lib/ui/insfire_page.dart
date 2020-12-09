@@ -64,7 +64,7 @@ class InsFirePage extends ConsumerWidget {
                                 decoration: new InputDecoration(
                                     prefixIcon: new Icon(Icons.search,
                                         color: Colors.white),
-                                    hintText: "Search",
+                                    hintText: "사진 테마 검색",
                                     hintStyle:
                                         new TextStyle(color: Colors.white)),
                               );
@@ -79,7 +79,6 @@ class InsFirePage extends ConsumerWidget {
                               this.appBarTitle = new Text("InsFire");
                               _textController.clear();
                               iconState.change(0);
-                              print(iconState.iconState.toString());
                             },
                           );
                         }

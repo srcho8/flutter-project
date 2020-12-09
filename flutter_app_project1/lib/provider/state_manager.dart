@@ -31,18 +31,9 @@ final selectedListProvider = StateProvider<int>((ref) {
   return 0;
 });
 
-final isSelectedProvider = StateProvider<int>((ref) {
+final menuProvider = StateProvider<int>((ref) {
   return 0;
 });
-
-class IsSelectedState extends StateNotifier<int>{
-  IsSelectedState() : super(0);
-
-  void change(int i){
-    state = i;
-  }
-
-}
 
 class IconStateChangeNotifier extends ChangeNotifier {
   int _iconState = 0;
@@ -54,6 +45,8 @@ class IconStateChangeNotifier extends ChangeNotifier {
     notifyListeners();
   }
 }
+
+
 
 class StickySearchIconStateChangeNotifier extends ChangeNotifier {
   int _iconState = 0;

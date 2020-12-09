@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
           primaryColor: Colors.blueGrey,
         ),
         home: SplashScreenView(
-          home: LoginPage(),
+          home: MenuDashboardLayout(),
           duration: 2500,
           imageSize: 150,
           imageSrc: "images/fire.png",

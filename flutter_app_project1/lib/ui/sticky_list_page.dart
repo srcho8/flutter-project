@@ -190,7 +190,8 @@ class _StickyListPageState extends State<StickyListPage> {
                                             '선택삭제',
                                             style: TextStyle(
                                                 color: Colors.black54),
-                                          )),
+                                          )
+                                      ),
                                     ],
                                   )
                                 ],
