@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_project1/menu_dashboard_layout/dashboard.dart';
 import 'package:flutter_app_project1/ui/login_page.dart';
@@ -11,10 +12,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'menu_dashboard_layout/menu_dashboard_layout.dart';
 
-void main() {
-  SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
-
-  initializeDateFormatting().then((_) => runApp(ProviderScope(child: MyApp())));
+void main()  {
+  //SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
+  initializeDateFormatting().then((_) async {
+    runApp(ProviderScope(child: MyApp()));
+    await Firebase.initializeApp();
+  });
 }
 
 class MyApp extends StatelessWidget {

@@ -311,7 +311,7 @@ class _StickyListPageState extends State<StickyListPage> {
                                     child: Hero(
                                         tag: element.id,
                                         child:
-                                            Image.network(element.imageurl))),
+                                            Image.network(element.tiny))),
                                 title: Hero(
                                     tag: '${element.title}_${element.id}',
                                     child: Material(

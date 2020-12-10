@@ -22,22 +22,26 @@ class MemoPage extends StatefulWidget {
 class _MemoPageState extends State<MemoPage> {
   final _titleController = TextEditingController();
   final _contentController = TextEditingController();
-  String _base64;
+  String original;
+  String large2x;
+  String large;
+  String medium;
+  String small;
+  String portrait;
+  String landscape;
+  String tiny;
 
   @override
   void initState() {
     super.initState();
-    (() async {
-      http.Response response = await http.get(
-        widget.photos.src.tiny,
-      );
-      if (mounted) {
-        setState(() {
-          _base64 = widget.photos.src.tiny;
-          //Base64Codec().encode(response.bodyBytes);
-        });
-      }
-    })();
+    original = widget.photos.src.original;
+    large2x = widget.photos.src.large2x;
+    large = widget.photos.src.large;
+    medium = widget.photos.src.medium;
+    small = widget.photos.src.small;
+    portrait = widget.photos.src.portrait;
+    landscape = widget.photos.src.landscape;
+    tiny = widget.photos.src.tiny;
   }
 
   @override
@@ -133,7 +137,14 @@ class _MemoPageState extends State<MemoPage> {
                               DBHelper().createData((Memo(
                                   title: _titleController.text,
                                   contents: _contentController.text,
-                                  imageurl: _base64,
+                                  original: original,
+                                  large2x: large2x,
+                                  large: large,
+                                  small: small,
+                                  medium: medium,
+                                  portrait: portrait,
+                                  landscape: landscape,
+                                  tiny: tiny,
                                   datetime: DateFormat('yyyy-MM-dd HH:mm:ss')
                                       .format(DateTime.now()),
                                   selected: 0)));

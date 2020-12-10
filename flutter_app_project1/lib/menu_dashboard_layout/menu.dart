@@ -73,7 +73,7 @@ class Menu extends StatelessWidget {
                         onMenuItemClicked();
                       },
                       title: Text(
-                        "InsFire Calendar",
+                        "Calendar",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 22,

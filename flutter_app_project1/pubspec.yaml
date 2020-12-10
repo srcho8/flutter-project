@@ -45,6 +45,8 @@ dependencies:
   cloud_firestore: ^0.14.4
   flutter_riverpod: ^0.12.1
   animated_text_kit: ^3.0.0
+  flutter_colorpicker: ^0.3.4
+
 
 
 

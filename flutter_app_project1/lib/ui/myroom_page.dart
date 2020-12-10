@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_project1/provider/state_manager.dart';
 import 'package:flutter_app_project1/ui/home_page_background.dart';
-import 'package:flutter_app_project1/ui/slidable_bottom_sheet.dart';
+import 'package:flutter_app_project1/ui/scrollable_exhibition_sheet.dart';
 import 'package:flutter_app_project1/ui/sliding_cards_page.dart';
 import 'package:flutter_riverpod/all.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';

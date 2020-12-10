@@ -49,7 +49,7 @@ class _ModifyMemoPageState extends State<ModifyMemoPage> {
               child: Center(
                 child: ClipRRect(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
-                    child: Image.network(widget.memo.imageurl)),
+                    child: Image.network(widget.memo.tiny)),
               ),
             ),
             Padding(

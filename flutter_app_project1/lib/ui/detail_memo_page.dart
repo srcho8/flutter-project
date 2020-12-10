@@ -76,7 +76,7 @@ class DetailPage extends StatelessWidget {
                               Flushbar(
                                 title: "InsFire",
                                 message: "저장 되었습니다.",
-                                duration: Duration(seconds: 2),
+                                duration: Duration(seconds: 1),
                               )..show(context);
                             }
                           });

@@ -55,7 +55,7 @@ class _ScrollableExhibitionSheetState extends State<ScrollableExhibitionSheet> {
                     ),
                     ...events.map((event) {
                       int index = events.indexOf(event);
-                      int heightPerElement = 120 + 8 + 8;
+                      int heightPerElement = 120;
                       double widthPerElement =
                           40 + percentage * 80 + 8 * (1 - percentage);
                       double leftOffset = widthPerElement *
@@ -66,7 +66,7 @@ class _ScrollableExhibitionSheetState extends State<ScrollableExhibitionSheet> {
                             scaledPercentage * (128 - 44) +
                             index * heightPerElement * scaledPercentage,
                         left: leftOffset,
-                        right: 0,
+                        right: 32 - leftOffset,
                         child: IgnorePointer(
                           ignoring: true,
                           child: Opacity(

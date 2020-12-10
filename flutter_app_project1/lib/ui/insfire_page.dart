@@ -51,7 +51,7 @@ class InsFirePage extends ConsumerWidget {
                                   if (str.isEmpty) {
                                     Flushbar(
                                       title: "InsFire",
-                                      message: "보고 싶은 사진 키워드를 입력하세요.",
+                                      message: "보고싶은 테마 키워드를 입력하세요.",
                                       duration: Duration(seconds: 2),
                                     )..show(context);
                                   } else {
@@ -64,7 +64,7 @@ class InsFirePage extends ConsumerWidget {
                                 decoration: new InputDecoration(
                                     prefixIcon: new Icon(Icons.search,
                                         color: Colors.white),
-                                    hintText: "사진 테마 검색",
+                                    hintText: "테마 검색",
                                     hintStyle:
                                         new TextStyle(color: Colors.white)),
                               );

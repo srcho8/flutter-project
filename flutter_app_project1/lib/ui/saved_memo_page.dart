@@ -69,7 +69,7 @@ class _SavedMemoPageState extends State<SavedMemoPage> {
                     child: Hero(
                         tag: widget.memo.id,
                         child: Image.network(
-                          widget.memo.imageurl,
+                          widget.memo.tiny,
                         ))),
               ),
             ),
@@ -178,7 +178,13 @@ class _SavedMemoPageState extends State<SavedMemoPage> {
                                     Flushbar(
                                       title: "InsFire",
                                       message: "수정했어요.",
-                                      duration: Duration(seconds: 2),
+                                      duration: Duration(seconds: 1),
+                                    )..show(context);
+                                  } else if(value.type == 'online'){
+                                    Flushbar(
+                                      title: "InsFire",
+                                      message: "공유 완료했어요.",
+                                      duration: Duration(seconds: 1),
                                     )..show(context);
                                   }
                                 });

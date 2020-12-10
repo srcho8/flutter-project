@@ -25,7 +25,7 @@ class DBHelper {
 
   initDB() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentsDirectory.path, 'Memo2.db');
+    String path = join(documentsDirectory.path, 'Memo3.db');
 
     return await openDatabase(path, version: 1, onCreate: (db, version) async {
       await db.execute('''
@@ -33,7 +33,14 @@ class DBHelper {
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             title TEXT,
             contents TEXT,
-            imageurl TEXT,
+            original TEXT,
+            large2x TEXT,
+            large TEXT,
+            medium TEXT,
+            small TEXT,
+            portrait TEXT,
+            landscape TEXT,
+            tiny TEXT,
             datetime TEXT,
             selected INTEGER
           )
@@ -57,7 +64,14 @@ class DBHelper {
             id: res.first['id'],
             title: res.first['title'],
             contents: res.first['contents'],
-            imageurl: res.first['imageurl'],
+            original: res.first['original'],
+            large2x: res.first['large2x'],
+            large: res.first['large'],
+            medium: res.first['medium'],
+            small: res.first['small'],
+            portrait: res.first['portrait'],
+            landscape: res.first['landscape'],
+            tiny: res.first['tiny'],
             datetime: res.first['datetime'],
             selected: res.first['selected'])
         : Null;
@@ -82,7 +96,14 @@ class DBHelper {
                 id: c['id'],
                 title: c['title'],
                 contents: c['contents'],
-                imageurl: c['imageurl'],
+                original: c['original'],
+                large2x: c['large2x'],
+                large: c['large'],
+                medium: c['medium'],
+                small: c['small'],
+                portrait: c['portrait'],
+                landscape: c['landscape'],
+                tiny: c['tiny'],
                 datetime: c['datetime'],
                 selected: c['selected']))
             .toList()
@@ -104,14 +125,21 @@ class DBHelper {
     var res = await db.rawQuery('SELECT * FROM $TableName');
     List<Memo> list = res.isNotEmpty
         ? res
-        .map((c) => Memo(
-        id: c['id'],
-        title: c['title'],
-        contents: c['contents'],
-        imageurl: c['imageurl'],
-        datetime: c['datetime'],
-        selected: c['selected']))
-        .toList()
+            .map((c) => Memo(
+                id: c['id'],
+                title: c['title'],
+                contents: c['contents'],
+                original: c['original'],
+                large2x: c['large2x'],
+                large: c['large'],
+                medium: c['medium'],
+                small: c['small'],
+                portrait: c['portrait'],
+                landscape: c['landscape'],
+                tiny: c['tiny'],
+                datetime: c['datetime'],
+                selected: c['selected']))
+            .toList()
         : [];
     return list;
   }
@@ -141,22 +169,20 @@ class DBHelper {
   updateSelectedMemo(int state, int id) async {
     final db = await database;
     var res = db.rawUpdate(
-        'UPDATE $TableName SET selected = ? WHERE id = ?',
-        [state, id]);
+        'UPDATE $TableName SET selected = ? WHERE id = ?', [state, id]);
     return res;
   }
 
   //Update
   updateSelectedAllMemo() async {
     final db = await database;
-    var res = db.rawUpdate(
-        'UPDATE $TableName SET selected = 1');
+    var res = db.rawUpdate('UPDATE $TableName SET selected = 1');
     return res;
   }
+
   updateSelectedAllMemo_2() async {
     final db = await database;
-    var res = db.rawUpdate(
-        'UPDATE $TableName SET selected = 0');
+    var res = db.rawUpdate('UPDATE $TableName SET selected = 0');
     return res;
   }
 
@@ -165,14 +191,21 @@ class DBHelper {
     var res = await db.rawQuery('SELECT * FROM $TableName');
     List<Memo> list = res.isNotEmpty
         ? res
-        .map((c) => Memo(
-        id: c['id'],
-        title: c['title'],
-        contents: c['contents'],
-        imageurl: c['imageurl'],
-        datetime: c['datetime'],
-        selected: c['selected']))
-        .toList()
+            .map((c) => Memo(
+                id: c['id'],
+                title: c['title'],
+                contents: c['contents'],
+                original: c['original'],
+                large2x: c['large2x'],
+                large: c['large'],
+                medium: c['medium'],
+                small: c['small'],
+                portrait: c['portrait'],
+                landscape: c['landscape'],
+                tiny: c['tiny'],
+                datetime: c['datetime'],
+                selected: c['selected']))
+            .toList()
         : [];
 
     yield list;
