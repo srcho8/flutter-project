@@ -5,7 +5,6 @@ import 'package:flutter_app_project1/ui/home_page_background.dart';
 import 'package:flutter_app_project1/ui/scrollable_exhibition_sheet.dart';
 import 'package:flutter_app_project1/ui/sliding_cards_page.dart';
 import 'package:flutter_riverpod/all.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class StatPage extends StatefulWidget {
@@ -85,16 +84,16 @@ class _StatPageState extends State<StatPage> with TickerProviderStateMixin {
                   Container(
                     padding: EdgeInsets.only(top: 4),
                     decoration: BoxDecoration(
-                      border: Border(top:BorderSide(color: Colors.blueGrey))
-                    ),
+                        border:
+                            Border(top: BorderSide(color: Colors.blueGrey))),
                     width: MediaQuery.of(context).size.width * 0.4,
                     child: Center(
                         child: Text(
-                          'My Posts',
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.yeonSung(
-                              fontSize: 16, color: Colors.blueGrey),
-                        )),
+                      'My Posts',
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.yeonSung(
+                          fontSize: 16, color: Colors.blueGrey),
+                    )),
                   ),
                 ],
               ),

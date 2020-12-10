@@ -46,6 +46,7 @@ class _SavedMemoPageState extends State<SavedMemoPage> {
               icon: Icon(
                 Icons.file_upload,
                 color: Colors.amber[200],
+                size: 30,
               ),
               onPressed: () {
                 Navigator.push(
@@ -54,7 +55,6 @@ class _SavedMemoPageState extends State<SavedMemoPage> {
                 );
               })
         ],
-        automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -77,20 +77,15 @@ class _SavedMemoPageState extends State<SavedMemoPage> {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
-                  Container(
-                    height: 1,
-                    width: 200,
-                    color: Colors.blueGrey,
-                  ),
                   SizedBox(
-                    height: 8,
+                    height: 16,
                   ),
                   Column(
                     children: [
                       Container(
                         height: 304,
                         decoration: BoxDecoration(
-                            border: Border.all(color: Colors.blueGrey),
+                            border: Border.all(color: Colors.grey[300]),
                             borderRadius:
                                 BorderRadius.all(Radius.circular(10))),
                         child: Padding(
@@ -101,7 +96,8 @@ class _SavedMemoPageState extends State<SavedMemoPage> {
                             children: [
                               Center(
                                 child: Hero(
-                                  tag: '${widget.memo.title}_${widget.memo.id}',
+                                  tag:
+                                      '${widget.memo.title}_${widget.memo.id}_title',
                                   child: Material(
                                     color: Colors.transparent,
                                     child: Text(
@@ -117,15 +113,7 @@ class _SavedMemoPageState extends State<SavedMemoPage> {
                                 child: Column(
                                   children: [
                                     SizedBox(
-                                      height: 8,
-                                    ),
-                                    Container(
-                                      height: 1,
-                                      width: 100,
-                                      color: Colors.blueGrey,
-                                    ),
-                                    SizedBox(
-                                      height: 8,
+                                      height: 24,
                                     ),
                                   ],
                                 ),
@@ -136,12 +124,11 @@ class _SavedMemoPageState extends State<SavedMemoPage> {
                                     width: double.infinity,
                                     child: Hero(
                                       tag:
-                                          '${widget.memo.contents}_${widget.memo.id}',
+                                          '${widget.memo.contents}_${widget.memo.id}_contents',
                                       child: Material(
                                         color: Colors.transparent,
                                         child: Text(
                                           widget.memo.contents,
-                                          style: TextStyle(fontSize: 16),
                                         ),
                                       ),
                                     ),
@@ -155,13 +142,13 @@ class _SavedMemoPageState extends State<SavedMemoPage> {
                       ButtonBar(
                         alignment: MainAxisAlignment.end,
                         children: [
-                          OutlinedButton(
-                              child: Text('닫기',
-                                  style: TextStyle(color: Colors.black)),
-                              onPressed: () {
-                                Navigator.pop(context);
-                              }),
-                          OutlinedButton(
+                          // TextButton(
+                          //     child: Text('닫기',
+                          //         style: TextStyle(color: Colors.black)),
+                          //     onPressed: () {
+                          //       Navigator.pop(context);
+                          //     }),
+                          OutlineButton(
                               child: Text(
                                 '수정',
                                 style: TextStyle(color: Colors.black),
@@ -180,7 +167,7 @@ class _SavedMemoPageState extends State<SavedMemoPage> {
                                       message: "수정했어요.",
                                       duration: Duration(seconds: 1),
                                     )..show(context);
-                                  } else if(value.type == 'online'){
+                                  } else if (value.type == 'online') {
                                     Flushbar(
                                       title: "InsFire",
                                       message: "공유 완료했어요.",

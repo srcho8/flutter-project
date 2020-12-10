@@ -37,7 +37,6 @@ class _ModifyMemoPageState extends State<ModifyMemoPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Memo'),
-        automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -56,42 +55,65 @@ class _ModifyMemoPageState extends State<ModifyMemoPage> {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
+                  SizedBox(
+                    height: 16,
+                  ),
                   TextField(
                     controller: _titleController,
+                    maxLines: 1,
                     decoration: InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(16)),
+                        borderSide: BorderSide(color: Colors.grey[300]),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(16)),
+                        borderSide: BorderSide(color: Colors.grey[300]),
+                      ),
                       alignLabelWithHint: true,
                       labelStyle: TextStyle(
-                        fontSize: 20,
+                        fontSize: 14,
                       ),
-                      labelText: 'Title',
+                      labelText: '제목',
                     ),
                   ),
+                  SizedBox(
+                    height: 8,
+                  ),
                   Container(
-                    height: 250,
+                    height: 280,
                     child: TextField(
+                      textAlignVertical: TextAlignVertical.top,
                       controller: _contentController,
                       maxLines: null,
                       expands: true,
                       keyboardType: TextInputType.multiline,
                       decoration: InputDecoration(
-                        alignLabelWithHint: true,
-                        labelStyle: TextStyle(
-                          fontSize: 16,
-                        ),
-                        labelText: 'Enter your InsFire',
-                      ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(16)),
+                            borderSide: BorderSide(color: Colors.grey[300]),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(16)),
+                            borderSide: BorderSide(color: Colors.grey[300]),
+                          ),
+                          alignLabelWithHint: true,
+                          labelStyle: TextStyle(
+                            fontSize: 16,
+                          ),
+                          labelText: '내용'),
                     ),
                   ),
                   ButtonBar(
                     alignment: MainAxisAlignment.end,
                     children: [
-                      OutlinedButton(
-                          child:
-                              Text('닫기', style: TextStyle(color: Colors.black)),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          }),
-                      OutlinedButton(
+                      // TextButton(
+                      //     child:
+                      //         Text('닫기', style: TextStyle(color: Colors.black)),
+                      //     onPressed: () {
+                      //       Navigator.pop(context);
+                      //     }),
+                      OutlineButton(
                           child:
                               Text('저장', style: TextStyle(color: Colors.black)),
                           onPressed: () {

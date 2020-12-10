@@ -34,15 +34,19 @@ class _SlidingCardsPageState extends State<SlidingCardsPage> {
         controller: pageController,
         children: <Widget>[
           SlidingCard(
-            name: 'Shenzhen GLOBAL DESIGN AWARD 2018',
+            title: 'Shenzhen GLOBAL DESIGN AWARD 2018',
+            contents: '아',
             date: '4.20-30',
             assetName: 'steve-johnson.jpeg',
+            likes: 12,
             offset: pageOffset,
           ),
           SlidingCard(
-            name: 'Dawan District, Guangdong Hong Kong and Macao',
+            title: 'Dawan District, Guangdong Hong Kong and Macao',
+            contents: 'sadqwdd',
             date: '4.28-31',
             assetName: 'rodion-kutsaev.jpeg',
+            likes: 43,
             offset: pageOffset - 1,
           ),
         ],
@@ -52,18 +56,22 @@ class _SlidingCardsPageState extends State<SlidingCardsPage> {
 }
 
 class SlidingCard extends StatelessWidget {
-  final String name;
+  final String title;
+  final String contents;
   final String date;
   final String assetName;
   final double offset;
+  final int likes;
 
-  const SlidingCard({
-    Key key,
-    @required this.name,
-    @required this.date,
-    @required this.assetName,
-    @required this.offset,
-  }) : super(key: key);
+  const SlidingCard(
+      {Key key,
+      @required this.title,
+      @required this.contents,
+      @required this.date,
+      @required this.assetName,
+      @required this.offset,
+      this.likes})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +96,9 @@ class SlidingCard extends StatelessWidget {
             SizedBox(height: 8),
             Expanded(
               child: CardContent(
-                name: name,
+                title: title,
+                contents: contents,
+                likes: likes,
                 date: date,
                 offset: gauss,
               ),
@@ -101,15 +111,19 @@ class SlidingCard extends StatelessWidget {
 }
 
 class CardContent extends StatelessWidget {
-  final String name;
+  final String title;
+  final String contents;
   final String date;
   final double offset;
+  final int likes;
 
   const CardContent(
       {Key key,
-      @required this.name,
+      @required this.title,
+      @required this.contents,
       @required this.date,
-      @required this.offset})
+      @required this.offset,
+      this.likes})
       : super(key: key);
 
   @override
@@ -122,7 +136,7 @@ class CardContent extends StatelessWidget {
           Transform.translate(
             offset: Offset(8 * offset, 0),
             child: Text(
-              name,
+              title,
               style: TextStyle(
                 fontSize: 16,
               ),
@@ -134,7 +148,7 @@ class CardContent extends StatelessWidget {
           Transform.translate(
             offset: Offset(32 * offset, 0),
             child: Text(
-              date,
+              contents,
               style: TextStyle(color: Colors.grey),
             ),
           ),
@@ -149,7 +163,16 @@ class CardContent extends StatelessWidget {
                     offset: Offset(24 * offset, 0),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [Icon(Icons.thumb_up_rounded, size: 16,), SizedBox(width: 8,),Text('253')],
+                      children: [
+                        Icon(
+                          Icons.thumb_up_rounded,
+                          size: 16,
+                        ),
+                        SizedBox(
+                          width: 8,
+                        ),
+                        Text('$likes')
+                      ],
                     ),
                   ),
                   textColor: Colors.white,
@@ -159,18 +182,18 @@ class CardContent extends StatelessWidget {
                   onPressed: () {},
                 ),
               ),
-              // Spacer(),
-              // Transform.translate(
-              //   offset: Offset(32 * offset, 0),
-              //   child: Text(
-              //     '0.00 \$',
-              //     style: TextStyle(
-              //       fontWeight: FontWeight.bold,
-              //       fontSize: 20,
-              //     ),
-              //   ),
-              // ),
-              // SizedBox(width: 16),
+              Spacer(),
+              Transform.translate(
+                offset: Offset(32 * offset, 0),
+                child: Text(
+                  '${date.toString()}',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                  ),
+                ),
+              ),
+              SizedBox(width: 16),
             ],
           )
         ],

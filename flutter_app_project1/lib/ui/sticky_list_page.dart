@@ -256,7 +256,7 @@ class _StickyListPageState extends State<StickyListPage> {
                             return Card(
                               color: element.selected == 0
                                   ? null
-                                  : Colors.amberAccent,
+                                  : Colors.grey[300],
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(6.0),
                               ),
@@ -310,15 +310,15 @@ class _StickyListPageState extends State<StickyListPage> {
                                     borderRadius: BorderRadius.circular(6),
                                     child: Hero(
                                         tag: element.id,
-                                        child:
-                                            Image.network(element.tiny))),
+                                        child: Image.network(element.tiny))),
                                 title: Hero(
-                                    tag: '${element.title}_${element.id}',
+                                    tag: '${element.title}_${element.id}_title',
                                     child: Material(
                                         color: Colors.transparent,
                                         child: Text(element.title))),
                                 subtitle: Hero(
-                                  tag: '${element.contents}_${element.id}',
+                                  tag:
+                                      '${element.contents}_${element.id}_contents',
                                   child: Material(
                                     color: Colors.transparent,
                                     child: Text(

@@ -5,6 +5,9 @@ import 'package:flutter_app_project1/model/memo.dart';
 import 'package:flutter_app_project1/ui/posting_page_background.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:extended_image/extended_image.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class PostingPage extends StatefulWidget {
   final Memo memo;
@@ -38,13 +41,17 @@ class _PostingPageState extends State<PostingPage> {
   @override
   Widget build(BuildContext context) {
     CollectionReference users = FirebaseFirestore.instance.collection('users');
-    Future<void> addUsers(String id, String title, String contents, String image) {
+    Future<void> addUsers(
+        String id, String title, String contents, String image) {
       return users
           .doc(id)
-          .set({
+          .collection('InsFire')
+          .add({
             'title': title,
             'contents': contents,
-            'imgUrl' : image,
+            'imgUrl': image,
+            'likes': [id],
+            'datetime': DateTime.now()
           })
           .then((value) => print("Users Added"))
           .catchError((error) => print("Failed to add user: $error"));
@@ -56,23 +63,23 @@ class _PostingPageState extends State<PostingPage> {
         PostingPageBackground(screenHeight: MediaQuery.of(context).size.height),
         SafeArea(
             child: SingleChildScrollView(
-              child: Column(
-          children: [
+          child: Column(
+            children: [
               SizedBox(
                 height: 16,
               ),
               Center(
                 child: Padding(
-                  padding: const EdgeInsets.only(left :16, right: 16),
+                  padding: const EdgeInsets.only(left: 16, right: 16),
                   child: Card(
                     elevation: 16,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black87,width: 8)
-                      ),
-                      child: Hero(
-                        tag: widget.memo.id,
-                        child: Image.network(widget.memo.large),
+                    child: Hero(
+                      tag: widget.memo.id,
+                      child: ExtendedImage.network(
+                        widget.memo.large,
+                        cache: true,
+                        borderRadius: BorderRadius.all(Radius.circular(40)),
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),
@@ -82,37 +89,27 @@ class _PostingPageState extends State<PostingPage> {
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   children: [
-                    TextField(
-                      controller: _titleController,
-                      decoration: InputDecoration(
-                        alignLabelWithHint: true,
-                        labelStyle: TextStyle(
-                          fontSize: 20,
-                        ),
-                        labelText: 'Title',
-                      ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      '${_titleController.text}',
+                      style: GoogleFonts.yeonSung(fontSize: 20),
+                    ),
+                    SizedBox(
+                      height: 20,
                     ),
                     Container(
-                      height: 250,
-                      child: TextField(
-                        controller: _contentController,
-                        maxLines: null,
-                        expands: true,
-                        keyboardType: TextInputType.multiline,
-                        decoration: InputDecoration(
-                          alignLabelWithHint: true,
-                          labelStyle: TextStyle(
-                            fontSize: 16,
-                          ),
-                          labelText: 'Enter your InsFire',
-                        ),
-                      ),
-                    ),
+                        height: 200,
+                        child: Text(
+                          '${_contentController.text}',
+                          style: GoogleFonts.yeonSung(fontSize: 16),
+                        )),
                     ButtonBar(
                       alignment: MainAxisAlignment.end,
                       children: [
                         OutlinedButton(
-                            child: Text('취소',
+                            child: Text('닫기',
                                 style: TextStyle(color: Colors.black)),
                             onPressed: () {
                               Navigator.pop(context);
@@ -122,14 +119,12 @@ class _PostingPageState extends State<PostingPage> {
                                 style: TextStyle(color: Colors.black)),
                             onPressed: () {
                               addUsers(
-                                  'srcho',
-                                  _titleController.text,
-                                  _contentController.text,
-                                  widget.memo.large
-                              )
+                                      'srcho',
+                                      _titleController.text,
+                                      _contentController.text,
+                                      widget.memo.large)
                                   .then((value) {
-                                Navigator.pop(this.context,
-                                    PopValue('online'));
+                                Navigator.pop(this.context, PopValue('online'));
                               });
                             }),
                       ],
@@ -137,9 +132,9 @@ class _PostingPageState extends State<PostingPage> {
                   ],
                 ),
               ),
-          ],
-        ),
-            ))
+            ],
+          ),
+        ))
       ],
     ));
   }

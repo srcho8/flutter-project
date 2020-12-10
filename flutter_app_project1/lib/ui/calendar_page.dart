@@ -306,7 +306,7 @@ class _CalendarPageState extends State<CalendarPage>
           .map((event) => Container(
                 height: 30,
                 decoration: BoxDecoration(
-                  border: Border.all(width: 0.8),
+                  border: Border.all(width: 0.8, color: Colors.grey[400]),
                   borderRadius: BorderRadius.circular(4.0),
                 ),
                 margin:

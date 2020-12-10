@@ -26,6 +26,36 @@ class DetailPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                TextButton(
+                    child: Text(
+                      '닫기',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    }),
+                TextButton(
+                    child: Text(
+                      '메모',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    onPressed: () {
+                      Navigator.push(context, FadeRoute(page: MemoPage(photos)))
+                          .then((value) {
+                        if (value == 'saved') {
+                          Flushbar(
+                            title: "InsFire",
+                            message: "저장 되었습니다.",
+                            duration: Duration(seconds: 1),
+                          )..show(context);
+                        }
+                      });
+                    }),
+              ],
+            ),
             Image.network(
               photos.src.original,
               loadingBuilder: (BuildContext context, Widget child,
@@ -42,49 +72,20 @@ class DetailPage extends StatelessWidget {
               },
             ),
             Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 TextButton(
-                  child: Text('Photos provided by Pexels'),
+                  child: Text(
+                    'Photos provided by Pexels',
+                    style: TextStyle(color: Colors.blueGrey),
+                  ),
                   onPressed: () {
                     String url = 'https://www.pexels.com';
                     _launchInWebViewOrVC(url);
                   },
                 ),
-                ButtonBar(
-                  alignment: MainAxisAlignment.end,
-                  children: [
-                    OutlinedButton(
-                        child: Text(
-                          '닫기',
-                          style: TextStyle(color: Colors.black),
-                        ),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        }),
-                    OutlinedButton(
-                        child: Text(
-                          '메모',
-                          style: TextStyle(color: Colors.black),
-                        ),
-                        onPressed: () {
-                          Navigator.push(
-                                  context, FadeRoute(page: MemoPage(photos)))
-                              .then((value) {
-                            if (value == 'saved') {
-                              Flushbar(
-                                title: "InsFire",
-                                message: "저장 되었습니다.",
-                                duration: Duration(seconds: 1),
-                              )..show(context);
-                            }
-                          });
-                        }),
-                  ],
-                ),
               ],
-            )
+            ),
           ],
         ),
       ),

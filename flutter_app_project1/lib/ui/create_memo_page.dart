@@ -56,7 +56,6 @@ class _MemoPageState extends State<MemoPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Memo'),
-        automaticallyImplyLeading: false,
         actions: [
           IconButton(
               icon: Image.asset('images/pexels.png'),
@@ -83,6 +82,9 @@ class _MemoPageState extends State<MemoPage> {
                     )),
               ),
             ),
+            SizedBox(
+              height: 16,
+            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
@@ -91,39 +93,58 @@ class _MemoPageState extends State<MemoPage> {
                     controller: _titleController,
                     maxLines: 1,
                     decoration: InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(16)),
+                        borderSide: BorderSide(color: Colors.grey[300]),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(16)),
+                        borderSide: BorderSide(color: Colors.grey[300]),
+                      ),
                       alignLabelWithHint: true,
                       labelStyle: TextStyle(
                         fontSize: 14,
                       ),
-                      labelText: 'Title',
+                      labelText: '제목',
                     ),
                   ),
+                  SizedBox(
+                    height: 8,
+                  ),
                   Container(
-                    height: 300,
+                    height: 280,
                     child: TextField(
+                      textAlignVertical: TextAlignVertical.top,
                       controller: _contentController,
                       maxLines: null,
                       expands: true,
                       keyboardType: TextInputType.multiline,
                       decoration: InputDecoration(
-                        alignLabelWithHint: true,
-                        labelStyle: TextStyle(
-                          fontSize: 14,
-                        ),
-                        labelText: 'Enter your InsFire',
-                      ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(16)),
+                            borderSide: BorderSide(color: Colors.grey[300]),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(16)),
+                            borderSide: BorderSide(color: Colors.grey[300]),
+                          ),
+                          alignLabelWithHint: true,
+                          labelStyle: TextStyle(
+                            fontSize: 16,
+                          ),
+                          labelText: '내용'),
                     ),
                   ),
                   ButtonBar(
                     alignment: MainAxisAlignment.end,
                     children: [
-                      OutlinedButton(
-                          child:
-                              Text('닫기', style: TextStyle(color: Colors.black)),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          }),
-                      OutlinedButton(
+                      // TextButton(
+                      //     child:
+                      //         Text('닫기', style: TextStyle(color: Colors.black)),
+                      //     onPressed: () {
+                      //       Navigator.pop(context);
+                      //     }),
+                      OutlineButton(
                           child:
                               Text('저장', style: TextStyle(color: Colors.black)),
                           onPressed: () {
