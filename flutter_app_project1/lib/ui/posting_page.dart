@@ -41,8 +41,8 @@ class _PostingPageState extends State<PostingPage> {
   @override
   Widget build(BuildContext context) {
     CollectionReference users = FirebaseFirestore.instance.collection('users');
-    Future<void> addUsers(
-        String id, String title, String contents, String image) {
+    Future<void> addUsers(String id, String title, String contents,
+        String image, String miniImage, String uid) {
       return users
           .doc(id)
           .collection('InsFire')
@@ -50,6 +50,7 @@ class _PostingPageState extends State<PostingPage> {
             'title': title,
             'contents': contents,
             'imgUrl': image,
+            'miniImgUrl': miniImage,
             'likes': [id],
             'datetime': DateTime.now()
           })
@@ -78,7 +79,6 @@ class _PostingPageState extends State<PostingPage> {
                       child: ExtendedImage.network(
                         widget.memo.large,
                         cache: true,
-                        borderRadius: BorderRadius.all(Radius.circular(40)),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -99,17 +99,19 @@ class _PostingPageState extends State<PostingPage> {
                     SizedBox(
                       height: 20,
                     ),
-                    Container(
-                        height: 200,
-                        child: Text(
-                          '${_contentController.text}',
-                          style: GoogleFonts.yeonSung(fontSize: 16),
-                        )),
+                    Text(
+                      '${_contentController.text}',
+                      style: GoogleFonts.yeonSung(fontSize: 16),
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
                     ButtonBar(
                       alignment: MainAxisAlignment.end,
                       children: [
                         OutlinedButton(
                             child: Text('닫기',
+                                textAlign: TextAlign.start,
                                 style: TextStyle(color: Colors.black)),
                             onPressed: () {
                               Navigator.pop(context);
@@ -119,11 +121,13 @@ class _PostingPageState extends State<PostingPage> {
                                 style: TextStyle(color: Colors.black)),
                             onPressed: () {
                               addUsers(
-                                      'srcho',
-                                      _titleController.text,
-                                      _contentController.text,
-                                      widget.memo.large)
-                                  .then((value) {
+                                'srcho',
+                                _titleController.text,
+                                _contentController.text,
+                                widget.memo.landscape,
+                                widget.memo.tiny,
+                                'asd'
+                              ).then((value) {
                                 Navigator.pop(this.context, PopValue('online'));
                               });
                             }),
@@ -142,7 +146,6 @@ class _PostingPageState extends State<PostingPage> {
 
 class PopValue {
   String type;
-  Memo updatedMemo;
 
-  PopValue(this.type, {this.updatedMemo});
+  PopValue(this.type);
 }

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_project1/db/database_helper.dart';
 import 'package:flutter_app_project1/model/memo.dart';
@@ -101,6 +102,15 @@ class SearchInboxState extends StateNotifier<List<Memo>>{
 final streamMemo = StreamProvider<List<Memo>>((ref) {
   Stream<List<Memo>> memos = DBHelper().getAllMemosStream();
   return memos;
+});
+
+final streamFirestoreMine = StreamProvider<QuerySnapshot>((ref) {
+  Stream mine = FirebaseFirestore.instance
+      .collection('users')
+      .doc('srcho')
+      .collection('InsFire')
+      .snapshots(includeMetadataChanges: true);
+  return mine;
 });
 
 class MemoListStateNotifier extends StateNotifier<List<Memo>> {

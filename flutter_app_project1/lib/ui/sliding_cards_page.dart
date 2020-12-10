@@ -1,6 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_app_project1/provider/state_manager.dart';
 import 'dart:math' as math;
+
+import 'package:flutter_riverpod/all.dart';
+import 'package:intl/intl.dart';
 
 class SlidingCardsPage extends StatefulWidget {
   @override
@@ -10,6 +16,7 @@ class SlidingCardsPage extends StatefulWidget {
 class _SlidingCardsPageState extends State<SlidingCardsPage> {
   PageController pageController;
   double pageOffset = 0;
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   @override
   void initState() {
@@ -28,30 +35,35 @@ class _SlidingCardsPageState extends State<SlidingCardsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.55,
-      child: PageView(
-        controller: pageController,
-        children: <Widget>[
-          SlidingCard(
-            title: 'Shenzhen GLOBAL DESIGN AWARD 2018',
-            contents: '아',
-            date: '4.20-30',
-            assetName: 'steve-johnson.jpeg',
-            likes: 12,
-            offset: pageOffset,
-          ),
-          SlidingCard(
-            title: 'Dawan District, Guangdong Hong Kong and Macao',
-            contents: 'sadqwdd',
-            date: '4.28-31',
-            assetName: 'rodion-kutsaev.jpeg',
-            likes: 43,
-            offset: pageOffset - 1,
-          ),
-        ],
-      ),
-    );
+    return Consumer(builder: (context, watch, child) {
+      final streamPosts = watch(streamFirestoreMine);
+
+      return streamPosts.when(
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (err, stack) => Center(child: Text(err.toString())),
+          data: (snapshot) {
+            return SizedBox(
+              height: MediaQuery.of(context).size.height * 0.55,
+              child: PageView(
+                  controller: pageController,
+                  children: snapshot.docs
+                      .asMap()
+                      .map((i, e) => MapEntry(
+                          i,
+                          SlidingCard(
+                              title: e.data()['title'],
+                              contents: e.data()['contents'],
+                              date: DateFormat('yyyy-MM-dd \n    hh:mm:ss')
+                                  .format(e.data()['datetime'].toDate())
+                                  .toString(),
+                              assetName: e.data()['imgUrl'],
+                              offset: pageOffset - i.toDouble(),
+                              likes: 12)))
+                      .values
+                      .toList()),
+            );
+          });
+    });
   }
 }
 
@@ -86,11 +98,12 @@ class SlidingCard extends StatelessWidget {
           children: <Widget>[
             ClipRRect(
               borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
-              child: Image.asset(
-                'images/$assetName',
+              child: ExtendedImage.network(
+                assetName,
                 height: MediaQuery.of(context).size.height * 0.3,
                 alignment: Alignment(-offset.abs(), 0),
-                fit: BoxFit.none,
+                fit: BoxFit.cover,
+                cache: true,
               ),
             ),
             SizedBox(height: 8),
