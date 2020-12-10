@@ -107,8 +107,19 @@ final streamMemo = StreamProvider<List<Memo>>((ref) {
 final streamFirestoreMine = StreamProvider<QuerySnapshot>((ref) {
   Stream mine = FirebaseFirestore.instance
       .collection('users')
-      .doc('srcho')
+      .doc('Drizzle')
       .collection('InsFire')
+      .orderBy('datetime', descending: true)
+      .snapshots(includeMetadataChanges: true);
+  return mine;
+});
+
+final streamFirestoreAll = StreamProvider<QuerySnapshot>((ref) {
+  Stream mine = FirebaseFirestore.instance
+      .collection('users')
+      .doc('Drizzle')
+      .collection('InsFire')
+      .orderBy('datetime', descending: true)
       .snapshots(includeMetadataChanges: true);
   return mine;
 });

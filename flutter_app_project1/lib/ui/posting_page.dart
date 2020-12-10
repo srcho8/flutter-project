@@ -77,7 +77,7 @@ class _PostingPageState extends State<PostingPage> {
                     child: Hero(
                       tag: widget.memo.id,
                       child: ExtendedImage.network(
-                        widget.memo.large,
+                        widget.memo.landscape,
                         cache: true,
                         fit: BoxFit.cover,
                       ),
@@ -121,12 +121,12 @@ class _PostingPageState extends State<PostingPage> {
                                 style: TextStyle(color: Colors.black)),
                             onPressed: () {
                               addUsers(
-                                'srcho',
+                                'Drizzle',
                                 _titleController.text,
                                 _contentController.text,
                                 widget.memo.landscape,
                                 widget.memo.tiny,
-                                'asd'
+                                'asdsd'
                               ).then((value) {
                                 Navigator.pop(this.context, PopValue('online'));
                               });
