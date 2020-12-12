@@ -73,9 +73,6 @@ flutter:
   assets:
     - images/fire.png
     - images/pexels.png
-    - images/steve-johnson.jpeg
-    - images/rodion-kutsaev.jpeg
-    - images/efe-kurnaz.jpg
 
   # To add assets to your application, add an assets section, like this:
   # assets:

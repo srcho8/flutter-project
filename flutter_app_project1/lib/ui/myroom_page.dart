@@ -17,7 +17,7 @@ class StatPage extends StatefulWidget {
 }
 
 class _StatPageState extends State<StatPage> with TickerProviderStateMixin {
-  //final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth auth = FirebaseAuth.instance;
   AnimationController controller;
 
   @override
@@ -35,11 +35,10 @@ class _StatPageState extends State<StatPage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    //final User user = _auth.currentUser;
+    final User user = auth.currentUser;
 
     return Consumer(
       builder: (context, watch, child) {
-        var isMenu = watch(menuProvider);
 
         return Scaffold(
           //appBar: appBar,
@@ -52,7 +51,7 @@ class _StatPageState extends State<StatPage> with TickerProviderStateMixin {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(
-                    height: 20,
+                    height: 16,
                   ),
                   Row(
                     children: [
@@ -61,6 +60,8 @@ class _StatPageState extends State<StatPage> with TickerProviderStateMixin {
                         child: GestureDetector(
                           onTap: widget.onMenuTap,
                           child: Container(
+                            height: 30,
+                              width: 30,
                               child: Icon(
                             Icons.menu,
                             color: Colors.white,
@@ -74,13 +75,13 @@ class _StatPageState extends State<StatPage> with TickerProviderStateMixin {
                     width: MediaQuery.of(context).size.width * 0.8,
                     child: Center(
                         child: Text(
-                      'Drizzle님 안녕하세요.',
+                      '${user.displayName}님 안녕하세요.',
                       textAlign: TextAlign.justify,
                       style: GoogleFonts.yeonSung(
                           fontSize: 24, color: Colors.white),
                     )),
                   ),
-                  SlidingCardsPage(),
+                  SlidingCardsPage(auth),
                   Container(
                     padding: EdgeInsets.only(top: 4),
                     decoration: BoxDecoration(

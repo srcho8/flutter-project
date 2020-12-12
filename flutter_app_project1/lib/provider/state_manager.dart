@@ -104,24 +104,14 @@ final streamMemo = StreamProvider<List<Memo>>((ref) {
   return memos;
 });
 
-final streamFirestoreMine = StreamProvider<QuerySnapshot>((ref) {
-  Stream mine = FirebaseFirestore.instance
-      .collection('users')
-      .doc('Drizzle')
-      .collection('InsFire')
-      .orderBy('datetime', descending: true)
-      .snapshots(includeMetadataChanges: true);
-  return mine;
-});
 
-final streamFirestoreAll = StreamProvider<QuerySnapshot>((ref) {
-  Stream mine = FirebaseFirestore.instance
-      .collection('users')
-      .doc('Drizzle')
-      .collection('InsFire')
+
+final streamFireStoreAll = StreamProvider<QuerySnapshot>((ref) {
+  Stream _mine = FirebaseFirestore.instance
+      .collection('posts')
       .orderBy('datetime', descending: true)
       .snapshots(includeMetadataChanges: true);
-  return mine;
+  return _mine;
 });
 
 class MemoListStateNotifier extends StateNotifier<List<Memo>> {

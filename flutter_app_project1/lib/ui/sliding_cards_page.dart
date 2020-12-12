@@ -1,14 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:extended_image/extended_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_app_project1/faderoute.dart';
 import 'package:flutter_app_project1/provider/state_manager.dart';
+import 'package:flutter_app_project1/ui/board_page.dart';
 import 'dart:math' as math;
 
 import 'package:flutter_riverpod/all.dart';
-import 'package:intl/intl.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class SlidingCardsPage extends StatefulWidget {
+  SlidingCardsPage(this.auth);
+  final auth;
+
   @override
   _SlidingCardsPageState createState() => _SlidingCardsPageState();
 }
@@ -17,6 +23,7 @@ class _SlidingCardsPageState extends State<SlidingCardsPage> {
   PageController pageController;
   double pageOffset = 0;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   void initState() {
@@ -33,44 +40,58 @@ class _SlidingCardsPageState extends State<SlidingCardsPage> {
     super.dispose();
   }
 
+  final streamFireStoreMine = StreamProvider<QuerySnapshot>((ref) {
+    var auth = FirebaseAuth.instance.currentUser.uid;
+    Stream mine = FirebaseFirestore.instance
+        .collection('users')
+        .doc(auth = auth)
+        .collection('post')
+        .snapshots(includeMetadataChanges: true);
+    return mine;
+  });
+
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, watch, child) {
-      final streamPosts = watch(streamFirestoreMine);
+      final streamPosts = watch(streamFireStoreMine);
 
       return streamPosts.when(
           loading: () => const Center(child: CircularProgressIndicator()),
           error: (err, stack) => Center(child: Text(err.toString())),
           data: (snapshot) {
             return SizedBox(
-              height: MediaQuery.of(context).size.height * 0.55,
+              height: MediaQuery.of(context).size.height * 0.5,
               child: PageView(
                   controller: pageController,
                   children: snapshot.docs
-                      .asMap()
-                      .map((i, e) => MapEntry(
-                          i,
-                          SlidingCard(
-                              title: e.data()['title'],
-                              contents: e.data()['contents'],
-                              date: DateFormat('yyyy-MM-dd \n    hh:mm:ss')
-                                  .format(e.data()['datetime'].toDate())
-                                  .toString(),
-                              assetName: e.data()['imgUrl'],
-                              offset: pageOffset - i.toDouble(),
-                              likes: 12)))
-                      .values
+                      .where((element) => element.data()['uid'] == _auth.currentUser.uid)
+                      .map((e) => GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                FadeRoute(page: BoardPage(e)),
+                              );
+                            },
+                            child: SlidingCard(
+                                title: e.data()['title'],
+                                contents: e.data()['contents'],
+                                assetName: e.data()['imgUrl'],
+                                offset: pageOffset + snapshot.docs.indexOf(e),
+                                likes: 12),
+                          ))
                       .toList()),
             );
           });
     });
   }
+
 }
+
+
 
 class SlidingCard extends StatelessWidget {
   final String title;
   final String contents;
-  final String date;
   final String assetName;
   final double offset;
   final int likes;
@@ -79,7 +100,6 @@ class SlidingCard extends StatelessWidget {
       {Key key,
       @required this.title,
       @required this.contents,
-      @required this.date,
       @required this.assetName,
       @required this.offset,
       this.likes})
@@ -98,12 +118,15 @@ class SlidingCard extends StatelessWidget {
           children: <Widget>[
             ClipRRect(
               borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
-              child: ExtendedImage.network(
-                assetName,
-                height: MediaQuery.of(context).size.height * 0.3,
-                alignment: Alignment(-offset.abs(), 0),
-                fit: BoxFit.cover,
-                cache: true,
+              child: Hero(
+                tag: '${title}_${contents}',
+                child: ExtendedImage.network(
+                  assetName,
+                  height: MediaQuery.of(context).size.height * 0.3,
+                  alignment: Alignment(-offset.abs(), 0),
+                  fit: BoxFit.cover,
+                  cache: true,
+                ),
               ),
             ),
             SizedBox(height: 8),
@@ -112,7 +135,6 @@ class SlidingCard extends StatelessWidget {
                 title: title,
                 contents: contents,
                 likes: likes,
-                date: date,
                 offset: gauss,
               ),
             ),
@@ -126,7 +148,6 @@ class SlidingCard extends StatelessWidget {
 class CardContent extends StatelessWidget {
   final String title;
   final String contents;
-  final String date;
   final double offset;
   final int likes;
 
@@ -134,7 +155,6 @@ class CardContent extends StatelessWidget {
       {Key key,
       @required this.title,
       @required this.contents,
-      @required this.date,
       @required this.offset,
       this.likes})
       : super(key: key);
@@ -148,24 +168,18 @@ class CardContent extends StatelessWidget {
         children: <Widget>[
           Transform.translate(
             offset: Offset(8 * offset, 0),
-            child: Text(
-              title,
-              style: TextStyle(
-                fontSize: 16,
+            child: Center(
+              child: Text(
+                title,
+                style: GoogleFonts.yeonSung(
+                  fontSize: 20,
+                ),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
               ),
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
             ),
           ),
-          SizedBox(height: 8),
-          Transform.translate(
-            offset: Offset(32 * offset, 0),
-            child: Text(
-              contents,
-              style: TextStyle(color: Colors.grey),
-            ),
-          ),
-          Spacer(),
+          SizedBox(height: 12),
           Row(
             children: <Widget>[
               Transform.translate(
@@ -195,18 +209,6 @@ class CardContent extends StatelessWidget {
                   onPressed: () {},
                 ),
               ),
-              Spacer(),
-              Transform.translate(
-                offset: Offset(32 * offset, 0),
-                child: Text(
-                  '${date.toString()}',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14,
-                  ),
-                ),
-              ),
-              SizedBox(width: 16),
             ],
           )
         ],

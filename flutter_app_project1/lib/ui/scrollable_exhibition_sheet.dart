@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_project1/faderoute.dart';
 import 'package:flutter_app_project1/provider/state_manager.dart';
 import 'package:flutter_riverpod/all.dart';
 import 'package:intl/intl.dart';
@@ -20,7 +21,7 @@ class _ScrollableExhibitionSheetState extends State<ScrollableExhibitionSheet> {
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, watch, child) {
-      final streamAll = watch(streamFirestoreAll);
+      final streamAll = watch(streamFireStoreAll);
 
       return streamAll.when(
           loading: () => const Center(child: CircularProgressIndicator()),
@@ -138,38 +139,46 @@ class MyEventItem extends StatelessWidget {
       child: Transform.scale(
         alignment: Alignment.topLeft,
         scale: 1 / 3 + 2 / 3 * percentageCompleted,
-        child: SizedBox(
-          height: 100,
-          child: Row(
-            children: <Widget>[
-              ClipRRect(
-                borderRadius: BorderRadius.horizontal(
-                  left: Radius.circular(16),
-                  right: Radius.circular(16 * (1 - percentageCompleted)),
-                ),
-                child: ExtendedImage.network(
-                  event.assetName,
-                  width: 100,
-                  height: 100,
-                  fit: BoxFit.cover,
-                  cache: true,
-                ),
-              ),
-              Expanded(
-                child: Opacity(
-                  opacity: max(0, percentageCompleted * 2 - 1),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius:
-                          BorderRadius.horizontal(right: Radius.circular(16)),
-                      color: Colors.white,
-                    ),
-                    padding: EdgeInsets.all(8),
-                    child: _buildContent(),
+        child: InkWell(
+          onTap: (){
+            Navigator.push(
+              context,
+              FadeRoute()
+            );
+          },
+          child: SizedBox(
+            height: 100,
+            child: Row(
+              children: <Widget>[
+                ClipRRect(
+                  borderRadius: BorderRadius.horizontal(
+                    left: Radius.circular(16),
+                    right: Radius.circular(16 * (1 - percentageCompleted)),
+                  ),
+                  child: ExtendedImage.network(
+                    event.assetName,
+                    width: 100,
+                    height: 100,
+                    fit: BoxFit.cover,
+                    cache: true,
                   ),
                 ),
-              )
-            ],
+                Expanded(
+                  child: Opacity(
+                    opacity: max(0, percentageCompleted * 2 - 1),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius:
+                            BorderRadius.horizontal(right: Radius.circular(16)),
+                        color: Colors.white,
+                      ),
+                      padding: EdgeInsets.all(8),
+                      child: _buildContent(),
+                    ),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),

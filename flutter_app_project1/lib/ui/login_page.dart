@@ -21,11 +21,20 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Image.asset("images/fire.png", height: 150,),
-              Text('InsFire', style: GoogleFonts.indieFlower(color: Colors.white, fontSize: 30),),
-              SizedBox(height: 20,),
+              Image.asset(
+                "images/fire.png",
+                height: 150,
+              ),
+              Text(
+                'InsFire',
+                style:
+                    GoogleFonts.indieFlower(color: Colors.white, fontSize: 30),
+              ),
+              SizedBox(
+                height: 20,
+              ),
               SignInButton(
-                Buttons.GoogleDark,
+                Buttons.Google,
                 text: "Sign up with Google",
                 onPressed: () {
                   signInWithGoogle().then((result) {

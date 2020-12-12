@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_project1/model/memo.dart';
 import 'package:flutter_app_project1/ui/posting_page_background.dart';
@@ -21,6 +22,7 @@ class PostingPage extends StatefulWidget {
 class _PostingPageState extends State<PostingPage> {
   var _titleController = TextEditingController();
   var _contentController = TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
@@ -40,20 +42,38 @@ class _PostingPageState extends State<PostingPage> {
 
   @override
   Widget build(BuildContext context) {
-    CollectionReference users = FirebaseFirestore.instance.collection('users');
-    Future<void> addUsers(String id, String title, String contents,
-        String image, String miniImage, String uid) {
-      return users
-          .doc(id)
-          .collection('InsFire')
+    final User user = _auth.currentUser;
+    CollectionReference post = FirebaseFirestore.instance.collection('posts');
+    Future<void> addPost(String id, String title, String contents,
+        String image, String miniImage, String uid, String largeImage) {
+      return post
           .add({
+            'uid': uid,
             'title': title,
             'contents': contents,
             'imgUrl': image,
             'miniImgUrl': miniImage,
+            'largeImgUrl': largeImage,
             'likes': [id],
             'datetime': DateTime.now()
           })
+          .then((value) => print("Post Added"))
+          .catchError((error) => print("Failed to add user: $error"));
+    }
+    CollectionReference users = FirebaseFirestore.instance.collection('users').doc(user.uid).collection('post');
+    Future<void> addUsers(String id, String title, String contents,
+        String image, String miniImage, String uid, String largeImage) {
+      return users
+          .add({
+        'uid': uid,
+        'title': title,
+        'contents': contents,
+        'imgUrl': image,
+        'miniImgUrl': miniImage,
+        'largeImgUrl': largeImage,
+        'likes': [id],
+        'datetime': DateTime.now()
+      })
           .then((value) => print("Users Added"))
           .catchError((error) => print("Failed to add user: $error"));
     }
@@ -77,7 +97,7 @@ class _PostingPageState extends State<PostingPage> {
                     child: Hero(
                       tag: widget.memo.id,
                       child: ExtendedImage.network(
-                        widget.memo.landscape,
+                        widget.memo.large,
                         cache: true,
                         fit: BoxFit.cover,
                       ),
@@ -120,16 +140,30 @@ class _PostingPageState extends State<PostingPage> {
                             child: Text('업로드',
                                 style: TextStyle(color: Colors.black)),
                             onPressed: () {
-                              addUsers(
-                                'Drizzle',
-                                _titleController.text,
-                                _contentController.text,
-                                widget.memo.landscape,
-                                widget.memo.tiny,
-                                'asdsd'
+
+                              addPost(
+                                  'Drizzle',
+                                  _titleController.text,
+                                  _contentController.text,
+                                  widget.memo.landscape,
+                                  widget.memo.tiny,
+                                  user.uid,
+                                  widget.memo.large
                               ).then((value) {
-                                Navigator.pop(this.context, PopValue('online'));
+                                addUsers(
+                                    'Drizzle',
+                                    _titleController.text,
+                                    _contentController.text,
+                                    widget.memo.landscape,
+                                    widget.memo.tiny,
+                                    user.uid,
+                                    widget.memo.large
+                                ).then((value) {
+                                  Navigator.pop(this.context);
+                                });
                               });
+
+
                             }),
                       ],
                     ),
@@ -144,8 +178,4 @@ class _PostingPageState extends State<PostingPage> {
   }
 }
 
-class PopValue {
-  String type;
 
-  PopValue(this.type);
-}
