@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_app_project1/faderoute.dart';
@@ -9,10 +10,12 @@ import 'package:flutter_app_project1/ui/board_page.dart';
 import 'dart:math' as math;
 
 import 'package:flutter_riverpod/all.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SlidingCardsPage extends StatefulWidget {
   SlidingCardsPage(this.auth);
+
   final auth;
 
   @override
@@ -41,11 +44,9 @@ class _SlidingCardsPageState extends State<SlidingCardsPage> {
   }
 
   final streamFireStoreMine = StreamProvider<QuerySnapshot>((ref) {
-    var auth = FirebaseAuth.instance.currentUser.uid;
     Stream mine = FirebaseFirestore.instance
-        .collection('users')
-        .doc(auth = auth)
-        .collection('post')
+        .collection('posts')
+        .orderBy('datetime', descending: true)
         .snapshots(includeMetadataChanges: true);
     return mine;
   });
@@ -60,34 +61,40 @@ class _SlidingCardsPageState extends State<SlidingCardsPage> {
           error: (err, stack) => Center(child: Text(err.toString())),
           data: (snapshot) {
             return SizedBox(
-              height: MediaQuery.of(context).size.height * 0.5,
+              height: MediaQuery.of(context).size.height * 0.52,
               child: PageView(
                   controller: pageController,
                   children: snapshot.docs
-                      .where((element) => element.data()['uid'] == _auth.currentUser.uid)
-                      .map((e) => GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                FadeRoute(page: BoardPage(e)),
-                              );
-                            },
-                            child: SlidingCard(
-                                title: e.data()['title'],
-                                contents: e.data()['contents'],
-                                assetName: e.data()['imgUrl'],
-                                offset: pageOffset + snapshot.docs.indexOf(e),
-                                likes: 12),
-                          ))
+                      .where((element) =>
+                          element.data()['uid'] == _auth.currentUser.uid)
+                      .toList()
+                      .asMap()
+                      .map((i, e) {
+                        var likes = e.data()['likes'];
+                        return MapEntry(
+                            i,
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  FadeRoute(page: BoardPage(e)),
+                                );
+                              },
+                              child: SlidingCard(
+                                  title: e.data()['title'],
+                                  contents: e.data()['contents'],
+                                  assetName: e.data()['imgUrl'],
+                                  offset: pageOffset - i,
+                                  likes: likes.length),
+                            ));
+                      })
+                      .values
                       .toList()),
             );
           });
     });
   }
-
 }
-
-
 
 class SlidingCard extends StatelessWidget {
   final String title;
@@ -164,6 +171,7 @@ class CardContent extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Transform.translate(
@@ -192,7 +200,7 @@ class CardContent extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Icon(
-                          Icons.thumb_up_rounded,
+                          FontAwesomeIcons.fire,
                           size: 16,
                         ),
                         SizedBox(

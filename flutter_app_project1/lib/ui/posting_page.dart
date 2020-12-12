@@ -44,37 +44,27 @@ class _PostingPageState extends State<PostingPage> {
   Widget build(BuildContext context) {
     final User user = _auth.currentUser;
     CollectionReference post = FirebaseFirestore.instance.collection('posts');
-    Future<void> addPost(String id, String title, String contents,
-        String image, String miniImage, String uid, String largeImage) {
+    Future<void> addPost(
+        String id,
+        String title,
+        String contents,
+        String image,
+        String miniImage,
+        String uid,
+        String largeImage) {
       return post
           .add({
             'uid': uid,
+            'username': id,
             'title': title,
             'contents': contents,
             'imgUrl': image,
             'miniImgUrl': miniImage,
             'largeImgUrl': largeImage,
-            'likes': [id],
+            'likes': [],
             'datetime': DateTime.now()
           })
           .then((value) => print("Post Added"))
-          .catchError((error) => print("Failed to add user: $error"));
-    }
-    CollectionReference users = FirebaseFirestore.instance.collection('users').doc(user.uid).collection('post');
-    Future<void> addUsers(String id, String title, String contents,
-        String image, String miniImage, String uid, String largeImage) {
-      return users
-          .add({
-        'uid': uid,
-        'title': title,
-        'contents': contents,
-        'imgUrl': image,
-        'miniImgUrl': miniImage,
-        'largeImgUrl': largeImage,
-        'likes': [id],
-        'datetime': DateTime.now()
-      })
-          .then((value) => print("Users Added"))
           .catchError((error) => print("Failed to add user: $error"));
     }
 
@@ -140,30 +130,16 @@ class _PostingPageState extends State<PostingPage> {
                             child: Text('업로드',
                                 style: TextStyle(color: Colors.black)),
                             onPressed: () {
-
-                              addPost(
-                                  'Drizzle',
-                                  _titleController.text,
-                                  _contentController.text,
-                                  widget.memo.landscape,
-                                  widget.memo.tiny,
-                                  user.uid,
-                                  widget.memo.large
-                              ).then((value) {
-                                addUsers(
-                                    'Drizzle',
-                                    _titleController.text,
-                                    _contentController.text,
-                                    widget.memo.landscape,
-                                    widget.memo.tiny,
-                                    user.uid,
-                                    widget.memo.large
-                                ).then((value) {
-                                  Navigator.pop(this.context);
-                                });
+                              addPost(user.displayName,
+                                      _titleController.text,
+                                      _contentController.text,
+                                      widget.memo.landscape,
+                                      widget.memo.tiny,
+                                      user.uid,
+                                      widget.memo.large)
+                                  .then((value) {
+                                Navigator.pop(context);
                               });
-
-
                             }),
                       ],
                     ),
@@ -177,5 +153,3 @@ class _PostingPageState extends State<PostingPage> {
     ));
   }
 }
-
-
