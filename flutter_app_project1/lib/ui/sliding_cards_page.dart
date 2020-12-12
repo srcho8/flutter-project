@@ -200,7 +200,7 @@ class CardContent extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Icon(
-                          FontAwesomeIcons.fire,
+                          Icons.thumb_up,
                           size: 16,
                         ),
                         SizedBox(

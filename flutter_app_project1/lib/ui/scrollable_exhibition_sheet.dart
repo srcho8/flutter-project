@@ -1,10 +1,12 @@
 import 'dart:math';
 import 'dart:ui';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_project1/faderoute.dart';
 import 'package:flutter_app_project1/provider/state_manager.dart';
+import 'package:flutter_app_project1/ui/board_page.dart';
 import 'package:flutter_riverpod/all.dart';
 import 'package:intl/intl.dart';
 
@@ -31,7 +33,7 @@ class _ScrollableExhibitionSheetState extends State<ScrollableExhibitionSheet> {
                 .map((e) => Event(
                       e.data()['miniImgUrl'],
                       e.data()['title'],
-                      e.data()['contents'],
+                      e.data()['username'],
                       DateFormat('yyyy-MM-dd hh:mm:ss')
                           .format(e.data()['datetime'].toDate())
                           .toString(),
@@ -74,6 +76,7 @@ class _ScrollableExhibitionSheetState extends State<ScrollableExhibitionSheet> {
                                 itemBuilder: (context, index) {
                                   Event event = events[index];
                                   return MyEventItem(
+                                    snapshot.docs[index],
                                     event: event,
                                     percentageCompleted: percentage,
                                   );
@@ -99,6 +102,7 @@ class _ScrollableExhibitionSheetState extends State<ScrollableExhibitionSheet> {
                                   child: Opacity(
                                     opacity: percentage == 1 ? 0 : 1,
                                     child: MyEventItem(
+                                      snapshot.docs[index],
                                       event: event,
                                       percentageCompleted: percentage,
                                     ),
@@ -128,8 +132,9 @@ class _ScrollableExhibitionSheetState extends State<ScrollableExhibitionSheet> {
 class MyEventItem extends StatelessWidget {
   final Event event;
   final double percentageCompleted;
+  final QueryDocumentSnapshot snapshot;
 
-  const MyEventItem({Key key, this.event, this.percentageCompleted})
+  const MyEventItem(this.snapshot, {Key key, this.event, this.percentageCompleted})
       : super(key: key);
 
   @override
@@ -143,7 +148,7 @@ class MyEventItem extends StatelessWidget {
           onTap: (){
             Navigator.push(
               context,
-              FadeRoute()
+              FadeRoute(page: BoardPage(snapshot))
             );
           },
           child: SizedBox(
@@ -196,7 +201,7 @@ class MyEventItem extends StatelessWidget {
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),
-        SizedBox(height: 8),
+        Spacer(),
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
@@ -212,7 +217,7 @@ class MyEventItem extends StatelessWidget {
             ),
           ],
         ),
-        Spacer(),
+        SizedBox(height: 4,),
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
