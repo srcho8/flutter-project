@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:InsFire/provider/state_manager.dart';
-import 'package:InsFire/ui/home_page_background.dart';
+import 'package:InsFire/ui/home_page_back.dart';
 import 'package:InsFire/ui/scrollable_exhibition_sheet.dart';
 import 'package:InsFire/ui/sliding_cards_page.dart';
 import 'package:flutter_riverpod/all.dart';

@@ -1,20 +1,23 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="drizzle.prac.InsFire"
-    xmlns:tools="http://schemas.android.com/tools">
+    package="drizzle.prac.InsFire">
     <!-- io.flutter.app.FlutterApplication is an android.app.Application that
          calls FlutterMain.startInitialization(this); in its onCreate method.
          In most cases you can leave this as-is, but you if you want to provide
          additional functionality it is fine to subclass or reimplement
          FlutterApplication and put your custom class here. -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission
-        android:name="android.permission.PACKAGE_USAGE_STATS"
-        tools:ignore="ProtectedPermissions"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:name="io.flutter.app.FlutterApplication"
         android:label="InsFire"
         android:icon="@mipmap/ic_launcher">
+
+        <!-- Sample AdMob app ID: ca-app-pub-3940256099942544~3347511713 -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-6888815432067880~4386493065"/>
+
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

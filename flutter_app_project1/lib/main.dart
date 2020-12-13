@@ -1,3 +1,4 @@
+import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:InsFire/ui/login_page.dart';
@@ -14,8 +15,11 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
+    FirebaseAdMob.instance.initialize(appId: 'ca-app-pub-3940256099942544~1458002511');
+
     return MaterialApp(
         title: 'InsFire',
         debugShowCheckedModeBanner: false,

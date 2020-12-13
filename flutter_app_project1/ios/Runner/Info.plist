@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>GADApplicationIdentifier</key>
+	<string>ca-app-pub-3940256099942544~1458002511</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -25,7 +27,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.589367812766-p6tsd3qrhipeu1uo8ho1tdedtg05pjh5</string>
+				<string>com.googleusercontent.apps.589367812766-hgerdik6ehdlpes519sl6jr20kp7hvh6</string>
 			</array>
 		</dict>
 	</array>
@@ -52,5 +54,8 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<!-- Permission options for the `photos` group -->
+        <key>NSPhotoLibraryUsageDescription</key>
+        <string>photos</string>
 </dict>
 </plist>
