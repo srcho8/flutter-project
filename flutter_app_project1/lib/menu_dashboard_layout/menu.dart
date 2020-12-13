@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_project1/provider/state_manager.dart';
+import 'package:InsFire/provider/state_manager.dart';
 import 'package:flutter_riverpod/all.dart';
 
 class Menu extends StatelessWidget {

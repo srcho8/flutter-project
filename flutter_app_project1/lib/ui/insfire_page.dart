@@ -1,9 +1,9 @@
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_project1/faderoute.dart';
-import 'package:flutter_app_project1/model/photo.dart';
-import 'package:flutter_app_project1/provider/state_manager.dart';
-import 'package:flutter_app_project1/ui/detail_memo_page.dart';
+import 'package:InsFire/faderoute.dart';
+import 'package:InsFire/model/photo.dart';
+import 'package:InsFire/provider/state_manager.dart';
+import 'package:InsFire/ui/detail_memo_page.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -78,7 +78,7 @@ class InsFirePage extends ConsumerWidget {
                               this.actionIcon = new Icon(Icons.search);
                               this.appBarTitle = new Text("InsFire");
                               _textController.clear();
-                              //iconState.change(0);
+                              iconState.change(0);
                             },
                           );
                         }

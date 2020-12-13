@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_project1/provider/state_manager.dart';
-import 'package:flutter_app_project1/ui/home_page_background.dart';
-import 'package:flutter_app_project1/ui/scrollable_exhibition_sheet.dart';
-import 'package:flutter_app_project1/ui/sliding_cards_page.dart';
+import 'package:InsFire/provider/state_manager.dart';
+import 'package:InsFire/ui/home_page_background.dart';
+import 'package:InsFire/ui/scrollable_exhibition_sheet.dart';
+import 'package:InsFire/ui/sliding_cards_page.dart';
 import 'package:flutter_riverpod/all.dart';
 import 'package:google_fonts/google_fonts.dart';
 

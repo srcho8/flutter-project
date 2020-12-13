@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="drizzle.prac.flutter_app_project1"
+    package="drizzle.prac.InsFire"
     xmlns:tools="http://schemas.android.com/tools">
     <!-- io.flutter.app.FlutterApplication is an android.app.Application that
          calls FlutterMain.startInitialization(this); in its onCreate method.
@@ -13,7 +13,7 @@
 
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="flutter_app_project1"
+        android:label="InsFire"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

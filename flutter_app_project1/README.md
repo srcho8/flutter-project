@@ -1,4 +1,4 @@
-# flutter_app_project1
+# InsFire
 
 A new Flutter application.
 

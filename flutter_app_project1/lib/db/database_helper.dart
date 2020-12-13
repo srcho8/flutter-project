@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:flutter_app_project1/model/memo.dart';
+import 'package:InsFire/model/memo.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';

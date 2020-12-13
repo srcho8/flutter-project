@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_project1/faderoute.dart';
-import 'package:flutter_app_project1/menu_dashboard_layout/menu_dashboard_layout.dart';
-import 'package:flutter_app_project1/sign_in.dart';
+import 'package:InsFire/faderoute.dart';
+import 'package:InsFire/menu_dashboard_layout/menu_dashboard_layout.dart';
+import 'package:InsFire/sign_in.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:google_fonts/google_fonts.dart';
 

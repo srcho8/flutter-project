@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_project1/model/memo.dart';
-import 'package:flutter_app_project1/ui/posting_page_background.dart';
+import 'package:InsFire/model/memo.dart';
+import 'package:InsFire/ui/posting_page_background.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';

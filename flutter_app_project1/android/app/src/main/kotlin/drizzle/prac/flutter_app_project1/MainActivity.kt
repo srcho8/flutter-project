@@ -1,4 +1,4 @@
-package drizzle.prac.flutter_app_project1
+package drizzle.prac.InsFire
 
 import io.flutter.embedding.android.FlutterActivity
 

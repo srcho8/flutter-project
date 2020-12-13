@@ -4,9 +4,9 @@ import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_project1/faderoute.dart';
-import 'package:flutter_app_project1/provider/state_manager.dart';
-import 'package:flutter_app_project1/ui/board_page.dart';
+import 'package:InsFire/faderoute.dart';
+import 'package:InsFire/provider/state_manager.dart';
+import 'package:InsFire/ui/board_page.dart';
 import 'package:flutter_riverpod/all.dart';
 import 'package:intl/intl.dart';
 

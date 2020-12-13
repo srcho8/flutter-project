@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:flutter_app_project1/model/photo.dart';
+import 'package:InsFire/model/photo.dart';
 import 'package:http/http.dart' as http;
 
 Future<List<Photos>> fetchPhotos() async {

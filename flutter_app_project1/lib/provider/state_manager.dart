@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_project1/db/database_helper.dart';
-import 'package:flutter_app_project1/model/memo.dart';
-import 'package:flutter_app_project1/model/photo.dart';
-import 'package:flutter_app_project1/network/fetch_api.dart';
+import 'package:InsFire/db/database_helper.dart';
+import 'package:InsFire/model/memo.dart';
+import 'package:InsFire/model/photo.dart';
+import 'package:InsFire/network/fetch_api.dart';
 import 'package:flutter_riverpod/all.dart';
 
 final photoStateFuture = FutureProvider<List<Photos>>((ref) {

@@ -4,9 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_app_project1/faderoute.dart';
-import 'package:flutter_app_project1/provider/state_manager.dart';
-import 'package:flutter_app_project1/ui/board_page.dart';
+import 'package:InsFire/faderoute.dart';
+import 'package:InsFire/provider/state_manager.dart';
+import 'package:InsFire/ui/board_page.dart';
 import 'dart:math' as math;
 
 import 'package:flutter_riverpod/all.dart';

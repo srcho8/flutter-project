@@ -3,10 +3,10 @@ import 'dart:typed_data';
 
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_project1/db/database_helper.dart';
-import 'package:flutter_app_project1/model/memo.dart';
+import 'package:InsFire/db/database_helper.dart';
+import 'package:InsFire/model/memo.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_app_project1/model/photo.dart';
+import 'package:InsFire/model/photo.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 

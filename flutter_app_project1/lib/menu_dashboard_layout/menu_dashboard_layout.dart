@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_app_project1/menu_dashboard_layout/dashboard.dart';
-import 'package:flutter_app_project1/provider/state_manager.dart';
-import 'package:flutter_app_project1/ui/calendar_page.dart';
-import 'package:flutter_app_project1/ui/insfire_page.dart';
-import 'package:flutter_app_project1/ui/myroom_page.dart';
-import 'package:flutter_app_project1/ui/sticky_list_page.dart';
+import 'package:InsFire/menu_dashboard_layout/dashboard.dart';
+import 'package:InsFire/provider/state_manager.dart';
+import 'package:InsFire/ui/calendar_page.dart';
+import 'package:InsFire/ui/insfire_page.dart';
+import 'package:InsFire/ui/myroom_page.dart';
+import 'package:InsFire/ui/sticky_list_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'menu.dart';

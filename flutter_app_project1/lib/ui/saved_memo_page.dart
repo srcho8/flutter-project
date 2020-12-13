@@ -2,10 +2,10 @@ import 'dart:convert';
 
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_project1/faderoute.dart';
-import 'package:flutter_app_project1/model/memo.dart';
-import 'package:flutter_app_project1/ui/modify_memo_page.dart';
-import 'package:flutter_app_project1/ui/posting_page.dart';
+import 'package:InsFire/faderoute.dart';
+import 'package:InsFire/model/memo.dart';
+import 'package:InsFire/ui/modify_memo_page.dart';
+import 'package:InsFire/ui/posting_page.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SavedMemoPage extends StatefulWidget {

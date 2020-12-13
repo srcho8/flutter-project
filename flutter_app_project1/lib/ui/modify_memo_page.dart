@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_app_project1/db/database_helper.dart';
-import 'package:flutter_app_project1/model/memo.dart';
+import 'package:InsFire/db/database_helper.dart';
+import 'package:InsFire/model/memo.dart';
 
 class ModifyMemoPage extends StatefulWidget {
   final Memo memo;

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter_app_project1/faderoute.dart';
-import 'package:flutter_app_project1/model/photo.dart';
-import 'package:flutter_app_project1/ui/create_memo_page.dart';
+import 'package:InsFire/faderoute.dart';
+import 'package:InsFire/model/photo.dart';
+import 'package:InsFire/ui/create_memo_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flushbar/flushbar.dart';
 
