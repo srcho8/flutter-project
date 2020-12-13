@@ -14,7 +14,7 @@ class InsFirePage extends ConsumerWidget {
 
   Icon actionIcon = new Icon(Icons.search);
   Widget appBarTitle = new Text("InsFire");
-  final TextEditingController _textController = new TextEditingController();
+  TextEditingController _textController = new TextEditingController();
   final iconProvider = ChangeNotifierProvider<IconStateChangeNotifier>((ref) {
     return IconStateChangeNotifier();
   });
@@ -52,7 +52,7 @@ class InsFirePage extends ConsumerWidget {
                                     Flushbar(
                                       title: "InsFire",
                                       message: "보고싶은 테마 키워드를 입력하세요.",
-                                      duration: Duration(seconds: 2),
+                                      duration: Duration(seconds: 1),
                                     )..show(context);
                                   } else {
                                     searchKey.state = str;
@@ -78,7 +78,7 @@ class InsFirePage extends ConsumerWidget {
                               this.actionIcon = new Icon(Icons.search);
                               this.appBarTitle = new Text("InsFire");
                               _textController.clear();
-                              iconState.change(0);
+                              //iconState.change(0);
                             },
                           );
                         }

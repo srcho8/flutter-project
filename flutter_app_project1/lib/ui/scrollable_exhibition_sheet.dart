@@ -134,7 +134,8 @@ class MyEventItem extends StatelessWidget {
   final double percentageCompleted;
   final QueryDocumentSnapshot snapshot;
 
-  const MyEventItem(this.snapshot, {Key key, this.event, this.percentageCompleted})
+  const MyEventItem(this.snapshot,
+      {Key key, this.event, this.percentageCompleted})
       : super(key: key);
 
   @override
@@ -145,11 +146,8 @@ class MyEventItem extends StatelessWidget {
         alignment: Alignment.topLeft,
         scale: 1 / 3 + 2 / 3 * percentageCompleted,
         child: InkWell(
-          onTap: (){
-            Navigator.push(
-              context,
-              FadeRoute(page: BoardPage(snapshot))
-            );
+          onTap: () {
+            Navigator.push(context, FadeRoute(page: BoardPage(snapshot)));
           },
           child: SizedBox(
             height: 100,
@@ -178,7 +176,7 @@ class MyEventItem extends StatelessWidget {
                         color: Colors.white,
                       ),
                       padding: EdgeInsets.all(8),
-                      child: _buildContent(),
+                      child: _buildContent(snapshot),
                     ),
                   ),
                 )
@@ -191,7 +189,7 @@ class MyEventItem extends StatelessWidget {
   }
 
   //List 뒤 내용 부분
-  Widget _buildContent() {
+  Widget _buildContent(QueryDocumentSnapshot snapshot) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -201,6 +199,13 @@ class MyEventItem extends StatelessWidget {
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+          Icon(Icons.favorite_rounded, size: 14,),
+          SizedBox(width: 4,),
+          Text('${snapshot.data()['likes'].length}')
+        ],),
         Spacer(),
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -217,7 +222,9 @@ class MyEventItem extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(height: 4,),
+        SizedBox(
+          height: 4,
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[

@@ -125,15 +125,12 @@ class SlidingCard extends StatelessWidget {
           children: <Widget>[
             ClipRRect(
               borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
-              child: Hero(
-                tag: '${title}_${contents}',
-                child: ExtendedImage.network(
-                  assetName,
-                  height: MediaQuery.of(context).size.height * 0.3,
-                  alignment: Alignment(-offset.abs(), 0),
-                  fit: BoxFit.cover,
-                  cache: true,
-                ),
+              child: ExtendedImage.network(
+                assetName,
+                height: MediaQuery.of(context).size.height * 0.3,
+                alignment: Alignment(-offset.abs(), 0),
+                fit: BoxFit.cover,
+                cache: true,
               ),
             ),
             SizedBox(height: 8),
@@ -200,7 +197,7 @@ class CardContent extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Icon(
-                          Icons.thumb_up,
+                          Icons.favorite,
                           size: 16,
                         ),
                         SizedBox(

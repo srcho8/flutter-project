@@ -50,7 +50,7 @@ class _BoardPageState extends State<BoardPage> {
               ),
             ),
             Container(
-              color: Colors.blueGrey[200],
+              color: Colors.blueGrey[100],
               child: Padding(
                 padding: const EdgeInsets.only(left: 8, top: 4, bottom: 4),
                 child: Row(
@@ -59,9 +59,12 @@ class _BoardPageState extends State<BoardPage> {
                         stream: _mine,
                         builder: (context, data) {
                           var likeUid = data.data.data()['likes'];
-                          if (likeUid.where((element) => element == user.uid).length == 0) {
+                          if (likeUid
+                                  .where((element) => element == user.uid)
+                                  .length ==
+                              0) {
                             return GestureDetector(
-                              onTap: (){
+                              onTap: () {
                                 post.update({
                                   'likes': FieldValue.arrayUnion([user.uid])
                                 });
@@ -71,7 +74,7 @@ class _BoardPageState extends State<BoardPage> {
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Icon(
-                                    Icons.thumb_up_outlined,
+                                    Icons.favorite_outline,
                                     color: Colors.blueGrey[700],
                                   ),
                                   SizedBox(
@@ -89,7 +92,7 @@ class _BoardPageState extends State<BoardPage> {
                             );
                           } else {
                             return GestureDetector(
-                              onTap: (){
+                              onTap: () {
                                 post.update({
                                   'likes': FieldValue.arrayRemove([user.uid])
                                 });
@@ -99,7 +102,7 @@ class _BoardPageState extends State<BoardPage> {
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Icon(
-                                    Icons.thumb_up,
+                                    Icons.favorite,
                                     color: Colors.blueGrey[700],
                                   ),
                                   SizedBox(
@@ -178,7 +181,9 @@ class _BoardPageState extends State<BoardPage> {
                 )
               ],
             ),
-            SizedBox(height: 40,)
+            SizedBox(
+              height: 40,
+            )
           ],
         ),
       ),

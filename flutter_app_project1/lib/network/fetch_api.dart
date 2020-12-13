@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 
 Future<List<Photos>> fetchPhotos() async {
   var queryParameters = {
-    'per_page': '20',
+    'per_page': '80',
   };
   var uri = Uri.https('api.pexels.com', '/v1/curated', queryParameters);
 
