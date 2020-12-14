@@ -1,6 +1,7 @@
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:InsFire/faderoute.dart';
 import 'package:InsFire/model/photo.dart';
@@ -28,7 +29,7 @@ class _DetailPageState extends State<DetailPage> {
     myInterstitial = InterstitialAd(
       adUnitId: InterstitialAd.testAdUnitId,
       listener: (MobileAdEvent event) {
-        if(event == MobileAdEvent.failedToLoad){
+        if (event == MobileAdEvent.failedToLoad) {
           myInterstitial.load();
         }
         print("InterstitialAd event is $event");
@@ -45,6 +46,7 @@ class _DetailPageState extends State<DetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       appBar: AppBar(
         centerTitle: true,
         title: Text(
@@ -68,25 +70,45 @@ class _DetailPageState extends State<DetailPage> {
                   print(statuses[Permission
                       .storage]); // it should print PermissionStatus.granted
                 } else if (status.isGranted) {
-                  myInterstitial
-                      .show(
-                    anchorType: AnchorType.bottom,
-                    anchorOffset: 0.0,
-                    horizontalCenterOffset: 0.0,
-                  ).then((value) {
-                    try {
-                      ImageDownloader.downloadImage(widget.photos.src.original)
-                          .then((value) {
-                        Flushbar(
-                          title: "InsFire",
-                          message: "저장했어요. 갤러리를 확인해주세요.",
-                          duration: Duration(seconds: 1),
-                        ).show(context);
-                      });
-                    } on PlatformException catch (error) {
-                      print(error);
-                    }
-                  });
+                  return showAnimatedDialog(
+                    context: context,
+                    barrierDismissible: true,
+                    builder: (BuildContext context) {
+                      return ClassicGeneralDialogWidget(
+                        titleText: '사진',
+                        contentText: '고화질로 사진을 받으시겠습니까?',
+                        onPositiveClick: () {
+                          myInterstitial
+                              .show(
+                            anchorType: AnchorType.bottom,
+                            anchorOffset: 0.0,
+                            horizontalCenterOffset: 0.0,
+                          )
+                              .then((value) {
+                            try {
+                              // ImageDownloader.downloadImage(widget.photos.src.original)
+                              //     .then((value) {
+                              //   Flushbar(
+                              //     title: "InsFire",
+                              //     message: "저장했어요. 갤러리를 확인해주세요.",
+                              //     duration: Duration(seconds: 1),
+                              //   ).show(context);
+                              // });
+                              Navigator.of(context).pop();
+                            } on PlatformException catch (error) {
+                              print(error);
+                            }
+                          });
+                        },
+                        onNegativeClick: () {
+                          Navigator.of(context).pop();
+                        },
+                      );
+                    },
+                    animationType: DialogTransitionType.size,
+                    curve: Curves.fastOutSlowIn,
+                    duration: Duration(milliseconds: 300),
+                  );
                 }
               })
         ],

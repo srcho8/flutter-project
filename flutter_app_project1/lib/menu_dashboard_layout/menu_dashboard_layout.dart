@@ -7,6 +7,7 @@ import 'package:InsFire/ui/insfire_page.dart';
 import 'package:InsFire/ui/myroom_page.dart';
 import 'package:InsFire/ui/sticky_list_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 
 import 'menu.dart';
 
@@ -27,9 +28,14 @@ class _MenuDashboardLayoutState extends State<MenuDashboardLayout>
   Animation<double> _menuScaleAnimation;
   Animation<Offset> _slideAnimation;
 
+  Future<void> secureScreen() async {
+    await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
+  }
+
   @override
   void initState() {
     super.initState();
+    secureScreen();
     SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
     _controller = AnimationController(vsync: this, duration: duration);
     _scaleAnimation = Tween<double>(begin: 1, end: 0.8).animate(_controller);

@@ -65,12 +65,18 @@ class _CalendarPageState extends State<CalendarPage>
           centerTitle: true,
         ),
         body: Consumer(builder: (context, watch, child) {
-          AsyncValue<List<Memo>> memos = watch(memoFetchListState);
+          var _streamList = DBHelper().getAllMemosStream();
 
-          return memos.when(
-              data: (data) {
-                _memoList = data;
-                _events = Map.fromIterable(data,
+          return StreamBuilder(
+            stream: _streamList,
+            builder: (context, data) {
+              if (!data.hasData) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else {
+                _memoList = data.data;
+                _events = Map.fromIterable(data.data,
                     key: (v) => DateTime(
                         ToDate(v.datetime).stringToDate().year,
                         ToDate(v.datetime).stringToDate().month,
@@ -80,7 +86,7 @@ class _CalendarPageState extends State<CalendarPage>
                           ToDate(v.datetime).stringToDate().year,
                           ToDate(v.datetime).stringToDate().month,
                           ToDate(v.datetime).stringToDate().day);
-                      return data
+                      return data.data
                           .where((e) =>
                               DateTime(
                                   ToDate(e.datetime).stringToDate().year,
@@ -102,13 +108,9 @@ class _CalendarPageState extends State<CalendarPage>
                       const SizedBox(height: 8.0),
                       Expanded(child: _buildEventList()),
                     ]);
-              },
-              loading: () => const Center(
-                    child: CircularProgressIndicator(),
-                  ),
-              error: (e, s) => Center(
-                    child: Text('${e.toString()}'),
-                  ));
+              }
+            },
+          );
         }));
   }
 

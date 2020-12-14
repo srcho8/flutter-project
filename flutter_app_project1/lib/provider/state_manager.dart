@@ -36,50 +36,21 @@ final menuProvider = StateProvider<int>((ref) {
   return 0;
 });
 
-class IconStateChangeNotifier extends ChangeNotifier {
-  int _iconState = 0;
+final iconStateChangeNotifier = StateProvider<int>((ref) {
+  return 0;
+});
 
-  int get iconState => _iconState;
+final stickySearchIconStateChangeNotifier = StateProvider<int>((ref) {
+  return 0;
+});
 
-  void change(int nu) {
-    _iconState = nu;
-    notifyListeners();
-  }
-}
+final stickySelectIconStateChangeNotifier = StateProvider<int>((ref) {
+  return 0;
+});
 
-
-
-class StickySearchIconStateChangeNotifier extends ChangeNotifier {
-  int _iconState = 0;
-
-  int get iconState => _iconState;
-
-  void change(int nu) {
-    _iconState = nu;
-    notifyListeners();
-  }
-}
-
-class StickySelectIconStateChangeNotifier extends ChangeNotifier {
-  int _iconState = 0;
-
-  int get iconState => _iconState;
-
-  void change(int nu) {
-    _iconState = nu;
-    notifyListeners();
-  }
-}
-class StickySelectAllIconStateChangeNotifier extends ChangeNotifier {
-  int _iconState = 0;
-
-  int get iconState => _iconState;
-
-  void change(int nu) {
-    _iconState = nu;
-    notifyListeners();
-  }
-}
+final stickySelectAllIconStateChangeNotifier = StateProvider<int>((ref) {
+  return 0;
+});
 
 final memoFetchListState = FutureProvider<List<Memo>>((ref) {
   Future<List<Memo>> _memoList;

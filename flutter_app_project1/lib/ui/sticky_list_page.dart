@@ -24,18 +24,6 @@ class _StickyListPageState extends State<StickyListPage> {
   Icon selectActionIcon = new Icon(Icons.search);
   Widget appBarTitle = new Text("Daily Inbox");
   final TextEditingController _textController = new TextEditingController();
-  final searchIconProvider =
-      ChangeNotifierProvider<StickySearchIconStateChangeNotifier>((ref) {
-    return StickySearchIconStateChangeNotifier();
-  });
-  final selectIconProvider =
-      ChangeNotifierProvider<StickySelectIconStateChangeNotifier>((ref) {
-    return StickySelectIconStateChangeNotifier();
-  });
-  final selectAllIconProvider =
-      ChangeNotifierProvider<StickySelectAllIconStateChangeNotifier>((ref) {
-    return StickySelectAllIconStateChangeNotifier();
-  });
 
   @override
   Widget build(BuildContext context) {
@@ -51,9 +39,9 @@ class _StickyListPageState extends State<StickyListPage> {
           } else {
             return Consumer(
               builder: (context, watch, child) {
-                var searchIcon = watch(searchIconProvider);
-                var selectIcon = watch(selectIconProvider);
-                var selectAllIcon = watch(selectAllIconProvider);
+                var searchIcon = watch(stickySearchIconStateChangeNotifier);
+                var selectIcon = watch(stickySelectIconStateChangeNotifier);
+                var selectAllIcon = watch(stickySelectAllIconStateChangeNotifier);
 
                 List<Memo> myList = snapshot.data;
                 myList = myList
@@ -76,7 +64,7 @@ class _StickyListPageState extends State<StickyListPage> {
                     title: appBarTitle,
                     actions: <Widget>[
                       Builder(builder: (context) {
-                        if (searchIcon.iconState == 0) {
+                        if (searchIcon.state == 0) {
                           return IconButton(
                             icon: Icon(Icons.search),
                             onPressed: () {
@@ -106,7 +94,7 @@ class _StickyListPageState extends State<StickyListPage> {
                                     hintStyle:
                                         new TextStyle(color: Colors.white)),
                               );
-                              searchIcon.change(1);
+                              searchIcon.state = 1;
                             },
                           );
                         } else {
@@ -116,7 +104,7 @@ class _StickyListPageState extends State<StickyListPage> {
                               this.searchActionIcon = new Icon(Icons.search);
                               this.appBarTitle = new Text("Daily Inbox");
                               _textController.clear();
-                              searchIcon.change(0);
+                              searchIcon.state = 0;
                             },
                           );
                         }
@@ -126,7 +114,7 @@ class _StickyListPageState extends State<StickyListPage> {
                   body: Column(
                     children: [
                       Builder(builder: (context) {
-                        if (selectIcon.iconState == 0) {
+                        if (selectIcon.state == 0) {
                           return Container(
                             height: 40,
                             child: Row(
@@ -134,7 +122,7 @@ class _StickyListPageState extends State<StickyListPage> {
                               children: [
                                 TextButton(
                                     onPressed: () {
-                                      selectIcon.change(1);
+                                      selectIcon.state = 1;
                                     },
                                     child: Text(
                                       '편집',
@@ -162,15 +150,15 @@ class _StickyListPageState extends State<StickyListPage> {
                                       TextButton(
                                           onPressed: () {
                                             setState(() {
-                                              if (selectAllIcon.iconState ==
+                                              if (selectAllIcon.state ==
                                                   0) {
                                                 DBHelper()
                                                     .updateSelectedAllMemo();
-                                                selectAllIcon.change(1);
+                                                selectAllIcon.state = 1;
                                               } else {
                                                 DBHelper()
                                                     .updateSelectedAllMemo_2();
-                                                selectAllIcon.change(0);
+                                                selectAllIcon.state = 0;
                                               }
                                             });
                                           },
@@ -182,7 +170,7 @@ class _StickyListPageState extends State<StickyListPage> {
                                       TextButton(onPressed: () {
                                         setState(() {
                                           DBHelper().deleteSelectedMemos();
-                                          selectIcon.change(0);
+                                          selectIcon.state = 0;
                                         });
                                       }, child: Builder(builder: (context) {
                                         if (myWL
@@ -265,7 +253,7 @@ class _StickyListPageState extends State<StickyListPage> {
                                   horizontal: 10.0, vertical: 4.0),
                               child: ListTile(
                                 onTap: () {
-                                  if (selectIcon.iconState == 0) {
+                                  if (selectIcon.state == 0) {
                                     Navigator.push(
                                       context,
                                       FadeRoute(page: SavedMemoPage(element)),
